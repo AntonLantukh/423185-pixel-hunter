@@ -34,7 +34,6 @@
   // Функция обработки переключения экранов
   let screenNumber = 0;
   const onArrowPress = () => {
-    event.preventDefault();
     const leftCode = 37;
     const rightCode = 39;
     if (event.keyCode === leftCode && event.altKey) {
