@@ -67,7 +67,7 @@ const gameSecondForm = gameSecond.querySelector(`.game__content`);
 const onSecondFormChange = (evt) => {
   if (evt.target.tagName === `INPUT`) {
     const checkedInputs = Array.from(evt.currentTarget).some((element) => {
-      return (element.checked);
+      return element.checked;
     });
     if (checkedInputs) {
       changeScreens(gameThird);

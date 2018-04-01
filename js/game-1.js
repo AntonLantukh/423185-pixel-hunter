@@ -82,7 +82,7 @@ const inputs = {
 const onFirstFormChange = (evt) => {
   if (evt.target.tagName === `INPUT`) {
     const checkedInputs = Array.from(evt.currentTarget).filter((element) => {
-      return (element.checked);
+      return element.checked;
     });
     if (checkedInputs.length === inputs.MAX_NUMBER) {
       changeScreens(gameSecond);
