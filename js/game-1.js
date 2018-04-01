@@ -72,22 +72,26 @@ const templateGameFirst = `
 
 const gameFirst = getElementFromTemplate(templateGameFirst);
 const buttonBack = gameFirst.querySelector(`.back`);
-const gameFirstInputs = gameFirst.querySelectorAll(`input`);
+const gameFirstForm = gameFirst.querySelector(`.game__content`);
+
+const inputs = {
+  MAX_NUMBER: 2
+};
 
 // Функция проверки инпутов для смены экрана
-const onFirstInputChange = () => {
-  const checkedInputs = Array.from(gameFirstInputs).filter((element) => {
-    return (element.checked === true);
-  });
-  if (checkedInputs.length === 2) {
-    changeScreens(gameSecond);
+const onFirstFormChange = (evt) => {
+  if (evt.target.tagName === `INPUT`) {
+    const checkedInputs = Array.from(evt.currentTarget).filter((element) => {
+      return (element.checked);
+    });
+    if (checkedInputs.length === inputs.MAX_NUMBER) {
+      changeScreens(gameSecond);
+    }
   }
 };
 
-// Проходимся по массиву инпутов и вешаем события
-gameFirstInputs.forEach((input) => {
-  input.addEventListener(`change`, onFirstInputChange);
-});
+// Вешаем событие на форму
+gameFirstForm.addEventListener(`change`, onFirstFormChange);
 
 // События возвращения на начальный экран
 buttonBack.addEventListener(`click`, function () {

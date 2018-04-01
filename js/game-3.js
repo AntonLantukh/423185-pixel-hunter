@@ -59,17 +59,17 @@ const templateGameThird = `
 
 const gameThird = getElementFromTemplate(templateGameThird);
 const buttonBack = gameThird.querySelector(`.back`);
-const gameThirdInputs = gameThird.querySelectorAll(`.game__option`);
+const gameThirdForm = gameThird.querySelector(`.game__content`);
 
 // Функция проверки инпутов для смены экрана
-const onThirdInputChange = () => {
-  changeScreens(stats);
+const onThirdFormChange = (evt) => {
+  if (evt.target.tagName === `DIV`) {
+    changeScreens(stats);
+  }
 };
 
-// Проходимся по массиву инпутов и вешаем события
-gameThirdInputs.forEach((input) => {
-  input.addEventListener(`click`, onThirdInputChange);
-});
+// Вешаем событие на форму
+gameThirdForm.addEventListener(`click`, onThirdFormChange);
 
 // События возвращения на начальный экран
 buttonBack.addEventListener(`click`, function () {
