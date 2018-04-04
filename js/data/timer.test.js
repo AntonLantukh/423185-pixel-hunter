@@ -1,5 +1,6 @@
 import {assert} from 'chai';
 
+// Функция-конструктор для генерации объекта таймера
 function CountSeconds(time) {
   let count = time;
   this.tick = function () {

@@ -1,57 +1,18 @@
 import {assert} from 'chai';
 
-const answers = [
-  {
-    answer: true,
-    time: 10
-  },
+// Массив правильных быстрах ответов
+const answersSetAllFast = new Array(10);
+answersSetAllFast.fill({answer: true, time: 9});
 
-  {
-    answer: true,
-    time: 25
-  },
+// Массив правильных обычных ответов
+const answersSetAllMedium = new Array(10);
+answersSetAllMedium.fill({answer: true, time: 15});
 
-  {
-    answer: true,
-    time: 19
-  },
+// Массив правильных медленных ответов
+const answersSetAllSlow = new Array(10);
+answersSetAllSlow.fill({answer: true, time: 27});
 
-  {
-    answer: true,
-    time: 29
-  },
-
-  {
-    answer: true,
-    time: 10
-  },
-
-  {
-    answer: false,
-    time: 24
-  },
-
-  {
-    answer: true,
-    time: 17
-  },
-
-  {
-    answer: false,
-    time: 22
-  },
-
-  {
-    answer: true,
-    time: 24
-  },
-
-  {
-    answer: true,
-    time: 13
-  }
-];
-
+// Функция подсчета очков
 const countPoints = (results, attempts) => {
 
   // Если пользователь не ответил на 10 вопросов - вернуть -1
@@ -93,20 +54,18 @@ const countPoints = (results, attempts) => {
 describe(`Function to count results at the end of the game`, () => {
 
   it(`should return -1 when when the player answered less than 10 answers`, () => {
-    assert.equal(-1, countPoints(answers, 0));
+    assert.equal(-1, countPoints(answersSetAllFast, 0));
   });
 
   it(`should should not allow to set the number of lives less than 0 and more than 3`, () => {
-    assert.throws(() => countPoints(answers, -1));
-    assert.throws(() => countPoints(answers, 5));
-    assert.throws(() => countPoints(answers, 10));
+    assert.throws(() => countPoints(answersSetAllFast, -1));
+    assert.throws(() => countPoints(answersSetAllFast, 5));
+    assert.throws(() => countPoints(answersSetAllFast, 10));
   });
 
-  it(`should return 1150 points when the player answered 10 questions with mid speed and 3 lives`, () => {
-    assert.notEqual(1150, countPoints(answers, 3));
-  });
-
-  it(`should return 600 points when the player answered 10 questions with 5 slow and 0 fast and 1 life`, () => {
-    assert.equal(600, countPoints(answers, 1));
+  it(`should count points correctly`, () => {
+    assert.equal(1650, countPoints(answersSetAllFast, 3));
+    assert.equal(650, countPoints(answersSetAllSlow, 3));
+    assert.equal(1150, countPoints(answersSetAllMedium, 3));
   });
 });
