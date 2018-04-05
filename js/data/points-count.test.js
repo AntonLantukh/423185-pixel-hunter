@@ -29,10 +29,10 @@ describe(`Function to count results at the end of the game`, () => {
     assert.throws(() => countPoints(answersSetAllFast, attemptsNumber));
 
     attemptsNumber = 5;
-    assert.throws(() => countPoints(answersSetAllFast, 5));
+    assert.throws(() => countPoints(answersSetAllFast, attemptsNumber));
 
     attemptsNumber = 10;
-    assert.throws(() => countPoints(answersSetAllFast, 10));
+    assert.throws(() => countPoints(answersSetAllFast, attemptsNumber));
   });
 
   it(`should count points correctly`, () => {
