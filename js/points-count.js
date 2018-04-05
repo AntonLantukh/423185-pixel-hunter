@@ -14,24 +14,30 @@ const countPoints = (results, attempts) => {
   let pointsForTime = 0;
   let pointsForAnswer = 0;
 
+  const fastTimeValue = 50;
+  const leftAttemptValue = 50;
+  const rightAnswerValue = 100;
+
+  // Временные границы
+  const timeFastBorder = 10;
+  const timeSlowBorder = 20;
+  const timeMaxBorder = 30;
+
   results.forEach((item) => {
 
-    if (item.time < 10) {
-      pointsForTime += 50;
+    if (item.time < timeFastBorder) {
+      pointsForTime += fastTimeValue;
 
-    } else if (item.time > 20 && item.time < 30) {
-      pointsForTime -= 50;
-
-    } else if (item.time > 30) {
-      pointsForTime += 0;
+    } else if (item.time > timeSlowBorder && item.time < timeMaxBorder) {
+      pointsForTime -= fastTimeValue;
     }
 
     if (item.answer) {
-      pointsForAnswer += 100;
+      pointsForAnswer += rightAnswerValue;
     }
   });
 
-  const pointsForLives = 50 * attempts;
+  const pointsForLives = leftAttemptValue * attempts;
   const pointsTotal = pointsForLives + pointsForTime + pointsForAnswer;
 
   return pointsTotal;
