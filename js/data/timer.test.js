@@ -1,48 +1,48 @@
 import {assert} from 'chai';
-import CountSeconds from './../timer.js';
+import Timer from './../timer.js';
 
 let secondsValue = 30;
 let expectedSecondsValue = 29;
-let timer = new CountSeconds(secondsValue);
+let answerTimer = new Timer(secondsValue);
 
 describe(`Function to count the number of seconds`, () => {
 
   it(`should return Object`, () => {
-    assert.isObject(timer);
+    assert.isObject(answerTimer);
   });
 
   it(`should not work with negative value`, () => {
     secondsValue = -10;
-    timer = new CountSeconds(secondsValue);
+    answerTimer = new Timer(secondsValue);
 
-    assert.throws(() => timer.tick());
+    assert.throws(() => answerTimer.tick());
   });
 
 
   it(`Should reduce the time after new function call`, () => {
     secondsValue = 30;
     expectedSecondsValue = 29;
-    timer = new CountSeconds(secondsValue);
+    answerTimer = new Timer(secondsValue);
 
-    assert.equal(expectedSecondsValue, timer.tick());
+    assert.equal(expectedSecondsValue, answerTimer.tick());
 
     secondsValue = 26;
     expectedSecondsValue = 25;
-    timer = new CountSeconds(secondsValue);
+    answerTimer = new Timer(secondsValue);
 
-    assert.equal(expectedSecondsValue, timer.tick());
+    assert.equal(expectedSecondsValue, answerTimer.tick());
 
     secondsValue = 18;
     expectedSecondsValue = 17;
-    timer = new CountSeconds(secondsValue);
+    answerTimer = new Timer(secondsValue);
 
-    assert.equal(expectedSecondsValue, timer.tick());
+    assert.equal(expectedSecondsValue, answerTimer.tick());
   });
 
   it(`Should report when the value is 0`, () => {
     secondsValue = 0;
-    timer = new CountSeconds(secondsValue);
+    answerTimer = new Timer(secondsValue);
 
-    assert.throws(() => timer.tick());
+    assert.throws(() => answerTimer.tick());
   });
 });

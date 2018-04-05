@@ -1,5 +1,5 @@
 // Функция-конструктор для генерации объекта таймера
-function CountSeconds(time) {
+function timer(time) {
   let count = time;
   this.tick = function () {
     const value = count - 1;
@@ -14,4 +14,4 @@ function CountSeconds(time) {
   };
 }
 
-export default CountSeconds;
+export default timer;
