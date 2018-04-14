@@ -1,6 +1,5 @@
 import getElementFromTemplate from './util.js';
-import {headerGameNode} from './header.js';
-import footer from './footer.js';
+import {headerIntroTemplate, headerGameTemplate} from './header.js';
 import gameScreen from './gameScreen.js';
 import changeScreens from './render.js';
 import {gameState, questions} from './data.js';
@@ -40,33 +39,33 @@ const templateGameSecond = (level) =>
   </div>`;
 
 // Функция проверки инпутов для смены первого экрана
-const onSecondFormChange = (evt, state) => {
-
+const onSecondFormChange = (evt) => {
   // Находим все отмеченные инпуты
   if (evt.target.tagName === `INPUT`) {
-    const checkedInputs = Array.from(evt.currentTarget).some((element) => {
-      return element.checked;
-    });
 
-    // Если количество отмеченных равно кол-ву инпутов всего, то
-    if (checkedInputs) {
+    // Провреяем корректность ответа пользователя со списком ответов
+    if ((evt.target.value === questions[gameState.level][`answers`][0][`type`])) {
 
-      // Провреяем корректность ответа пользователя со списком ответов
-      if (checkedInputs[0].value === questions[state].answers[0].type && checkedInputs[1].value === questions[state].answers[1].type) {
-
-        // Обновляем базу актуального уровня
-        state.level = questions[state][`next-level`];
-        // Меняем экран
-        gameScreen();
-
-        // Отнимаем жизнь при неправильном ответе
+      // Обновляем базу актуального уровня
+      if (gameState.level !== `level_9`) {
+        gameState.level = questions[gameState.level][`next-level`];
+        gameState.type = questions[gameState.level][`type`];
       } else {
-        gameState.lives--;
+        gameState.level = `level_10`;
+        gameScreen(gameState);
+      }
 
-        // Если жизней не осталось, отрисовываем результаты
-        if (gameState.lives === 0) {
-          changeScreens(stats);
-        }
+      // Меняем экран
+      gameScreen(gameState);
+
+    // Отнимаем жизнь при неправильном ответе
+    } else {
+      gameState.lives--;
+      createElement(gameState);
+
+      // Если жизней не осталось, отрисовываем результаты
+      if (gameState.lives === 0) {
+        changeScreens(stats, headerIntroTemplate);
       }
     }
   }
@@ -74,12 +73,15 @@ const onSecondFormChange = (evt, state) => {
 
 // Результирующая функция для передачи ноды на отрисовку в управлятор
 const createElement = (state) => {
-  const gameSecond = getElementFromTemplate(templateGameSecond(questions[state])).insertAdjacentElement(`beforeEnd`, footer);
-  // Находим ноды
-  const gameSecondForm = gameSecond.querySelector(`.game__content`);
-  // Вешаем событие на форму
-  gameSecondForm.addEventListener(`change`, onSecondFormChange);
-};
+  // Создаем шаблон
+  const gameSecond = getElementFromTemplate(templateGameSecond(questions[state.level]));
 
+  // Отрисовываем на страницу
+  changeScreens(gameSecond, getElementFromTemplate(headerGameTemplate(state)));
+  const gameFirstForm = gameSecond.querySelector(`.game__content`);
+
+  // Вешаем событие на форму
+  gameFirstForm.addEventListener(`change`, onSecondFormChange);
+};
 
 export default createElement;

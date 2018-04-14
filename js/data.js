@@ -1,12 +1,12 @@
 const gameState = {
-  level: `level-0`, // Текущий уровень, всего 10
-  type: `two-of-two`, // Тип игры, всего 3
-  lives: 3, // Кол-во жизней
-  time: 15 // Время, пока постоянное
+  'level': `level_0`, // Текущий уровень, всего 10
+  'type': `two-of-two`, // Тип игры, всего 3
+  'lives': 3, // Кол-во жизней
+  'time': 15 // Время, пока постоянное
 };
 
 const questions = {
-  'level-0': {
+  'level_0': {
     'type': `two-of-two`,
     'question': `Угадайте для каждого изображения фото или рисунок?`,
     'answers': [
@@ -24,12 +24,12 @@ const questions = {
           'width': 468,
           'height': 458
         },
-        'type': `painting`
+        'type': `paint`
       }
     ],
-    'next-level': `level-1`
+    'next-level': `level_1`
   },
-  'level-1': {
+  'level_1': {
     'type': `tinder-like`,
     'question': `Угадай, фото или рисунок?`,
     'answers': [
@@ -42,9 +42,9 @@ const questions = {
         'type': `photo`
       }
     ],
-    'next-level': `level-2`
+    'next-level': `level_2`
   },
-  'level-2': {
+  'level_2': {
     'type': `one-of-three`,
     'question': `Найдите рисунок среди изображений`,
     'answers': [
@@ -62,20 +62,20 @@ const questions = {
           'width': 304,
           'height': 455
         },
-        'type': `painting`
+        'type': `paint`
       },
       {
         'image': {
-          'url': `http://i.imgur.com/DKR1HtB.jpg`,
+          'url': `https://i.imgur.com/DiHM5Zb.jpg`,
           'width': 304,
           'height': 455
         },
         'type': `photo`
       }
     ],
-    'next-level': `level-3`
+    'next-level': `level_3`
   },
-  'level-3': {
+  'level_3': {
     'type': `two-of-two`,
     'question': `Угадайте для каждого изображения фото или рисунок?`,
     'answers': [
@@ -93,12 +93,12 @@ const questions = {
           'width': 468,
           'height': 458
         },
-        'type': `painting`
+        'type': `paint`
       }
     ],
-    'next-level': `level-4`
+    'next-level': `level_4`
   },
-  'level-4': {
+  'level_4': {
     'type': `tinder-like`,
     'question': `Угадай, фото или рисунок?`,
     'answers': [
@@ -111,9 +111,9 @@ const questions = {
         'type': `photo`
       }
     ],
-    'next-level': `level-5`
+    'next-level': `level_5`
   },
-  'level-5': {
+  'level_5': {
     'type': `one-of-three`,
     'question': `Найдите рисунок среди изображений`,
     'answers': [
@@ -131,7 +131,7 @@ const questions = {
           'width': 304,
           'height': 455
         },
-        'type': `painting`
+        'type': `paint`
       },
       {
         'image': {
@@ -142,9 +142,9 @@ const questions = {
         'type': `photo`
       }
     ],
-    'next-level': `level-6`
+    'next-level': `level_6`
   },
-  'level-6': {
+  'level_6': {
     'type': `two-of-two`,
     'question': `Угадайте для каждого изображения фото или рисунок?`,
     'answers': [
@@ -162,12 +162,12 @@ const questions = {
           'width': 468,
           'height': 458
         },
-        'type': `painting`
+        'type': `paint`
       }
     ],
-    'next-level': `level-7`
+    'next-level': `level_7`
   },
-  'level-7': {
+  'level_7': {
     'type': `tinder-like`,
     'question': `Угадай, фото или рисунок?`,
     'answers': [
@@ -177,12 +177,12 @@ const questions = {
           'width': 705,
           'height': 455
         },
-        'type': `painting`
+        'type': `paint`
       }
     ],
-    'next-level': `level-8`
+    'next-level': `level_8`
   },
-  'level-8': {
+  'level_8': {
     'type': `one-of-three`,
     'question': `Найдите рисунок среди изображений`,
     'answers': [
@@ -200,7 +200,7 @@ const questions = {
           'width': 304,
           'height': 455
         },
-        'type': `painting`
+        'type': `paint`
       },
       {
         'image': {
@@ -211,9 +211,9 @@ const questions = {
         'type': `photo`
       }
     ],
-    'next-level': `level-9`
+    'next-level': `level_9`
   },
-  'level-9': {
+  'level_9': {
     'type': `two-of-two`,
     'question': `Угадайте для каждого изображения фото или рисунок?`,
     'answers': [
@@ -231,7 +231,7 @@ const questions = {
           'width': 468,
           'height': 458
         },
-        'type': `painting`
+        'type': `paint`
       }
     ]
   },

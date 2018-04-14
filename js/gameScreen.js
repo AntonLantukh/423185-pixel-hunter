@@ -6,14 +6,14 @@ import stats from './stats.js';
 import changeScreens from './render.js';
 
 // Функция рендера экрана игры
-const gameRender = () => {
+const gameRender = (state) => {
 
-  if (gameState.level === `level-10`) {
+  if (state.level === `level_10`) {
     // Отрисовываем результаты
     changeScreens(stats);
   } else {
 
-    switch (gameState.type) {
+    switch (state.type) {
       case `two-of-two`:
         gameFirst(gameState);
         break;
@@ -26,11 +26,7 @@ const gameRender = () => {
         gameThird(gameState);
         break;
     }
-
-    gameState.level++;
   }
 };
-
-gameRender();
 
 export default gameRender;

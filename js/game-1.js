@@ -1,6 +1,5 @@
 import getElementFromTemplate from './util.js';
-import {headerGameNode} from './header.js';
-import footer from './footer.js';
+import {headerIntroTemplate, headerGameTemplate} from './header.js';
 import gameScreen from './gameScreen.js';
 import changeScreens from './render.js';
 import {gameState, questions} from './data.js';
@@ -22,7 +21,7 @@ const templateGameFirst = (level) =>
         </label>
       </div>
       <div class="game__option">
-        <img src="${level.answers[1].image.url}" alt="Option 2" width="${level.answers[0].image.width}" height="${level.answers[0].image.height}">
+        <img src="${level.answers[1].image.url}" alt="Option 2" width="${level.answers[1].image.width}" height="${level.answers[1].image.height}">
         <label class="game__answer  game__answer--photo">
           <input name="question2" type="radio" value="photo">
           <span>Фото</span>
@@ -50,10 +49,7 @@ const templateGameFirst = (level) =>
   </div>`;
 
 // Функция проверки инпутов для смены первого экрана
-const onFirstFormChange = (evt, state, gameFirstForm) => {
-
-  // Находим все инпуты на странице
-  const inputs = gameFirstForm.querySelectorAll(`input`);
+const onFirstFormChange = (evt) => {
 
   // Находим все отмеченные инпуты
   if (evt.target.tagName === `INPUT`) {
@@ -62,23 +58,31 @@ const onFirstFormChange = (evt, state, gameFirstForm) => {
     });
 
     // Если количество отмеченных равно кол-ву инпутов всего, то
-    if (checkedInputs.length === inputs.length) {
+    if (checkedInputs.length === 2) {
 
       // Провреяем корректность ответа пользователя со списком ответов
-      if (checkedInputs[0].value === questions[state].answers[0].type && checkedInputs[1].value === questions[state].answers[1].type) {
+      if ((checkedInputs[0].value === questions[gameState.level][`answers`][0][`type`]) && (checkedInputs[1].value === questions[gameState.level][`answers`][1][`type`])) {
 
         // Обновляем базу актуального уровня
-        state.level = questions[state][`next-level`];
+        if (gameState.level !== `level_9`) {
+          gameState.level = questions[gameState.level][`next-level`];
+          gameState.type = questions[gameState.level][`type`];
+        } else {
+          gameState.level = `level_10`;
+          gameScreen(gameState);
+        }
+
         // Меняем экран
-        gameScreen();
+        gameScreen(gameState);
 
         // Отнимаем жизнь при неправильном ответе
       } else {
         gameState.lives--;
+        createElement(gameState);
 
         // Если жизней не осталось, отрисовываем результаты
         if (gameState.lives === 0) {
-          changeScreens(stats);
+          changeScreens(stats, headerIntroTemplate);
         }
       }
     }
@@ -87,14 +91,14 @@ const onFirstFormChange = (evt, state, gameFirstForm) => {
 
 // Результирующая функция для передачи ноды на отрисовку в управлятор
 const createElement = (state) => {
+
+  // Создаем шаблон
   const gameFirst = getElementFromTemplate(templateGameFirst(questions[state.level]));
-  // Находим ноды
+
+  // Отрисовываем на страницу
+  changeScreens(gameFirst, getElementFromTemplate(headerGameTemplate(state)));
   const gameFirstForm = gameFirst.querySelector(`.game__content`);
 
-  const centralElement = document.querySelector(`.central`);
-
-  centralElement.innerHTML = ``;
-  centralElement.appendChild(gameFirst);
   // Вешаем событие на форму
   gameFirstForm.addEventListener(`change`, onFirstFormChange);
 };

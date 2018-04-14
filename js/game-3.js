@@ -1,6 +1,5 @@
 import getElementFromTemplate from './util.js';
-import {headerGameNode} from './header.js';
-import footer from './footer.js';
+import {headerIntroTemplate, headerGameTemplate} from './header.js';
 import gameScreen from './gameScreen.js';
 import changeScreens from './render.js';
 import {gameState, questions} from './data.js';
@@ -38,25 +37,37 @@ const templateGameThird = (level) =>
   </div>`;
 
 // Функция проверки инпутов для смены первого экрана
-const onThirdFormChange = (evt, state) => {
+const onThirdFormChange = (evt) => {
 
   // Находим все отмеченные инпуты
   if (evt.target.tagName === `DIV`) {
-    // Провреяем корректность ответа пользователя со списком ответов
-    if (evt.target.tagName) {
 
+    // Провреяем корректность ответа пользователя со списком ответов
+    const chosenElement = questions[gameState.level][`answers`].filter((item) => {
+      return (evt.target.children[0].src === item.image.url);
+    });
+
+    if (chosenElement[0].type === `paint`) {
       // Обновляем базу актуального уровня
-      state.level = questions[state][`next-level`];
+      if (gameState.level !== `level_9`) {
+        gameState.level = questions[gameState.level][`next-level`];
+        gameState.type = questions[gameState.level][`type`];
+      } else {
+        gameState.level = `level_10`;
+        gameScreen(gameState);
+      }
+
       // Меняем экран
-      gameScreen();
+      gameScreen(gameState);
 
       // Отнимаем жизнь при неправильном ответе
     } else {
       gameState.lives--;
+      createElement(gameState);
 
       // Если жизней не осталось, отрисовываем результаты
       if (gameState.lives === 0) {
-        changeScreens(stats);
+        changeScreens(stats, headerIntroTemplate);
       }
     }
   }
@@ -64,11 +75,15 @@ const onThirdFormChange = (evt, state) => {
 
 // Результирующая функция для передачи ноды на отрисовку в управлятор
 const createElement = (state) => {
-  const gameSecond = getElementFromTemplate(templateGameThird(questions[state])).insertAdjacentElement(`beforeEnd`, footer);
-  // Находим ноды
-  const gameSecondForm = gameSecond.querySelector(`.game__content`);
+  // Создаем шаблон
+  const gameSecond = getElementFromTemplate(templateGameThird(questions[state.level]));
+
+  // Отрисовываем на страницу
+  changeScreens(gameSecond, getElementFromTemplate(headerGameTemplate(state)));
+  const gameFirstForm = gameSecond.querySelector(`.game__content`);
+
   // Вешаем событие на форму
-  gameSecondForm.addEventListener(`change`, onThirdFormChange);
+  gameFirstForm.addEventListener(`click`, onThirdFormChange);
 };
 
 

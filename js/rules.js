@@ -1,6 +1,7 @@
 import getElementFromTemplate from './util.js';
 import gameRender from './gameScreen.js';
-import {headerIntroTemplate} from './header.js';
+import {gameState} from './data.js';
+
 
 const templateRules = `
   <div class="rules">
@@ -21,7 +22,6 @@ const templateRules = `
   </div>`;
 
 const rules = getElementFromTemplate(templateRules);
-rules.insertAdjacentHTML(`beforeBegin`, headerIntroTemplate);
 
 const rulesInput = rules.querySelector(`.rules__input`);
 const rulesSubmit = rules.querySelector(`.rules__button`);
@@ -37,7 +37,7 @@ rulesInput.addEventListener(`input`, function () {
 
 // Переход на следующий экран
 rulesSubmit.addEventListener(`click`, function () {
-  gameRender();
+  gameRender(gameState);
 });
 
 export default rules;

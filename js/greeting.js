@@ -1,6 +1,8 @@
 import getElementFromTemplate from './util.js';
 import changeScreens from './render.js';
 import rules from './rules.js';
+import {headerIntroTemplate} from './header.js';
+
 
 const templateGreeting = `
   <div class="greeting central--blur">
@@ -22,7 +24,7 @@ const greeting = getElementFromTemplate(templateGreeting);
 // Событие переключения на следующий экран
 const greetingContinue = greeting.querySelector(`.greeting__continue`);
 greetingContinue.addEventListener(`click`, function () {
-  changeScreens(rules);
+  changeScreens(rules, headerIntroTemplate);
 });
 
 export default greeting;
