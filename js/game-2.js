@@ -1,28 +1,18 @@
 import getElementFromTemplate from './util.js';
+import {headerGameNode} from './header.js';
+import footer from './footer.js';
+import gameScreen from './gameScreen.js';
 import changeScreens from './render.js';
-import gameThird from './game-3.js';
-import greeting from './greeting.js';
+import {gameState, questions} from './data.js';
+import stats from './stats.js';
 
-const templateGameSecond = `
-  <header class="header">
-    <div class="header__back">
-      <button class="back">
-        <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-        <img src="img/logo_small.svg" width="101" height="44">
-      </button>
-    </div>
-    <h1 class="game__timer">NN</h1>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
-  </header>
-  <div class="game">
-    <p class="game__task">Угадай, фото или рисунок?</p>
+
+const templateGameSecond = (level) =>
+  `<div class="game">
+    <p class="game__task">${level.question}</p>
     <form class="game__content  game__content--wide">
       <div class="game__option">
-        <img src="http://placehold.it/705x455" alt="Option 1" width="705" height="455">
+        <img src="${level.answers[0].image.url}" alt="Option 1" width="${level.answers[0].image.width}" height="${level.answers[0].image.height}">
         <label class="game__answer  game__answer--photo">
           <input name="question1" type="radio" value="photo">
           <span>Фото</span>
@@ -47,40 +37,49 @@ const templateGameSecond = `
         <li class="stats__result stats__result--unknown"></li>
       </ul>
     </div>
-  </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`;
+  </div>`;
 
-const gameSecond = getElementFromTemplate(templateGameSecond);
-const buttonBack = gameSecond.querySelector(`.back`);
-const gameSecondForm = gameSecond.querySelector(`.game__content`);
+// Функция проверки инпутов для смены первого экрана
+const onSecondFormChange = (evt, state) => {
 
-// Функция проверки инпутов для смены экрана
-const onSecondFormChange = (evt) => {
+  // Находим все отмеченные инпуты
   if (evt.target.tagName === `INPUT`) {
     const checkedInputs = Array.from(evt.currentTarget).some((element) => {
       return element.checked;
     });
+
+    // Если количество отмеченных равно кол-ву инпутов всего, то
     if (checkedInputs) {
-      changeScreens(gameThird);
+
+      // Провреяем корректность ответа пользователя со списком ответов
+      if (checkedInputs[0].value === questions[state].answers[0].type && checkedInputs[1].value === questions[state].answers[1].type) {
+
+        // Обновляем базу актуального уровня
+        state.level = questions[state][`next-level`];
+        // Меняем экран
+        gameScreen();
+
+        // Отнимаем жизнь при неправильном ответе
+      } else {
+        gameState.lives--;
+
+        // Если жизней не осталось, отрисовываем результаты
+        if (gameState.lives === 0) {
+          changeScreens(stats);
+        }
+      }
     }
   }
 };
 
-// Вешаем событие на форму
-gameSecondForm.addEventListener(`change`, onSecondFormChange);
+// Результирующая функция для передачи ноды на отрисовку в управлятор
+const createElement = (state) => {
+  const gameSecond = getElementFromTemplate(templateGameSecond(questions[state])).insertAdjacentElement(`beforeEnd`, footer);
+  // Находим ноды
+  const gameSecondForm = gameSecond.querySelector(`.game__content`);
+  // Вешаем событие на форму
+  gameSecondForm.addEventListener(`change`, onSecondFormChange);
+};
 
-// События возвращения на начальный экран
-buttonBack.addEventListener(`click`, function () {
-  changeScreens(greeting);
-});
 
-export default gameSecond;
+export default createElement;

@@ -1,28 +1,17 @@
 import getElementFromTemplate from './util.js';
+import {headerGameNode} from './header.js';
+import footer from './footer.js';
+import gameScreen from './gameScreen.js';
 import changeScreens from './render.js';
-import gameSecond from './game-2.js';
-import greeting from './greeting.js';
+import {gameState, questions} from './data.js';
+import stats from './stats.js';
 
-const templateGameFirst = `
-  <header class="header">
-    <div class="header__back">
-      <button class="back">
-        <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-        <img src="img/logo_small.svg" width="101" height="44">
-      </button>
-    </div>
-    <h1 class="game__timer">NN</h1>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
-  </header>
-  <div class="game">
-    <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
+const templateGameFirst = (level) =>
+  `<div class="game">
+    <p class="game__task">${level[`question`]}</p>
     <form class="game__content">
       <div class="game__option">
-        <img src="http://placehold.it/468x458" alt="Option 1" width="468" height="458">
+        <img src="${level.answers[0].image.url}" alt="Option 1" width="${level.answers[0].image.width}" height="${level.answers[0].image.height}">
         <label class="game__answer game__answer--photo">
           <input name="question1" type="radio" value="photo">
           <span>Фото</span>
@@ -33,7 +22,7 @@ const templateGameFirst = `
         </label>
       </div>
       <div class="game__option">
-        <img src="http://placehold.it/468x458" alt="Option 2" width="468" height="458">
+        <img src="${level.answers[1].image.url}" alt="Option 2" width="${level.answers[0].image.width}" height="${level.answers[0].image.height}">
         <label class="game__answer  game__answer--photo">
           <input name="question2" type="radio" value="photo">
           <span>Фото</span>
@@ -58,44 +47,57 @@ const templateGameFirst = `
         <li class="stats__result stats__result--unknown"></li>
       </ul>
     </div>
-  </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`;
+  </div>`;
 
-const gameFirst = getElementFromTemplate(templateGameFirst);
-const buttonBack = gameFirst.querySelector(`.back`);
-const gameFirstForm = gameFirst.querySelector(`.game__content`);
+// Функция проверки инпутов для смены первого экрана
+const onFirstFormChange = (evt, state, gameFirstForm) => {
 
-const inputs = {
-  MAX_NUMBER: 2
-};
+  // Находим все инпуты на странице
+  const inputs = gameFirstForm.querySelectorAll(`input`);
 
-// Функция проверки инпутов для смены экрана
-const onFirstFormChange = (evt) => {
+  // Находим все отмеченные инпуты
   if (evt.target.tagName === `INPUT`) {
     const checkedInputs = Array.from(evt.currentTarget).filter((element) => {
       return element.checked;
     });
-    if (checkedInputs.length === inputs.MAX_NUMBER) {
-      changeScreens(gameSecond);
+
+    // Если количество отмеченных равно кол-ву инпутов всего, то
+    if (checkedInputs.length === inputs.length) {
+
+      // Провреяем корректность ответа пользователя со списком ответов
+      if (checkedInputs[0].value === questions[state].answers[0].type && checkedInputs[1].value === questions[state].answers[1].type) {
+
+        // Обновляем базу актуального уровня
+        state.level = questions[state][`next-level`];
+        // Меняем экран
+        gameScreen();
+
+        // Отнимаем жизнь при неправильном ответе
+      } else {
+        gameState.lives--;
+
+        // Если жизней не осталось, отрисовываем результаты
+        if (gameState.lives === 0) {
+          changeScreens(stats);
+        }
+      }
     }
   }
 };
 
-// Вешаем событие на форму
-gameFirstForm.addEventListener(`change`, onFirstFormChange);
+// Результирующая функция для передачи ноды на отрисовку в управлятор
+const createElement = (state) => {
+  const gameFirst = getElementFromTemplate(templateGameFirst(questions[state.level]));
+  // Находим ноды
+  const gameFirstForm = gameFirst.querySelector(`.game__content`);
 
-// События возвращения на начальный экран
-buttonBack.addEventListener(`click`, function () {
-  changeScreens(greeting);
-});
+  const centralElement = document.querySelector(`.central`);
 
-export default gameFirst;
+  centralElement.innerHTML = ``;
+  centralElement.appendChild(gameFirst);
+  // Вешаем событие на форму
+  gameFirstForm.addEventListener(`change`, onFirstFormChange);
+};
+
+
+export default createElement;

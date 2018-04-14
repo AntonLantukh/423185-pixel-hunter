@@ -1,34 +1,24 @@
 import getElementFromTemplate from './util.js';
+import {headerGameNode} from './header.js';
+import footer from './footer.js';
+import gameScreen from './gameScreen.js';
 import changeScreens from './render.js';
+import {gameState, questions} from './data.js';
 import stats from './stats.js';
-import greeting from './greeting.js';
 
-const templateGameThird = `
-  <header class="header">
-    <div class="header__back">
-      <button class="back">
-        <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-        <img src="img/logo_small.svg" width="101" height="44">
-      </button>
-    </div>
-    <h1 class="game__timer">NN</h1>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
-  </header>
-  <div class="game">
-    <p class="game__task">Найдите рисунок среди изображений</p>
+
+const templateGameThird = (level) =>
+  `<div class="game">
+    <p class="game__task">${level.question}</p>
     <form class="game__content  game__content--triple">
       <div class="game__option">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
+        <img src="${level.answers[0].image.url}" alt="Option 1" width="${level.answers[0].image.width}" height="${level.answers[0].image.height}">
       </div>
       <div class="game__option  game__option--selected">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
+        <img src="${level.answers[1].image.url}" alt="Option 1" width="${level.answers[1].image.width}" height="${level.answers[1].image.height}">
       </div>
       <div class="game__option">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
+        <img src="${level.answers[2].image.url}" alt="Option 1" width="${level.answers[2].image.width}" height="${level.answers[2].image.height}">
       </div>
     </form>
     <div class="stats">
@@ -45,35 +35,41 @@ const templateGameThird = `
         <li class="stats__result stats__result--unknown"></li>
       </ul>
     </div>
-  </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`;
+  </div>`;
 
-const gameThird = getElementFromTemplate(templateGameThird);
-const buttonBack = gameThird.querySelector(`.back`);
-const gameThirdForm = gameThird.querySelector(`.game__content`);
+// Функция проверки инпутов для смены первого экрана
+const onThirdFormChange = (evt, state) => {
 
-// Функция проверки инпутов для смены экрана
-const onThirdFormChange = (evt) => {
+  // Находим все отмеченные инпуты
   if (evt.target.tagName === `DIV`) {
-    changeScreens(stats);
+    // Провреяем корректность ответа пользователя со списком ответов
+    if (evt.target.tagName) {
+
+      // Обновляем базу актуального уровня
+      state.level = questions[state][`next-level`];
+      // Меняем экран
+      gameScreen();
+
+      // Отнимаем жизнь при неправильном ответе
+    } else {
+      gameState.lives--;
+
+      // Если жизней не осталось, отрисовываем результаты
+      if (gameState.lives === 0) {
+        changeScreens(stats);
+      }
+    }
   }
 };
 
-// Вешаем событие на форму
-gameThirdForm.addEventListener(`click`, onThirdFormChange);
+// Результирующая функция для передачи ноды на отрисовку в управлятор
+const createElement = (state) => {
+  const gameSecond = getElementFromTemplate(templateGameThird(questions[state])).insertAdjacentElement(`beforeEnd`, footer);
+  // Находим ноды
+  const gameSecondForm = gameSecond.querySelector(`.game__content`);
+  // Вешаем событие на форму
+  gameSecondForm.addEventListener(`change`, onThirdFormChange);
+};
 
-// События возвращения на начальный экран
-buttonBack.addEventListener(`click`, function () {
-  changeScreens(greeting);
-});
 
-export default gameThird;
+export default createElement;

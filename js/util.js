@@ -1,10 +1,10 @@
 // Функция для создания ноды
 const getElementFromTemplate = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.classList.add(`central`);
-  newElement.innerHTML = template;
+  const container = document.createElement(`div`);
+  container.innerHTML = template;
+  const resultingElement = container.children[0];
 
-  return newElement;
+  return resultingElement;
 };
 
 export default getElementFromTemplate;
