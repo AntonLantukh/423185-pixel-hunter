@@ -28,11 +28,4 @@ const headerGameTemplate = (state) =>
   </header>`;
 
 
-//const buttonBack = headerIntroNode.querySelector(`.back`);
-// События возвращения на начальный экран
-//buttonBack.addEventListener(`click`, function () {
-//  changeScreens(greeting);
-//});
-
-
 export {headerIntroTemplate, headerGameTemplate};

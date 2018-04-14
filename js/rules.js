@@ -2,7 +2,6 @@ import getElementFromTemplate from './util.js';
 import gameRender from './gameScreen.js';
 import {gameState} from './data.js';
 
-
 const templateRules = `
   <div class="rules">
     <h1 class="rules__title">Правила</h1>

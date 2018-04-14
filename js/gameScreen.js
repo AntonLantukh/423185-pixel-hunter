@@ -2,6 +2,7 @@ import {gameState} from './data.js';
 import gameFirst from './game-1.js';
 import gameSecond from './game-2.js';
 import gameThird from './game-3.js';
+import {headerIntroTemplate} from './header.js';
 import stats from './stats.js';
 import changeScreens from './render.js';
 
@@ -10,7 +11,7 @@ const gameRender = (state) => {
 
   if (state.level === `level_10`) {
     // Отрисовываем результаты
-    changeScreens(stats);
+    changeScreens(stats, headerIntroTemplate);
   } else {
 
     switch (state.type) {

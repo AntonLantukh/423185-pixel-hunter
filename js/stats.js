@@ -1,6 +1,4 @@
 import getElementFromTemplate from './util.js';
-import changeScreens from './render.js';
-import greeting from './greeting.js';
 
 const templateStats =
   `<div class="result">
