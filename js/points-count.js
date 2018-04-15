@@ -50,4 +50,4 @@ const countPoints = (results, attempts) => {
   return pointsObject;
 };
 
-export default countPoints;
+export {countPoints};

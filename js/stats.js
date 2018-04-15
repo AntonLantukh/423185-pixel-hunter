@@ -1,8 +1,6 @@
 import {countPoints} from './points-count.js';
 import {gameState, answers} from './data.js';
 
-const pointsObject = countPoints(answers, gameState.lives);
-
 const templateStatsWin =
   `<div class="result">
     <h1>Победа!</h1>
@@ -53,8 +51,8 @@ const templateStatsWin =
     </table>
   </div>`;
 
-const templateStateWinNoBonus =
-`<table class="result__table">
+const templateStateWinNoBonus = () =>
+  `<table class="result__table">
       <tr>
         <td class="result__number">3.</td>
         <td colspan="2">
@@ -72,17 +70,17 @@ const templateStateWinNoBonus =
           </ul>
         </td>
         <td class="result__points">×&nbsp;100</td>
-        <td class="result__total">${pointsObject.answers}</td>
+        <td class="result__total">${countPoints(answers, gameState.lives).answers}</td>
       </tr>
       <tr>
         <td></td>
         <td class="result__extra">Бонус за жизни:</td>
         <td class="result__extra">2&nbsp;<span class="stats__result stats__result--alive"></span></td>
         <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">${pointsObject.lives}</td>
+        <td class="result__total">${countPoints(answers, gameState.lives).lives}</td>
       </tr>
       <tr>
-        <td colspan="5" class="result__total  result__total--final">${pointsObject.total}</td>
+        <td colspan="5" class="result__total  result__total--final">${countPoints(answers, gameState.lives).total}</td>
       </tr>
     </table>`;
 
@@ -111,4 +109,4 @@ const templateStatsFail =
       </tr>
     </table>`;
 
-export {templateStatsFail, templateStateWinNoBonus};
+export {templateStatsFail, templateStatsWin, templateStateWinNoBonus};

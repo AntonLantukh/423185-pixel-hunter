@@ -12,7 +12,7 @@ const gameRender = (state) => {
 
   if (state.level === `level_10`) {
     // Отрисовываем результаты
-    changeScreens(getElementFromTemplate(templateStateWinNoBonus), headerIntroTemplate);
+    changeScreens(getElementFromTemplate(templateStateWinNoBonus()), headerIntroTemplate);
   } else {
 
     switch (state.type) {
