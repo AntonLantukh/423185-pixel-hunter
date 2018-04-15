@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import countPoints from './../points-count.js';
+import {countPoints} from './../points-count.js';
 
 // Массив правильных быстрах ответов
 const answersSetAllFast = new Array(10);
@@ -38,14 +38,14 @@ describe(`Function to count results at the end of the game`, () => {
   it(`should count points correctly`, () => {
     expectedValue = 1650;
     attemptsNumber = 3;
-    assert.equal(expectedValue, countPoints(answersSetAllFast, attemptsNumber));
+    assert.equal(expectedValue, countPoints(answersSetAllFast, attemptsNumber).total);
 
     expectedValue = 650;
     attemptsNumber = 3;
-    assert.equal(expectedValue, countPoints(answersSetAllSlow, attemptsNumber));
+    assert.equal(expectedValue, countPoints(answersSetAllSlow, attemptsNumber).total);
 
     expectedValue = 1150;
     attemptsNumber = 3;
-    assert.equal(expectedValue, countPoints(answersSetAllMedium, attemptsNumber));
+    assert.equal(expectedValue, countPoints(answersSetAllMedium, attemptsNumber).total);
   });
 });
