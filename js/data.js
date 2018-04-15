@@ -2,6 +2,7 @@ const gameState = {
   'level': `level_0`, // Текущий уровень, всего 10
   'type': `two-of-two`, // Тип игры, всего 3
   'lives': 3, // Кол-во жизней
+  'mistake': false, // Индикатор ошибки
   'time': 15 // Время, пока постоянное
 };
 
@@ -237,4 +238,6 @@ const questions = {
   },
 };
 
-export {gameState, questions};
+const answers = [];
+
+export {gameState, questions, answers};

@@ -2,8 +2,9 @@ import getElementFromTemplate from './util.js';
 import {headerIntroTemplate, headerGameTemplate} from './header.js';
 import gameScreen from './gameScreen.js';
 import changeScreens from './render.js';
-import {gameState, questions} from './data.js';
-import stats from './stats.js';
+import {gameState, questions, answers} from './data.js';
+import {templateStatsFail} from './stats.js';
+import collectAnswers from './answers-collect.js';
 
 
 const templateGameThird = (level) =>
@@ -52,8 +53,15 @@ const onThirdFormChange = (evt) => {
       if (gameState.level !== `level_9`) {
         gameState.level = questions[gameState.level][`next-level`];
         gameState.type = questions[gameState.level][`type`];
+
+        // Проверяем на наличие ошибки и вносим в ответы
+        collectAnswers(gameState, answers);
+
+        gameState.mistake = false;
+
       } else {
         gameState.level = `level_10`;
+        collectAnswers(gameState, answers);
         gameScreen(gameState);
       }
 
@@ -63,11 +71,12 @@ const onThirdFormChange = (evt) => {
       // Отнимаем жизнь при неправильном ответе
     } else {
       gameState.lives--;
+      gameState.mistake = true;
       createElement(gameState);
 
       // Если жизней не осталось, отрисовываем результаты
       if (gameState.lives === 0) {
-        changeScreens(stats, headerIntroTemplate);
+        changeScreens(getElementFromTemplate(templateStatsFail), headerIntroTemplate);
       }
     }
   }

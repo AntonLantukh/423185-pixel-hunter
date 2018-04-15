@@ -40,7 +40,14 @@ const countPoints = (results, attempts) => {
   const pointsForLives = leftAttemptValue * attempts;
   const pointsTotal = pointsForLives + pointsForTime + pointsForAnswer;
 
-  return pointsTotal;
+  const pointsObject = {
+    lives: pointsForLives,
+    answers: pointsForAnswer,
+    time: pointsForTime,
+    total: pointsTotal
+  };
+
+  return pointsObject;
 };
 
 export default countPoints;
