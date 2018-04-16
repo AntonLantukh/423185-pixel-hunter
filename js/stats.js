@@ -7,6 +7,7 @@ const templateStatsWin = () =>
     <h1>Победа!</h1>
     <table class="result__table">
       <tr>
+        <td class="result__number">1.</td>
         <td colspan="2">
           <ul class="stats">
             ${drawProgressbar(answers)}
@@ -18,23 +19,23 @@ const templateStatsWin = () =>
       <tr>
         <td></td>
         <td class="result__extra">Бонус за скорость:</td>
-        <td class="result__extra">1&nbsp;<span class="stats__result stats__result--fast"></span></td>
+        <td class="result__extra">${countPoints(answers, gameState.lives).timeFast / 50}&nbsp;<span class="stats__result stats__result--fast"></span></td>
         <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">50</td>
+        <td class="result__total">${countPoints(answers, gameState.lives).timeFast}</td>
       </tr>
       <tr>
         <td></td>
         <td class="result__extra">Бонус за жизни:</td>
-        <td class="result__extra">2&nbsp;<span class="stats__result stats__result--alive"></span></td>
+        <td class="result__extra">${gameState.lives}&nbsp;<span class="stats__result stats__result--alive"></span></td>
         <td class="result__points">×&nbsp;50</td>
         <td class="result__total">${countPoints(answers, gameState.lives).lives}</td>
       </tr>
       <tr>
         <td></td>
         <td class="result__extra">Штраф за медлительность:</td>
-        <td class="result__extra">2&nbsp;<span class="stats__result stats__result--slow"></span></td>
+        <td class="result__extra">${countPoints(answers, gameState.lives).timeSlow / 50}&nbsp;<span class="stats__result stats__result--slow"></span></td>
         <td class="result__points">×&nbsp;50</td>
-        <td class="result__total">-100</td>
+        <td class="result__total">${countPoints(answers, gameState.lives).timeSlow}</td>
       </tr>
       <tr>
         <td colspan="5" class="result__total  result__total--final">${countPoints(answers, gameState.lives).total}</td>
@@ -42,11 +43,12 @@ const templateStatsWin = () =>
     </table>
   </div>`;
 
-const templateStateWinNoBonus = () =>
+const templateStatsWinNoBonus = () =>
   `<div class="result">
     <h1>Победа!</h1>
     <table class="result__table">
       <tr>
+        <td class="result__number">2.</td>
         <td colspan="2">
           <ul class="stats">
             ${drawProgressbar(answers)}
@@ -58,7 +60,7 @@ const templateStateWinNoBonus = () =>
       <tr>
         <td></td>
         <td class="result__extra">Бонус за жизни:</td>
-        <td class="result__extra">2&nbsp;<span class="stats__result stats__result--alive"></span></td>
+        <td class="result__extra">${gameState.lives}&nbsp;<span class="stats__result stats__result--alive"></span></td>
         <td class="result__points">×&nbsp;50</td>
         <td class="result__total">${countPoints(answers, gameState.lives).lives}</td>
       </tr>
@@ -72,6 +74,7 @@ const templateStatsFail = () =>
     <h1>Fail</h1>
     <table class="result__table">
       <tr>
+        <td class="result__number">3.</td>
         <td>
           <ul class="stats">
             ${drawProgressbar(answers)}
@@ -82,4 +85,4 @@ const templateStatsFail = () =>
       </tr>
     </table>`;
 
-export {templateStatsFail, templateStatsWin, templateStateWinNoBonus};
+export {templateStatsFail, templateStatsWin, templateStatsWinNoBonus};

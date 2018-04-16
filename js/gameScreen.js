@@ -3,7 +3,7 @@ import gameFirst from './game-1.js';
 import gameSecond from './game-2.js';
 import gameThird from './game-3.js';
 import {headerIntroTemplate} from './header.js';
-import {templateStateWinNoBonus, templateStatsWin} from './stats.js';
+import {templateStatsWin, templateStatsWinNoBonus} from './stats.js';
 import changeScreens from './render.js';
 import getElementFromTemplate from './util.js';
 
@@ -11,11 +11,12 @@ import getElementFromTemplate from './util.js';
 const gameRender = (state) => {
   // Если уровень максимальный => пишем результаты
   if (state.level === `level_10`) {
+
     // Отрисовываем результатыполного или сокращенного экрана
     if (state[`full-stats`]) {
-      changeScreens(getElementFromTemplate(templateStateWinNoBonus()), headerIntroTemplate);
-    } else {
       changeScreens(getElementFromTemplate(templateStatsWin()), headerIntroTemplate);
+    } else {
+      changeScreens(getElementFromTemplate(templateStatsWinNoBonus()), headerIntroTemplate);
     }
   } else {
 

@@ -13,9 +13,11 @@ const countPoints = (results, attempts) => {
   // Подсчет бонуса за время и за правильный ответ
   let pointsForTime = 0;
   let pointsForAnswer = 0;
+  let pointsSlowAnswer = 0;
+  let pointsFastAnswer = 0;
 
   const fastTimeValue = 50;
-  const slowTimeValue = 50;
+  const slowTimeValue = -50;
   const leftAttemptValue = 50;
   const rightAnswerValue = 100;
 
@@ -28,9 +30,11 @@ const countPoints = (results, attempts) => {
 
     if (item.time < timeFastBorder) {
       pointsForTime += fastTimeValue;
+      pointsFastAnswer += fastTimeValue;
 
     } else if (item.time > timeSlowBorder && item.time < timeMaxBorder) {
       pointsForTime -= fastTimeValue;
+      pointsSlowAnswer += slowTimeValue;
 
     }
 
@@ -45,8 +49,8 @@ const countPoints = (results, attempts) => {
   const pointsObject = {
     lives: pointsForLives,
     answers: pointsForAnswer,
-    timeSlow: pointsForTime,
-    timeFast:
+    timeSlow: pointsSlowAnswer,
+    timeFast: pointsFastAnswer,
     total: pointsTotal
   };
 
