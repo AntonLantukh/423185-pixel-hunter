@@ -15,6 +15,7 @@ const countPoints = (results, attempts) => {
   let pointsForAnswer = 0;
 
   const fastTimeValue = 50;
+  const slowTimeValue = 50;
   const leftAttemptValue = 50;
   const rightAnswerValue = 100;
 
@@ -30,6 +31,7 @@ const countPoints = (results, attempts) => {
 
     } else if (item.time > timeSlowBorder && item.time < timeMaxBorder) {
       pointsForTime -= fastTimeValue;
+
     }
 
     if (item.answer) {
@@ -43,7 +45,8 @@ const countPoints = (results, attempts) => {
   const pointsObject = {
     lives: pointsForLives,
     answers: pointsForAnswer,
-    time: pointsForTime,
+    timeSlow: pointsForTime,
+    timeFast:
     total: pointsTotal
   };
 

@@ -5,6 +5,7 @@ import changeScreens from './render.js';
 import {gameState, questions, answers} from './data.js';
 import {templateStatsFail} from './stats.js';
 import collectAnswers from './answers-collect.js';
+import drawProgressbar from './progress-bar.js';
 
 
 const templateGameSecond = (level) =>
@@ -25,16 +26,7 @@ const templateGameSecond = (level) =>
     </form>
     <div class="stats">
       <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--unknown"></li>
+        ${drawProgressbar(answers)}
       </ul>
     </div>
   </div>`;
@@ -74,7 +66,7 @@ const onSecondFormChange = (evt) => {
 
       // Если жизней не осталось, отрисовываем результаты
       if (gameState.lives === 0) {
-        changeScreens(getElementFromTemplate(templateStatsFail), headerIntroTemplate);
+        changeScreens(getElementFromTemplate(templateStatsFail()), headerIntroTemplate);
       }
     }
   }
