@@ -14,7 +14,7 @@ const collectAnswers = (state, answersArray) => {
   state.mistake = false;
 
   // If the time was slow or fast => draw full stats screen
-  if (state.time <= timeSlowBorder || state.time >= timeFastBorder) {
+  if (state.time <= timeFastBorder || state.time >= timeSlowBorder) {
     state[`full-stats`] = true;
   }
 };

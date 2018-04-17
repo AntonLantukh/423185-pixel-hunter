@@ -41,7 +41,7 @@ const onThirdFormChange = (evt) => {
 
     // Looping through answers set to check which src equals to the chosen src
     const chosenElement = levelAnswers.filter((item) => {
-      return (levelImages.src === item.image.url);
+      return (levelImages[0].src === item.image.url);
     });
 
     // If chosen element equals to the right answer

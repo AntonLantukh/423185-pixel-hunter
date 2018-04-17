@@ -67,6 +67,7 @@ const onFirstFormChange = (evt) => {
 
         // If not, -1 live, and setting mistake status
       } else {
+
         reduceLives(gameState);
         createElement(gameState);
 

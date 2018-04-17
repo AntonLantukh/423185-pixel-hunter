@@ -1,4 +1,5 @@
 const drawProgressbar = (answers) => {
+
   // Setting variables
   const resultsArray = [];
   const timeSlowBorder = 20;
@@ -14,9 +15,9 @@ const drawProgressbar = (answers) => {
 
     // Passing through answers list
     answers.forEach((item) => {
-      if (item.time > timeSlowBorder && item.answer === true) {
+      if (item.time > timeSlowBorder && item.answer) {
         resultsArray.push(`<li class="stats__result stats__result--slow"></li>`);
-      } else if (item.time < timeFastBorder && item.answer === true) {
+      } else if (item.time < timeFastBorder && item.answer) {
         resultsArray.push(`<li class="stats__result stats__result--fast"></li>`);
       } else if (item.answer === true && (item.time >= timeFastBorder && item.time <= timeSlowBorder)) {
         resultsArray.push(`<li class="stats__result stats__result--correct"></li>`);
