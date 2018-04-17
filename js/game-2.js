@@ -2,11 +2,10 @@ import getElementFromTemplate from './util.js';
 import {headerIntroTemplate, headerGameTemplate} from './header.js';
 import changeScreens from './render.js';
 import {gameState, questions, answers} from './data.js';
-import {templateStatsFail} from './stats.js';
+import {templateStats} from './stats.js';
 import drawProgressbar from './progress-bar.js';
 import refreshLevel from './level-refresh.js';
 import reduceLives from './lives-check.js';
-
 
 const templateGameSecond = (level) =>
   `<div class="game">
@@ -33,27 +32,28 @@ const templateGameSecond = (level) =>
 
 // Function to check inputs on the first screen
 const onSecondFormChange = (evt) => {
-
   // Setting variables
   const levelAnswers = questions[gameState.level][`answers`];
 
   // If a user chose input
-  if (evt.target.tagName === `INPUT`) {
+  if (!evt.target.tagName === `INPUT`) {
+    return;
+  }
 
-    // We check the input value to equal the value in answers
-    if ((evt.target.value === levelAnswers[0][`type`])) {
+  // We check the input value to equal the value in answers
+  if ((evt.target.value === levelAnswers[0][`type`])) {
 
-      refreshLevel(gameState, questions, answers);
+    refreshLevel(gameState, questions, answers);
+  // If not, -1 live, and setting mistake status
+  } else {
 
-    // Отнимаем жизнь при неправильном ответе
-    } else {
-      reduceLives(gameState);
-      createElement(gameState);
+    reduceLives(gameState);
+    createElement(gameState);
 
-      // Если жизней не осталось, отрисовываем результаты
-      if (gameState.lives === 0) {
-        changeScreens(getElementFromTemplate(templateStatsFail()), headerIntroTemplate);
-      }
+    // Если жизней не осталось, отрисовываем результаты
+    if (gameState.lives === 0) {
+      gameState[`fail`] = true;
+      changeScreens(getElementFromTemplate(templateStats()), headerIntroTemplate);
     }
   }
 };
@@ -62,11 +62,13 @@ const onSecondFormChange = (evt) => {
 const createElement = (state) => {
   // Creating a template
   const gameSecond = getElementFromTemplate(templateGameSecond(questions[state.level]));
+  const gameSecondForm = gameSecond.querySelector(`.game__content`);
+
   // Draw a template on the screen
   changeScreens(gameSecond, getElementFromTemplate(headerGameTemplate(state)));
-  const gameFirstForm = gameSecond.querySelector(`.game__content`);
+
   // Add a listener
-  gameFirstForm.addEventListener(`change`, onSecondFormChange);
+  gameSecondForm.addEventListener(`change`, onSecondFormChange);
 };
 
 export default createElement;

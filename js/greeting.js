@@ -3,7 +3,6 @@ import changeScreens from './render.js';
 import rules from './rules.js';
 import {headerIntroTemplate} from './header.js';
 
-
 const templateGreeting = `
   <div class="greeting central--blur">
     <div class="greeting__logo"><img src="img/logo_big.png" width="201" height="89" alt="Pixel Hunter"></div>

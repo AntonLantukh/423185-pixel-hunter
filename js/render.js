@@ -25,7 +25,7 @@ const changeScreens = (template, ...spread) => {
     });
   }
 
-  // Finnaly adding a footer
+  // Finally adding a footer
   centralElement.insertAdjacentElement(`afterEnd`, footer);
 };
 

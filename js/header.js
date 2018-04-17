@@ -29,5 +29,4 @@ const headerGameTemplate = (state) =>
     </div>
   </header>`;
 
-
 export {headerIntroTemplate, headerGameTemplate};

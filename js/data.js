@@ -5,7 +5,7 @@ const gameState = {
   'lives': 3, // Number of lives
   'time': 15, // Time
   'mistake': false, // Indicator if the user made a mistake answering the question
-  'full-stats': false // Indicator ti show a complete stats screen (no shortened)
+  'fail': false // Indicator to show a complete stats screen (no shortened)
 };
 
 // Questions array

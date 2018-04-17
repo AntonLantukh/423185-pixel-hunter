@@ -2,11 +2,10 @@ import getElementFromTemplate from './util.js';
 import {headerIntroTemplate, headerGameTemplate} from './header.js';
 import changeScreens from './render.js';
 import {gameState, questions, answers} from './data.js';
-import {templateStatsFail} from './stats.js';
+import {templateStats} from './stats.js';
 import drawProgressbar from './progress-bar.js';
 import refreshLevel from './level-refresh.js';
 import reduceLives from './lives-check.js';
-
 
 const templateGameFirst = (level) =>
   `<div class="game">
@@ -44,52 +43,56 @@ const templateGameFirst = (level) =>
 
 // Function to check inputs on the first screen
 const onFirstFormChange = (evt) => {
-
-  // Number on inputs on the page
-  const inputsNumber = 2;
-
   // Setting variables
+  const inputsNumber = 2;
   const levelAnswers = questions[gameState.level][`answers`];
 
   // Finding all inputs on the scrren and returning checked ones
-  if (evt.target.tagName === `INPUT`) {
-    const checkedInputs = Array.from(evt.currentTarget).filter((element) => {
-      return element.checked;
-    });
+  if (!evt.target.tagName === `INPUT`) {
+    return;
+  }
 
-    // If checked inputs equal to the number of inputs on the page
-    if (checkedInputs.length === inputsNumber) {
+  const checkedInputs = Array.from(evt.currentTarget).filter((element) => element.checked);
 
-      // Check correctness of the user's answer
-      if ((checkedInputs[0].value === levelAnswers[0][`type`]) && (checkedInputs[1].value === levelAnswers[1][`type`])) {
+  // If checked inputs equal to the number of inputs on the page
+  if (!checkedInputs.length === inputsNumber) {
+    return;
+  }
 
-        refreshLevel(gameState, questions, answers);
+  // Check correctness of the user's answer
+  if (checkAnswer(checkedInputs, levelAnswers)) {
 
-        // If not, -1 live, and setting mistake status
-      } else {
+    refreshLevel(gameState, questions, answers);
+    // If not, -1 live, and setting mistake status
+  } else {
 
-        reduceLives(gameState);
-        createElement(gameState);
+    reduceLives(gameState);
+    createElement(gameState);
 
-        // If there is no more lives => draw results
-        if (gameState.lives === 0) {
-          changeScreens(getElementFromTemplate(templateStatsFail()), headerIntroTemplate);
-        }
-      }
+    // If there is no more lives => draw results
+    if (gameState.lives === 0) {
+      gameState[`fail`] = true;
+      changeScreens(getElementFromTemplate(templateStats()), headerIntroTemplate);
     }
   }
+};
+
+// Function to check whether the answer is correct
+const checkAnswer = (checkedItem, answersItem) => {
+  return (checkedItem[0].value === answersItem[0][`type`]) && (checkedItem[1].value === answersItem[1][`type`]);
 };
 
 // Function to render the screen and ad listeners
 const createElement = (state) => {
   // Creating a template
   const gameFirst = getElementFromTemplate(templateGameFirst(questions[state.level]));
+  const gameFirstForm = gameFirst.querySelector(`.game__content`);
+
   // Draw a template on the screen
   changeScreens(gameFirst, getElementFromTemplate(headerGameTemplate(state)));
-  const gameFirstForm = gameFirst.querySelector(`.game__content`);
+
   // Add a listener
   gameFirstForm.addEventListener(`change`, onFirstFormChange);
 };
-
 
 export default createElement;

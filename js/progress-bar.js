@@ -14,14 +14,14 @@ const drawProgressbar = (answers) => {
   } else {
 
     // Passing through answers list
-    answers.forEach((item) => {
-      if (item.time > timeSlowBorder && item.answer) {
+    answers.forEach(({time, answer}) => {
+      if (time > timeSlowBorder && answer) {
         resultsArray.push(`<li class="stats__result stats__result--slow"></li>`);
-      } else if (item.time < timeFastBorder && item.answer) {
+      } else if (time < timeFastBorder && answer) {
         resultsArray.push(`<li class="stats__result stats__result--fast"></li>`);
-      } else if (item.answer === true && (item.time >= timeFastBorder && item.time <= timeSlowBorder)) {
+      } else if (answer === true && (time >= timeFastBorder && time <= timeSlowBorder)) {
         resultsArray.push(`<li class="stats__result stats__result--correct"></li>`);
-      } else if (item.answer === false) {
+      } else if (answer === false) {
         resultsArray.push(`<li class="stats__result stats__result--wrong"></li>`);
       }
     });
