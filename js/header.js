@@ -1,3 +1,4 @@
+// Header with no lives and time bar
 const headerIntroTemplate = `<header class="header">
   <div class="header__back">
     <button class="back">
@@ -7,6 +8,7 @@ const headerIntroTemplate = `<header class="header">
   </div>
 </header>`;
 
+// Header with time and lives
 const headerGameTemplate = (state) =>
   `<header class="header">
     <div class="header__back">

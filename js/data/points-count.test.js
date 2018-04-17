@@ -1,15 +1,15 @@
 import {assert} from 'chai';
 import {countPoints} from './../points-count.js';
 
-// Массив правильных быстрах ответов
+// Array of right fast answers
 const answersSetAllFast = new Array(10);
 answersSetAllFast.fill({answer: true, time: 9});
 
-// Массив правильных обычных ответов
+// Array of right normal speed answers
 const answersSetAllMedium = new Array(10);
 answersSetAllMedium.fill({answer: true, time: 15});
 
-// Массив правильных медленных ответов
+// Array of right slow answers
 const answersSetAllSlow = new Array(10);
 answersSetAllSlow.fill({answer: true, time: 27});
 

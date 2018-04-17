@@ -1,6 +1,11 @@
-// Проверяем на наличие ошибки и вносим в ответы
+// Collecting answers to array
 const collectAnswers = (state, answersArray) => {
 
+  // Setting time borders
+  const timeFastBorder = 10;
+  const timeSlowBorder = 20;
+
+  // Checkin whetehe a user made a mistake and push an answer to answers array
   if (state.mistake) {
     answersArray.push({answer: false, time: state.time});
   } else {
@@ -8,8 +13,8 @@ const collectAnswers = (state, answersArray) => {
   }
   state.mistake = false;
 
-  // Если время быстрое или медленное => рисуем экран полных статов
-  if (state.time <= 10 || state.time >= 20) {
+  // If the time was slow or fast => draw full stats screen
+  if (state.time <= timeSlowBorder || state.time >= timeFastBorder) {
     state[`full-stats`] = true;
   }
 };

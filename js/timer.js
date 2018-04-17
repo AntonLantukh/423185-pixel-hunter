@@ -1,4 +1,4 @@
-// Функция-конструктор для генерации объекта таймера
+// Function-constructor to generate timer
 function Timer(time) {
   let count = time;
   this.tick = function () {

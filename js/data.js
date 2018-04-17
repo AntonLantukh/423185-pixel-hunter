@@ -1,12 +1,14 @@
+// Current game state
 const gameState = {
-  'level': `level_0`, // Текущий уровень, всего 10
-  'type': `two-of-two`, // Тип игры, всего 3
-  'lives': 3, // Кол-во жизней
-  'time': 15, // Время, пока постоянное
-  'mistake': false, // Индикатор ошибки
-  'full-stats': false // Индикатор показа полного экрана статистики (не сокращенный) 
+  'level': `level_0`, // Current level, 10 levels is max
+  'type': `two-of-two`, // Game type, 3 types
+  'lives': 3, // Number of lives
+  'time': 15, // Time
+  'mistake': false, // Indicator if the user made a mistake answering the question
+  'full-stats': false // Indicator ti show a complete stats screen (no shortened)
 };
 
+// Questions array
 const questions = {
   'level_0': {
     'type': `two-of-two`,
@@ -239,6 +241,7 @@ const questions = {
   },
 };
 
+// Answers array, dynamic filling
 const answers = [];
 
 export {gameState, questions, answers};

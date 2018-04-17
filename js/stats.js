@@ -2,6 +2,7 @@ import {countPoints} from './points-count.js';
 import {gameState, answers} from './data.js';
 import drawProgressbar from './progress-bar.js';
 
+// Full stats tempalte
 const templateStatsWin = () =>
   `<div class="result">
     <h1>Победа!</h1>
@@ -19,7 +20,7 @@ const templateStatsWin = () =>
       <tr>
         <td></td>
         <td class="result__extra">Бонус за скорость:</td>
-        <td class="result__extra">${countPoints(answers, gameState.lives).timeFast / 50}&nbsp;<span class="stats__result stats__result--fast"></span></td>
+        <td class="result__extra">${countPoints(answers, gameState.lives).timeFastCount}&nbsp;<span class="stats__result stats__result--fast"></span></td>
         <td class="result__points">×&nbsp;50</td>
         <td class="result__total">${countPoints(answers, gameState.lives).timeFast}</td>
       </tr>
@@ -33,7 +34,7 @@ const templateStatsWin = () =>
       <tr>
         <td></td>
         <td class="result__extra">Штраф за медлительность:</td>
-        <td class="result__extra">${countPoints(answers, gameState.lives).timeSlow / 50}&nbsp;<span class="stats__result stats__result--slow"></span></td>
+        <td class="result__extra">${countPoints(answers, gameState.lives).timeSlowCount}&nbsp;<span class="stats__result stats__result--slow"></span></td>
         <td class="result__points">×&nbsp;50</td>
         <td class="result__total">${countPoints(answers, gameState.lives).timeSlow}</td>
       </tr>
@@ -43,6 +44,7 @@ const templateStatsWin = () =>
     </table>
   </div>`;
 
+// Stats tempalte when a user answered correctly but gained no pros nor cons
 const templateStatsWinNoBonus = () =>
   `<div class="result">
     <h1>Победа!</h1>
@@ -69,6 +71,7 @@ const templateStatsWinNoBonus = () =>
       </tr>
     </table>`;
 
+// Stats template when a user failed
 const templateStatsFail = () =>
   `<div class="result">
     <h1>Fail</h1>

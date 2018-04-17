@@ -25,16 +25,18 @@ const rules = getElementFromTemplate(templateRules);
 const rulesInput = rules.querySelector(`.rules__input`);
 const rulesSubmit = rules.querySelector(`.rules__button`);
 
-// Изменение значения поля input
+// Adding listener to the text input
 rulesInput.addEventListener(`input`, function () {
+  // If not empty value => show the button to change the screen
   if (rulesInput.value !== ``) {
     rulesSubmit.removeAttribute(`disabled`);
   } else {
+    // Or add disabled status
     rulesSubmit.setAttribute(`disabled`, true);
   }
 });
 
-// Переход на следующий экран
+// Coming the next screen with game screens controller
 rulesSubmit.addEventListener(`click`, function () {
   gameRender(gameState);
 });

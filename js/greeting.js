@@ -21,8 +21,8 @@ const templateGreeting = `
 
 const greeting = getElementFromTemplate(templateGreeting);
 
-// Событие переключения на следующий экран
 const greetingContinue = greeting.querySelector(`.greeting__continue`);
+// Changins the screen
 greetingContinue.addEventListener(`click`, function () {
   changeScreens(rules, headerIntroTemplate);
 });

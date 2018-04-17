@@ -1,11 +1,11 @@
 import getElementFromTemplate from './util.js';
 import {headerIntroTemplate, headerGameTemplate} from './header.js';
-import gameScreen from './gameScreen.js';
 import changeScreens from './render.js';
 import {gameState, questions, answers} from './data.js';
 import {templateStatsFail} from './stats.js';
-import collectAnswers from './answers-collect.js';
+import refreshLevel from './level-refresh.js';
 import drawProgressbar from './progress-bar.js';
+import reduceLives from './lives-check.js';
 
 
 const templateGameThird = (level) =>
@@ -29,44 +29,32 @@ const templateGameThird = (level) =>
     </div>
   </div>`;
 
-// Функция проверки инпутов для смены первого экрана
+// Function to check correct div click on the third ame scrren
 const onThirdFormChange = (evt) => {
 
-  // Находим все отмеченные инпуты
-  if (evt.target.tagName === `DIV`) {
+  // Setting variables
+  const levelAnswers = questions[gameState.level][`answers`];
+  const levelImages = evt.target.children;
 
-    // Провреяем корректность ответа пользователя со списком ответов
-    const chosenElement = questions[gameState.level][`answers`].filter((item) => {
-      return (evt.target.children[0].src === item.image.url);
+  // Checking if a user ckicked correct div item
+  if (evt.target.tagName === `DIV` && evt.target.classList.contains(`game__option`)) {
+
+    // Looping through answers set to check which src equals to the chosen src
+    const chosenElement = levelAnswers.filter((item) => {
+      return (levelImages.src === item.image.url);
     });
 
+    // If chosen element equals to the right answer
     if (chosenElement[0].type === `paint`) {
-      // Обновляем базу актуального уровня
-      if (gameState.level !== `level_9`) {
-        gameState.level = questions[gameState.level][`next-level`];
-        gameState.type = questions[gameState.level][`type`];
 
-        // Проверяем на наличие ошибки и вносим в ответы
-        collectAnswers(gameState, answers);
+      refreshLevel(gameState, questions, answers);
 
-        gameState.mistake = false;
-
-      } else {
-        gameState.level = `level_10`;
-        collectAnswers(gameState, answers);
-        gameScreen(gameState);
-      }
-
-      // Меняем экран
-      gameScreen(gameState);
-
-      // Отнимаем жизнь при неправильном ответе
+      // If not, -1 live, and setting mistake status
     } else {
-      gameState.lives--;
-      gameState.mistake = true;
+      reduceLives(gameState);
       createElement(gameState);
 
-      // Если жизней не осталось, отрисовываем результаты
+      // If there is no more lives => draw results
       if (gameState.lives === 0) {
         changeScreens(getElementFromTemplate(templateStatsFail()), headerIntroTemplate);
       }
@@ -74,18 +62,15 @@ const onThirdFormChange = (evt) => {
   }
 };
 
-// Результирующая функция для передачи ноды на отрисовку в управлятор
+// Function to render the screen and ad listeners
 const createElement = (state) => {
-  // Создаем шаблон
+  // Creating a template
   const gameSecond = getElementFromTemplate(templateGameThird(questions[state.level]));
-
-  // Отрисовываем на страницу
+  // Draw a template on the screen
   changeScreens(gameSecond, getElementFromTemplate(headerGameTemplate(state)));
   const gameFirstForm = gameSecond.querySelector(`.game__content`);
-
-  // Вешаем событие на форму
+  // Add a listener
   gameFirstForm.addEventListener(`click`, onThirdFormChange);
 };
-
 
 export default createElement;
