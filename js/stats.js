@@ -2,7 +2,6 @@ import {countPoints} from './points-count.js';
 import {gameState, answers} from './data.js';
 import drawProgressbar from './progress-bar.js';
 
-
 // Full stats tempalte
 const templateStats = () =>
   `<div class="result">
@@ -15,7 +14,6 @@ const templateStats = () =>
             ${drawProgressbar(answers)}
           </ul>
         </td>
-
     ${gameState[`fail`] ? `` :
     `<td class="result__points">×&nbsp;100</td>
      <td class="result__total">${countPoints(answers, gameState.lives).answers}</td>`}

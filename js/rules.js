@@ -27,7 +27,6 @@ const rulesSubmit = rules.querySelector(`.rules__button`);
 
 // Adding listener to the text input
 rulesInput.addEventListener(`input`, function () {
-
   // If not empty value => show the button to change the screen
   if (!rulesInput.value) {
     // Or add disabled status

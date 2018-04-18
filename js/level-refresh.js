@@ -3,7 +3,6 @@ import gameScreen from './gameScreen.js';
 
 // Refreshing the base of actual level
 const refreshLevel = (state, questions, answers) => {
-
   // Setting variables
   const gameMaxLevel = `level_10`;
   const gameLastLevel = `level_9`;
@@ -13,11 +12,9 @@ const refreshLevel = (state, questions, answers) => {
   if (state.level !== gameLastLevel) {
     state.level = currentQuestionSet[`next-level`];
     state.type = questions[state.level][`type`];
-
     // Checking mistake status and pushing an answer to answers array
     collectAnswers(state, answers);
     state.mistake = false;
-
   } else {
     // if this one is kast level => tell to the controller
     state.level = gameMaxLevel;

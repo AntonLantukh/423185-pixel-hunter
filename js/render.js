@@ -24,7 +24,6 @@ const changeScreens = (template, ...spread) => {
       changeScreens(greeting);
     });
   }
-
   // Finally adding a footer
   centralElement.insertAdjacentElement(`afterEnd`, footer);
 };

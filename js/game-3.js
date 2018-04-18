@@ -44,11 +44,9 @@ const onThirdFormChange = (evt) => {
 
   // If chosen element equals to the right answer
   if (chosenElement[0].type === `paint`) {
-
     refreshLevel(gameState, questions, answers);
     // If not, -1 live, and setting mistake status
   } else {
-
     reduceLives(gameState);
     createElement(gameState);
 

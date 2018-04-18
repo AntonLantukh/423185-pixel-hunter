@@ -39,14 +39,11 @@ const onSecondFormChange = (evt) => {
   if (!evt.target.tagName === `INPUT`) {
     return;
   }
-
   // We check the input value to equal the value in answers
   if ((evt.target.value === levelAnswers[0][`type`])) {
-
     refreshLevel(gameState, questions, answers);
   // If not, -1 live, and setting mistake status
   } else {
-
     reduceLives(gameState);
     createElement(gameState);
 

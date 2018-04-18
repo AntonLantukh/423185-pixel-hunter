@@ -19,9 +19,9 @@ const templateGreeting = `
   </div>`;
 
 const greeting = getElementFromTemplate(templateGreeting);
-
 const greetingContinue = greeting.querySelector(`.greeting__continue`);
-// Changins the screen
+
+// Changing the screen
 greetingContinue.addEventListener(`click`, function () {
   changeScreens(rules, headerIntroTemplate);
 });

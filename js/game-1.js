@@ -61,11 +61,9 @@ const onFirstFormChange = (evt) => {
 
   // Check correctness of the user's answer
   if (checkAnswer(checkedInputs, levelAnswers)) {
-
     refreshLevel(gameState, questions, answers);
-    // If not, -1 live, and setting mistake status
+  // If not, -1 live, and setting mistake status
   } else {
-
     reduceLives(gameState);
     createElement(gameState);
 
