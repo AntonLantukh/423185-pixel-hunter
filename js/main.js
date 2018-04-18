@@ -1,13 +1,12 @@
-import changeScreens from './render.js';
-import greeting from './greeting.js';
-import intro from './intro.js';
+import changeScreens from './service/render.js';
+import greeting from './screens/greeting-screen.js';
+import IntroView from './screens/intro-view.js';
 
 // By default = showing first intro screen
-changeScreens(intro);
+const intro = new IntroView();
 
-const introContinue = intro.querySelector(`.intro__asterisk`);
+changeScreens(intro.element);
 
-// Listener to change the screen
-introContinue.addEventListener(`click`, function () {
-  changeScreens(greeting);
-});
+intro.onButtonClick = () => {
+  changeScreens(greeting());
+};

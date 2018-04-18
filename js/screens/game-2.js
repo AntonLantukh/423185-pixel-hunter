@@ -1,11 +1,11 @@
-import getElementFromTemplate from './util.js';
-import {headerIntroTemplate, headerGameTemplate} from './header.js';
-import changeScreens from './render.js';
-import {gameState, questions, answers} from './data.js';
+import getElementFromTemplate from './../service/util.js';
+import HeaderView from "./header-view.js";
+import changeScreens from './../service/render.js';
+import {gameState, questions, answers} from './../data/data.js';
 import {templateStats} from './stats.js';
-import drawProgressbar from './progress-bar.js';
-import refreshLevel from './level-refresh.js';
-import reduceLives from './lives-check.js';
+import drawProgressbar from './../service/progress-bar.js';
+import refreshLevel from './../service/level-refresh.js';
+import reduceLives from './../service/lives-check.js';
 
 const templateGameSecond = (level) =>
   `<div class="game">
@@ -42,9 +42,11 @@ const onSecondFormChange = (evt) => {
 
   // We check the input value to equal the value in answers
   if ((evt.target.value === levelAnswers[0][`type`])) {
+
     refreshLevel(gameState, questions, answers);
   // If not, -1 live, and setting mistake status
   } else {
+
     reduceLives(gameState);
     createElement(gameState);
 

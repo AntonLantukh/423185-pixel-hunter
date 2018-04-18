@@ -1,11 +1,11 @@
-import getElementFromTemplate from './util.js';
-import {headerIntroTemplate, headerGameTemplate} from './header.js';
-import changeScreens from './render.js';
-import {gameState, questions, answers} from './data.js';
+import getElementFromTemplate from './../service/util.js';
+import HeaderView from "./header-view.js";
+import changeScreens from './../service/render.js';
+import {gameState, questions, answers} from './../data/data.js';
 import {templateStats} from './stats.js';
-import refreshLevel from './level-refresh.js';
-import drawProgressbar from './progress-bar.js';
-import reduceLives from './lives-check.js';
+import refreshLevel from './../service/level-refresh.js';
+import drawProgressbar from './../service/progress-bar.js';
+import reduceLives from './../service/lives-check.js';
 
 const templateGameThird = (level) =>
   `<div class="game">
@@ -44,9 +44,11 @@ const onThirdFormChange = (evt) => {
 
   // If chosen element equals to the right answer
   if (chosenElement[0].type === `paint`) {
+
     refreshLevel(gameState, questions, answers);
     // If not, -1 live, and setting mistake status
   } else {
+
     reduceLives(gameState);
     createElement(gameState);
 
