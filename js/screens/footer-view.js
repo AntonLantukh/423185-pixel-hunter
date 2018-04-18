@@ -1,6 +1,5 @@
 import AbstractView from "./../abstract-view.js";
 
-// Header with time and lives
 export default class FooterView extends AbstractView {
   constructor() {
     super();
