@@ -1,10 +1,11 @@
-// Функция для создания ноды
+// Function to create a node from html template
 const getElementFromTemplate = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.classList.add(`central`);
-  newElement.innerHTML = template;
+  const container = document.createElement(`div`);
+  container.innerHTML = template;
+  // Getting rid of div container
+  const resultingElement = container.children[0];
 
-  return newElement;
+  return resultingElement;
 };
 
 export default getElementFromTemplate;

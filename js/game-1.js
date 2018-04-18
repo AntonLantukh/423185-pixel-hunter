@@ -1,28 +1,18 @@
 import getElementFromTemplate from './util.js';
+import {headerIntroTemplate, headerGameTemplate} from './header.js';
 import changeScreens from './render.js';
-import gameSecond from './game-2.js';
-import greeting from './greeting.js';
+import {gameState, questions, answers} from './data.js';
+import {templateStats} from './stats.js';
+import drawProgressbar from './progress-bar.js';
+import refreshLevel from './level-refresh.js';
+import reduceLives from './lives-check.js';
 
-const templateGameFirst = `
-  <header class="header">
-    <div class="header__back">
-      <button class="back">
-        <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-        <img src="img/logo_small.svg" width="101" height="44">
-      </button>
-    </div>
-    <h1 class="game__timer">NN</h1>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
-  </header>
-  <div class="game">
-    <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
+const templateGameFirst = (level) =>
+  `<div class="game">
+    <p class="game__task">${level[`question`]}</p>
     <form class="game__content">
       <div class="game__option">
-        <img src="http://placehold.it/468x458" alt="Option 1" width="468" height="458">
+        <img src="${level.answers[0].image.url}" alt="Option 1" width="${level.answers[0].image.width}" height="${level.answers[0].image.height}">
         <label class="game__answer game__answer--photo">
           <input name="question1" type="radio" value="photo">
           <span>Фото</span>
@@ -33,7 +23,7 @@ const templateGameFirst = `
         </label>
       </div>
       <div class="game__option">
-        <img src="http://placehold.it/468x458" alt="Option 2" width="468" height="458">
+        <img src="${level.answers[1].image.url}" alt="Option 2" width="${level.answers[1].image.width}" height="${level.answers[1].image.height}">
         <label class="game__answer  game__answer--photo">
           <input name="question2" type="radio" value="photo">
           <span>Фото</span>
@@ -46,56 +36,61 @@ const templateGameFirst = `
     </form>
     <div class="stats">
       <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
+        ${drawProgressbar(answers)}
       </ul>
     </div>
-  </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`;
+  </div>`;
 
-const gameFirst = getElementFromTemplate(templateGameFirst);
-const buttonBack = gameFirst.querySelector(`.back`);
-const gameFirstForm = gameFirst.querySelector(`.game__content`);
-
-const inputs = {
-  MAX_NUMBER: 2
-};
-
-// Функция проверки инпутов для смены экрана
+// Function to check inputs on the first screen
 const onFirstFormChange = (evt) => {
-  if (evt.target.tagName === `INPUT`) {
-    const checkedInputs = Array.from(evt.currentTarget).filter((element) => {
-      return element.checked;
-    });
-    if (checkedInputs.length === inputs.MAX_NUMBER) {
-      changeScreens(gameSecond);
+  // Setting variables
+  const inputsNumber = 2;
+  const levelAnswers = questions[gameState.level][`answers`];
+
+  // Finding all inputs on the scrren and returning checked ones
+  if (!evt.target.tagName === `INPUT`) {
+    return;
+  }
+
+  const checkedInputs = Array.from(evt.currentTarget).filter((element) => element.checked);
+
+  // If checked inputs equal to the number of inputs on the page
+  if (!checkedInputs.length === inputsNumber) {
+    return;
+  }
+
+  // Check correctness of the user's answer
+  if (checkAnswer(checkedInputs, levelAnswers)) {
+    refreshLevel(gameState, questions, answers);
+  // If not, -1 live, and setting mistake status
+  } else {
+    reduceLives(gameState);
+    createElement(gameState);
+
+    // If there is no more lives => draw results
+    if (gameState.lives === 0) {
+      gameState[`fail`] = true;
+      changeScreens(getElementFromTemplate(templateStats()), headerIntroTemplate);
     }
   }
 };
 
-// Вешаем событие на форму
-gameFirstForm.addEventListener(`change`, onFirstFormChange);
+// Function to check whether the answer is correct
+const checkAnswer = (checkedItem, answersItem) => {
+  return (checkedItem[0].value === answersItem[0][`type`]) && (checkedItem[1].value === answersItem[1][`type`]);
+};
 
-// События возвращения на начальный экран
-buttonBack.addEventListener(`click`, function () {
-  changeScreens(greeting);
-});
+// Function to render the screen and ad listeners
+const createElement = (state) => {
+  // Creating a template
+  const gameFirst = getElementFromTemplate(templateGameFirst(questions[state.level]));
+  const gameFirstForm = gameFirst.querySelector(`.game__content`);
 
-export default gameFirst;
+  // Draw a template on the screen
+  changeScreens(gameFirst, getElementFromTemplate(headerGameTemplate(state)));
+
+  // Add a listener
+  gameFirstForm.addEventListener(`change`, onFirstFormChange);
+};
+
+export default createElement;

@@ -1,79 +1,74 @@
 import getElementFromTemplate from './util.js';
+import {headerIntroTemplate, headerGameTemplate} from './header.js';
 import changeScreens from './render.js';
-import stats from './stats.js';
-import greeting from './greeting.js';
+import {gameState, questions, answers} from './data.js';
+import {templateStats} from './stats.js';
+import refreshLevel from './level-refresh.js';
+import drawProgressbar from './progress-bar.js';
+import reduceLives from './lives-check.js';
 
-const templateGameThird = `
-  <header class="header">
-    <div class="header__back">
-      <button class="back">
-        <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-        <img src="img/logo_small.svg" width="101" height="44">
-      </button>
-    </div>
-    <h1 class="game__timer">NN</h1>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
-  </header>
-  <div class="game">
-    <p class="game__task">Найдите рисунок среди изображений</p>
+const templateGameThird = (level) =>
+  `<div class="game">
+    <p class="game__task">${level.question}</p>
     <form class="game__content  game__content--triple">
       <div class="game__option">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
+        <img src="${level.answers[0].image.url}" alt="Option 1" width="${level.answers[0].image.width}" height="${level.answers[0].image.height}">
       </div>
       <div class="game__option  game__option--selected">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
+        <img src="${level.answers[1].image.url}" alt="Option 1" width="${level.answers[1].image.width}" height="${level.answers[1].image.height}">
       </div>
       <div class="game__option">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
+        <img src="${level.answers[2].image.url}" alt="Option 1" width="${level.answers[2].image.width}" height="${level.answers[2].image.height}">
       </div>
     </form>
     <div class="stats">
       <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--unknown"></li>
+        ${drawProgressbar(answers)}
       </ul>
     </div>
-  </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`;
+  </div>`;
 
-const gameThird = getElementFromTemplate(templateGameThird);
-const buttonBack = gameThird.querySelector(`.back`);
-const gameThirdForm = gameThird.querySelector(`.game__content`);
-
-// Функция проверки инпутов для смены экрана
+// Function to check correct div click on the third ame scrren
 const onThirdFormChange = (evt) => {
-  if (evt.target.tagName === `DIV`) {
-    changeScreens(stats);
+  // Setting variables
+  const levelAnswers = questions[gameState.level][`answers`];
+  const levelImages = evt.target.children;
+
+  // Checking if a user ckicked correct div item
+  if (evt.target.tagName !== `DIV` && !evt.target.classList.contains(`game__option`)) {
+    return;
+  }
+
+  // Looping through answers set to check which src equals to the chosen src
+  const chosenElement = levelAnswers.filter((item) => levelImages[0].src === item.image.url);
+
+  // If chosen element equals to the right answer
+  if (chosenElement[0].type === `paint`) {
+    refreshLevel(gameState, questions, answers);
+    // If not, -1 live, and setting mistake status
+  } else {
+    reduceLives(gameState);
+    createElement(gameState);
+
+    // If there is no more lives => draw results
+    if (gameState.lives === 0) {
+      gameState[`fail`] = true;
+      changeScreens(getElementFromTemplate(templateStats()), headerIntroTemplate);
+    }
   }
 };
 
-// Вешаем событие на форму
-gameThirdForm.addEventListener(`click`, onThirdFormChange);
+// Function to render the screen and ad listeners
+const createElement = (state) => {
+  // Creating a template
+  const gameSecond = getElementFromTemplate(templateGameThird(questions[state.level]));
+  const gameThirdForm = gameSecond.querySelector(`.game__content`);
 
-// События возвращения на начальный экран
-buttonBack.addEventListener(`click`, function () {
-  changeScreens(greeting);
-});
+  // Draw a template on the screen
+  changeScreens(gameSecond, getElementFromTemplate(headerGameTemplate(state)));
 
-export default gameThird;
+  // Add a listener
+  gameThirdForm.addEventListener(`click`, onThirdFormChange);
+};
+
+export default createElement;

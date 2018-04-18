@@ -1,28 +1,18 @@
 import getElementFromTemplate from './util.js';
+import {headerIntroTemplate, headerGameTemplate} from './header.js';
 import changeScreens from './render.js';
-import gameThird from './game-3.js';
-import greeting from './greeting.js';
+import {gameState, questions, answers} from './data.js';
+import {templateStats} from './stats.js';
+import drawProgressbar from './progress-bar.js';
+import refreshLevel from './level-refresh.js';
+import reduceLives from './lives-check.js';
 
-const templateGameSecond = `
-  <header class="header">
-    <div class="header__back">
-      <button class="back">
-        <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-        <img src="img/logo_small.svg" width="101" height="44">
-      </button>
-    </div>
-    <h1 class="game__timer">NN</h1>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
-  </header>
-  <div class="game">
-    <p class="game__task">Угадай, фото или рисунок?</p>
+const templateGameSecond = (level) =>
+  `<div class="game">
+    <p class="game__task">${level.question}</p>
     <form class="game__content  game__content--wide">
       <div class="game__option">
-        <img src="http://placehold.it/705x455" alt="Option 1" width="705" height="455">
+        <img src="${level.answers[0].image.url}" alt="Option 1" width="${level.answers[0].image.width}" height="${level.answers[0].image.height}">
         <label class="game__answer  game__answer--photo">
           <input name="question1" type="radio" value="photo">
           <span>Фото</span>
@@ -35,52 +25,48 @@ const templateGameSecond = `
     </form>
     <div class="stats">
       <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--unknown"></li>
+        ${drawProgressbar(answers)}
       </ul>
     </div>
-  </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`;
+  </div>`;
 
-const gameSecond = getElementFromTemplate(templateGameSecond);
-const buttonBack = gameSecond.querySelector(`.back`);
-const gameSecondForm = gameSecond.querySelector(`.game__content`);
-
-// Функция проверки инпутов для смены экрана
+// Function to check inputs on the first screen
 const onSecondFormChange = (evt) => {
-  if (evt.target.tagName === `INPUT`) {
-    const checkedInputs = Array.from(evt.currentTarget).some((element) => {
-      return element.checked;
-    });
-    if (checkedInputs) {
-      changeScreens(gameThird);
+  // Setting variables
+  const levelAnswers = questions[gameState.level][`answers`];
+
+  // If a user chose input
+  if (!evt.target.tagName === `INPUT`) {
+    return;
+  }
+
+  // We check the input value to equal the value in answers
+  if ((evt.target.value === levelAnswers[0][`type`])) {
+    refreshLevel(gameState, questions, answers);
+  // If not, -1 live, and setting mistake status
+  } else {
+    reduceLives(gameState);
+    createElement(gameState);
+
+    // Если жизней не осталось, отрисовываем результаты
+    if (gameState.lives === 0) {
+      gameState[`fail`] = true;
+      changeScreens(getElementFromTemplate(templateStats()), headerIntroTemplate);
     }
   }
 };
 
-// Вешаем событие на форму
-gameSecondForm.addEventListener(`change`, onSecondFormChange);
+// Function to render the screen and ad listeners
+const createElement = (state) => {
+  // Creating a template
+  const gameSecond = getElementFromTemplate(templateGameSecond(questions[state.level]));
+  const gameSecondForm = gameSecond.querySelector(`.game__content`);
 
-// События возвращения на начальный экран
-buttonBack.addEventListener(`click`, function () {
-  changeScreens(greeting);
-});
+  // Draw a template on the screen
+  changeScreens(gameSecond, getElementFromTemplate(headerGameTemplate(state)));
 
-export default gameSecond;
+  // Add a listener
+  gameSecondForm.addEventListener(`change`, onSecondFormChange);
+};
+
+export default createElement;

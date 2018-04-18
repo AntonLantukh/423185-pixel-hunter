@@ -1,15 +1,15 @@
 import {assert} from 'chai';
-import countPoints from './../points-count.js';
+import {countPoints} from './../points-count.js';
 
-// Массив правильных быстрах ответов
+// Array of right fast answers
 const answersSetAllFast = new Array(10);
 answersSetAllFast.fill({answer: true, time: 9});
 
-// Массив правильных обычных ответов
+// Array of right normal speed answers
 const answersSetAllMedium = new Array(10);
 answersSetAllMedium.fill({answer: true, time: 15});
 
-// Массив правильных медленных ответов
+// Array of right slow answers
 const answersSetAllSlow = new Array(10);
 answersSetAllSlow.fill({answer: true, time: 27});
 
@@ -38,14 +38,14 @@ describe(`Function to count results at the end of the game`, () => {
   it(`should count points correctly`, () => {
     expectedValue = 1650;
     attemptsNumber = 3;
-    assert.equal(expectedValue, countPoints(answersSetAllFast, attemptsNumber));
+    assert.equal(expectedValue, countPoints(answersSetAllFast, attemptsNumber).total);
 
     expectedValue = 650;
     attemptsNumber = 3;
-    assert.equal(expectedValue, countPoints(answersSetAllSlow, attemptsNumber));
+    assert.equal(expectedValue, countPoints(answersSetAllSlow, attemptsNumber).total);
 
     expectedValue = 1150;
     attemptsNumber = 3;
-    assert.equal(expectedValue, countPoints(answersSetAllMedium, attemptsNumber));
+    assert.equal(expectedValue, countPoints(answersSetAllMedium, attemptsNumber).total);
   });
 });
