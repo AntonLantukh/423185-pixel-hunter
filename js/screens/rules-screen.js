@@ -2,9 +2,7 @@ import RulesView from './rules-view.js';
 import gameRender from './../gameScreen.js';
 import {gameState} from './../data/data.js';
 
-
 export default () => {
-
   const rules = new RulesView();
   const rulesInput = rules.element.querySelector(`.rules__input`);
   const rulesSubmit = rules.element.querySelector(`.rules__button`);

@@ -1,5 +1,5 @@
 import collectAnswers from './answers-collect.js';
-import gameScreen from './../gameScreen.js';
+import gameRender from './../gameScreen.js';
 
 // Refreshing the base of actual level
 const refreshLevel = (state, questions, answers) => {
@@ -23,7 +23,7 @@ const refreshLevel = (state, questions, answers) => {
     state.level = gameMaxLevel;
     collectAnswers(state, answers);
   }
-  gameScreen(state);
+  gameRender(state);
 };
 
 export default refreshLevel;

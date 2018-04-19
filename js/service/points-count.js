@@ -61,4 +61,4 @@ const countPoints = (results, attempts) => {
   return pointsObject;
 };
 
-export {countPoints};
+export default countPoints;

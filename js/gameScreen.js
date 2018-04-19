@@ -1,34 +1,31 @@
-import {gameState} from './data/data.js';
-import createElementGameFirst from './screens/game-1.js';
-import createElementGameSecond from './screens/game-2.js';
-import createElementGameThird from './screens/game-3.js';
 import HeaderView from "./screens/header-view.js";
-import {templateStats} from './screens/stats.js';
+import {gameState} from './data/data.js';
+import gameOneScreen from './screens/game1-screen.js';
+import gameSecondScreen from './screens/game2-screen.js';
+import gmeThirdScreen from './screens/game3-screen.js';
+import stats from './screens/stats-screen.js';
 import changeScreens from './service/render.js';
-import getElementFromTemplate from './service/util.js';
 
 // Function to choose and render a game screen
 const gameRender = (state) => {
   const gameMaxLevel = `level_10`;
+  const header = new HeaderView(gameState).element;
   // If the level is max => drawing stats on the screen
   if (state.level === gameMaxLevel) {
-
-    changeScreens(getElementFromTemplate(templateStats()), headerIntroTemplate);
-
+    changeScreens(stats(), new HeaderView().element);
   } else {
-
     // If the level is not max => choosing a correct screen depending on the type
     switch (state.type) {
       case `two-of-two`:
-        createElementGameFirst(gameState);
+        changeScreens(gameOneScreen(), header);
         break;
 
       case `tinder-like`:
-        createElementGameSecond(gameState);
+        changeScreens(gameSecondScreen(), header);
         break;
 
       case `one-of-three`:
-        createElementGameThird(gameState);
+        changeScreens(gmeThirdScreen(), header);
         break;
     }
   }

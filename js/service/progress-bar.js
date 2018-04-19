@@ -1,4 +1,4 @@
-const drawProgressbar = (answers) => {
+const drawProgressbar = (answers, state) => {
 
   // Setting variables
   const resultsArray = [];
@@ -27,15 +27,13 @@ const drawProgressbar = (answers) => {
     });
 
     // If answers length is less than max value
-    if (answers.length < maxAnswersLength) {
+    if (answers.length < maxAnswersLength && !state.fail) {
       resultsArray.push(`<li class="stats__result stats__result--unknown"></li>`);
     }
   }
-
   // Transforming array to string to push into markup
   resultsString = resultsArray.join(` `);
   return resultsString;
-
 };
 
 export default drawProgressbar;
