@@ -22,8 +22,10 @@ export default () => {
     if (evt.target.tagName !== `DIV` && !evt.target.classList.contains(`game__option`)) {
       return;
     }
+
     // Looping through answers set to check which src equals to the chosen src
     const chosenElement = levelAnswers.filter((item) => levelImages[0].src === item.image.url);
+
     // If chosen element equals to the right answer
     if (chosenElement[0].type === `paint`) {
       refreshLevel(gameState, questions, answers);
@@ -31,6 +33,7 @@ export default () => {
     } else {
       reduceLives(gameState);
       changeScreens(gameThree.element, new HeaderView(gameState).element);
+
       // If there is no more lives => draw results
       if (gameState.lives === 0) {
         gameState[`fail`] = true;
@@ -39,6 +42,5 @@ export default () => {
       }
     }
   };
-
   return gameThree.element;
 };

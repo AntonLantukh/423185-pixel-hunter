@@ -24,7 +24,6 @@ export default class StatsView extends AbstractView {
               ${this.drawBar(this.answers, this.state)}
             </ul>
           </td>
-
     ${this.state[`fail`] ? `` :
     `<td class="result__points">×&nbsp;100</td>
        <td class="result__total">${this.countScore(this.answers, this.state.lives).answers}</td>`}

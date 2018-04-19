@@ -24,10 +24,12 @@ export default () => {
     if (evt.target.tagName === `INPUT`) {
       checkedInputs = Array.from(evt.currentTarget).filter((element) => element.checked);
     }
+
     // If checked inputs equal to the number of inputs on the page
     if (checkedInputs.length !== inputsNumber) {
       return;
     }
+
     // Check correctness of the user's answer
     if (checkAnswer(checkedInputs, levelAnswers)) {
       refreshLevel(gameState, questions, answers);
@@ -36,6 +38,7 @@ export default () => {
       reduceLives(gameState);
       changeScreens(gameOne.element, new HeaderView(gameState).element);
       gameForm.reset();
+
       // If there is no more lives => draw results
       if (gameState.lives === 0) {
         gameState[`fail`] = true;
@@ -44,7 +47,6 @@ export default () => {
       }
     }
   };
-
   // Function to check whether the answer is correct
   const checkAnswer = (checkedItem, answersItem) => {
     return (checkedItem[0].value === answersItem[0][`type`]) && (checkedItem[1].value === answersItem[1][`type`]);

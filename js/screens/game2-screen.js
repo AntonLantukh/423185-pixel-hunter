@@ -22,6 +22,7 @@ export default () => {
     if (!evt.target.tagName === `INPUT`) {
       return;
     }
+
     // We check the input value to equal the value in answers
     if ((evt.target.value === levelAnswers[0][`type`])) {
       refreshLevel(gameState, questions, answers);
@@ -30,6 +31,7 @@ export default () => {
       reduceLives(gameState);
       changeScreens(gameTwo.element, new HeaderView(gameState).element);
       gameForm.reset();
+
       // Если жизней не осталось, отрисовываем результаты
       if (gameState.lives === 0) {
         gameState[`fail`] = true;
@@ -38,6 +40,5 @@ export default () => {
       }
     }
   };
-
   return gameTwo.element;
 };

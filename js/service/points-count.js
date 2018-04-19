@@ -36,7 +36,6 @@ const countPoints = (results, attempts) => {
     } else if (time > timeSlowBorder && time < timeMaxBorder) {
       pointsForTime -= fastTimeValue;
       pointsSlowAnswer += slowTimeValue;
-
     }
 
     if (answer) {

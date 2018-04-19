@@ -12,7 +12,6 @@ const drawProgressbar = (answers, state) => {
   if (!answers.length) {
     resultsArray.push(`<li class="stats__result stats__result--unknown"></li>`);
   } else {
-
     // Passing through answers list
     answers.forEach(({time, answer}) => {
       if (time > timeSlowBorder && answer) {
@@ -25,7 +24,6 @@ const drawProgressbar = (answers, state) => {
         resultsArray.push(`<li class="stats__result stats__result--wrong"></li>`);
       }
     });
-
     // If answers length is less than max value
     if (answers.length < maxAnswersLength && !state.fail) {
       resultsArray.push(`<li class="stats__result stats__result--unknown"></li>`);

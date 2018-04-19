@@ -14,14 +14,12 @@ const changeScreens = (template, ...spread) => {
   // If a header was handled => check if it is not or html template
   if (headerElement) {
     centralElement.insertAdjacentElement(`afterBegin`, headerElement);
-
     // Adding a listener to the header return buttton
     const backButton = centralElement.querySelector(`.back`);
     backButton.addEventListener(`click`, () => {
       changeScreens(greeting());
     });
   }
-
   // Finally adding a footer
   centralElement.insertAdjacentElement(`afterEnd`, footer);
 };

@@ -5,7 +5,6 @@ import {gameState, answers} from './../data/data.js';
 
 export default () => {
   const stats = new StatsView(gameState, answers);
-
   stats.countScore = countPoints;
   stats.drawBar = drawProgressbar;
 
