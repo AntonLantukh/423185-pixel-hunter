@@ -1,6 +1,5 @@
 // Function to count the number of points
 const countPoints = (results, attempts) => {
-
   // If a user answered less than 10 question => return -1
   if (attempts < 1 && attempts >= 0) {
     return -1;
@@ -28,7 +27,6 @@ const countPoints = (results, attempts) => {
 
   // Looping through results array we got in arguments and counting points
   results.forEach(({time, answer}) => {
-
     if (time < timeFastBorder) {
       pointsForTime += fastTimeValue;
       pointsFastAnswer += fastTimeValue;
