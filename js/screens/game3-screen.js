@@ -6,7 +6,6 @@ import {gameState, questions, answers} from '../data/data';
 import drawProgressbar from '../service/progress-bar';
 import refreshLevel from '../service/level-refresh';
 import collectAnswers from '../service/answers-collect';
-import reduceLives from '../service/lives-check';
 
 export default () => {
   const gameThree = new GameThirdView(questions[gameState.level], answers, gameState);
@@ -27,19 +26,17 @@ export default () => {
     const chosenElement = levelAnswers.filter((item) => levelImages[0].src === item.image.url);
 
     // If chosen element equals to the right answer
-    if (chosenElement[0].type === `paint`) {
-      refreshLevel(gameState, questions, answers);
-      // If not, -1 live, and setting mistake status
-    } else {
-      reduceLives(gameState);
-      changeScreens(gameThree.element, new HeaderView(gameState).element);
+    if (chosenElement[0].type !== `paint`) {
+      gameState.mistake = true;
+    }
 
-      // If there is no more lives => draw results
-      if (gameState.lives === 0) {
-        gameState[`fail`] = true;
-        collectAnswers(gameState, answers);
-        changeScreens(stats(), new HeaderView().element);
-      }
+    refreshLevel(gameState, questions, answers);
+
+    // If there is no more lives => draw results
+    if (gameState.lives === 0) {
+      gameState[`fail`] = true;
+      collectAnswers(gameState, answers);
+      changeScreens(stats(), new HeaderView().element);
     }
   };
   return gameThree.element;

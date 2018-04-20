@@ -1,11 +1,10 @@
 import AbstractView from "../abstract-view";
 
 export default class GameThirdView extends AbstractView {
-  constructor(level, answers, state) {
+  constructor(level, answers) {
     super();
     this.level = level;
     this.answers = answers;
-    this.state = state;
   }
 
   drawBar() {
@@ -27,7 +26,7 @@ export default class GameThirdView extends AbstractView {
       </form>
       <div class="stats">
         <ul class="stats">
-          ${this.drawBar(this.answers, this.state)}
+          ${this.drawBar(this.answers)}
         </ul>
       </div>
     </div>`;

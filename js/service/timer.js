@@ -15,3 +15,6 @@ function Timer(time) {
 }
 
 export default Timer;
+
+const timer = new Timer(30);
+setInterval(timer.tick, 1000);

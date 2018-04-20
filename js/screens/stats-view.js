@@ -21,14 +21,14 @@ export default class StatsView extends AbstractView {
           <td class="result__number">1.</td>
           <td colspan="2">
             <ul class="stats">
-              ${this.drawBar(this.answers, this.state)}
+              ${this.drawBar(this.answers)}
             </ul>
           </td>
     ${this.state[`fail`] ? `` :
     `<td class="result__points">×&nbsp;100</td>
        <td class="result__total">${this.countScore(this.answers, this.state.lives).answers}</td>`}
         </tr>
-    ${!this.answers[`timeFastCount`] ? `` :
+    ${!this.countScore(this.answers, this.state.lives)[`timeFastCount`] ? `` :
     `<tr>
           <td></td>
           <td class="result__extra">Бонус за скорость:</td>
@@ -36,7 +36,7 @@ export default class StatsView extends AbstractView {
           <td class="result__points">×&nbsp;50</td>
           <td class="result__total">${this.countScore(this.answers, this.state.lives).timeFast}</td>
         </tr>`}
-    ${!this.state[`lives`] ? `` :
+    ${!this.countScore(this.answers, this.state.lives)[`lives`] ? `` :
     `<tr>
           <td></td>
           <td class="result__extra">Бонус за жизни:</td>
@@ -44,7 +44,7 @@ export default class StatsView extends AbstractView {
           <td class="result__points">×&nbsp;50</td>
           <td class="result__total">${this.countScore(this.answers, this.state.lives).lives}</td>
         </tr>`}
-     ${!this.answers[`timeSlowCount`] ? `` :
+     ${!this.countScore(this.answers, this.state.lives)[`timeSlowCount`] ? `` :
     `<tr>
           <td></td>
           <td class="result__extra">Штраф за медлительность:</td>

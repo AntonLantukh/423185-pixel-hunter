@@ -6,7 +6,6 @@ const collectAnswers = (state, answersArray) => {
   } else {
     answersArray.push({answer: true, time: state.time});
   }
-  state.mistake = false;
 };
 
 export default collectAnswers;
