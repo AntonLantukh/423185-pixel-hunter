@@ -1,12 +1,12 @@
 import GameSecondView from "./game2-view";
 import HeaderView from "./header-view";
 import stats from './stats-screen';
-import changeScreens from './../service/render';
-import {gameState, questions, answers} from './../data/data';
-import drawProgressbar from './../service/progress-bar';
-import refreshLevel from './../service/level-refresh';
-import collectAnswers from './../service/answers-collect';
-import reduceLives from './../service/lives-check';
+import changeScreens from '../service/render';
+import {gameState, questions, answers} from '../data/data';
+import drawProgressbar from '../service/progress-bar';
+import refreshLevel from '../service/level-refresh';
+import collectAnswers from '../service/answers-collect';
+import reduceLives from '../service/lives-check';
 
 export default () => {
   const gameTwo = new GameSecondView(questions[gameState.level], answers, gameState);

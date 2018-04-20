@@ -1,6 +1,6 @@
 import RulesView from './rules-view';
-import gameRender from './../gameScreen';
-import {gameState} from './../data/data';
+import gameRender from '../gameScreen';
+import {gameState} from '../data/data';
 
 export default () => {
   const rules = new RulesView();

@@ -1,6 +1,6 @@
 import GreetingView from "./greeting-view";
 import rules from "./rules-screen";
-import changeScreens from './../service/render';
+import changeScreens from '../service/render';
 import HeaderView from "./header-view";
 
 export default () => {

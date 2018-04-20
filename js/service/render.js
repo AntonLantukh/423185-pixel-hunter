@@ -1,5 +1,5 @@
-import FooterView from './../screens/footer-view';
-import greeting from "./../screens/greeting-screen";
+import FooterView from '../screens/footer-view';
+import greeting from "../screens/greeting-screen";
 
 // const greeting = new GreetingView().element;
 const footer = new FooterView().element;

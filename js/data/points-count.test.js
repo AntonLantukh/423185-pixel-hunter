@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import countPoints from './../service/points-count';
+import countPoints from '/../service/points-count';
 
 // Array of right fast answers
 const answersSetAllFast = new Array(10);
