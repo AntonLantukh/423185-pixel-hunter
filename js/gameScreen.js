@@ -1,10 +1,10 @@
-import HeaderView from "./screens/header-view.js";
-import {gameState} from './data/data.js';
-import gameOneScreen from './screens/game1-screen.js';
-import gameSecondScreen from './screens/game2-screen.js';
-import gmeThirdScreen from './screens/game3-screen.js';
-import stats from './screens/stats-screen.js';
-import changeScreens from './service/render.js';
+import HeaderView from "./screens/header-view";
+import {gameState} from './data/data';
+import gameOneScreen from './screens/game1-screen';
+import gameSecondScreen from './screens/game2-screen';
+import gmeThirdScreen from './screens/game3-screen';
+import stats from './screens/stats-screen';
+import changeScreens from './service/render';
 
 // Function to choose and render a game screen
 const gameRender = (state) => {

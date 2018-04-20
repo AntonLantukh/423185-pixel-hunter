@@ -1,6 +1,6 @@
-import changeScreens from './service/render.js';
-import greeting from './screens/greeting-screen.js';
-import IntroView from './screens/intro-view.js';
+import changeScreens from './service/render';
+import greeting from './screens/greeting-screen';
+import IntroView from './screens/intro-view';
 
 // By default = showing first intro screen
 const intro = new IntroView();

@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import Timer from './../service/timer.js';
+import Timer from './../service/timer';
 
 let secondsValue = 30;
 let expectedSecondsValue = 29;

@@ -1,7 +1,7 @@
-import GreetingView from "./greeting-view.js";
-import rules from "./rules-screen.js";
-import changeScreens from './../service/render.js';
-import HeaderView from "./header-view.js";
+import GreetingView from "./greeting-view";
+import rules from "./rules-screen";
+import changeScreens from './../service/render';
+import HeaderView from "./header-view";
 
 export default () => {
   const greeting = new GreetingView();

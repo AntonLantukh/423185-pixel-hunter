@@ -1,5 +1,5 @@
-import collectAnswers from './answers-collect.js';
-import gameRender from './../gameScreen.js';
+import collectAnswers from './answers-collect';
+import gameRender from './../gameScreen';
 
 // Refreshing the base of actual level
 const refreshLevel = (state, questions, answers) => {

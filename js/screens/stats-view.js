@@ -1,4 +1,4 @@
-import AbstractView from "./../abstract-view.js";
+import AbstractView from "./../abstract-view";
 
 export default class StatsView extends AbstractView {
   constructor(state, answers) {

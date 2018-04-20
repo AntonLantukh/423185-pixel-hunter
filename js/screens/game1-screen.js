@@ -1,12 +1,12 @@
-import GameOneView from "./game1-view.js";
-import HeaderView from "./header-view.js";
-import stats from './stats-screen.js';
-import changeScreens from './../service/render.js';
-import {gameState, questions, answers} from './../data/data.js';
-import drawProgressbar from './../service/progress-bar.js';
-import refreshLevel from './../service/level-refresh.js';
-import collectAnswers from './../service/answers-collect.js';
-import reduceLives from './../service/lives-check.js';
+import GameOneView from "./game1-view";
+import HeaderView from "./header-view";
+import stats from './stats-screen';
+import changeScreens from './../service/render';
+import {gameState, questions, answers} from './../data/data';
+import drawProgressbar from './../service/progress-bar';
+import refreshLevel from './../service/level-refresh';
+import collectAnswers from './../service/answers-collect';
+import reduceLives from './../service/lives-check';
 
 export default () => {
   const gameOne = new GameOneView(questions[gameState.level], answers, gameState);
