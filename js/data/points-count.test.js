@@ -3,7 +3,7 @@ import countPoints from '../service/points-count';
 
 // Array of right fast answers
 const answersSetAllFast = new Array(10);
-answersSetAllFast.fill({answer: true, time: 9});
+answersSetAllFast.fill({answer: true, time: 26});
 
 // Array of right normal speed answers
 const answersSetAllMedium = new Array(10);
@@ -11,7 +11,7 @@ answersSetAllMedium.fill({answer: true, time: 15});
 
 // Array of right slow answers
 const answersSetAllSlow = new Array(10);
-answersSetAllSlow.fill({answer: true, time: 27});
+answersSetAllSlow.fill({answer: true, time: 8});
 
 let expectedValue;
 let attemptsNumber;
