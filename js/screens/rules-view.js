@@ -1,4 +1,5 @@
 import AbstractView from "../abstract-view";
+import Application from "../application";
 
 export default class RulesView extends AbstractView {
   constructor() {
@@ -24,21 +25,22 @@ export default class RulesView extends AbstractView {
       </div>`;
   }
 
-  onInputClick() {
-  }
-
-  onSubmitClick() {
-  }
-
   bind() {
-    this.element.querySelector(`.rules__input`).oninput = (evt) => {
+    const rulesInput = this.element.querySelector(`.rules__input`);
+    const rulesSubmit = this.element.querySelector(`.rules__button`);
+    rulesInput.oninput = (evt) => {
       evt.preventDefault();
-      this.onInputClick();
+      if (!rulesInput.value) {
+        // Or add disabled status
+        rulesSubmit.setAttribute(`disabled`, true);
+      } else {
+        rulesSubmit.removeAttribute(`disabled`);
+      }
     };
 
-    this.element.querySelector(`.rules__button`).onclick = (evt) => {
+    rulesSubmit.onclick = (evt) => {
       evt.preventDefault();
-      this.onSubmitClick();
+      Application.showGame(`Player`);
     };
   }
 }

@@ -1,10 +1,12 @@
 import AbstractView from "../abstract-view";
 
 export default class GameSecondView extends AbstractView {
-  constructor(level, answers) {
+  constructor(state, level, answers, questions) {
     super();
+    this.state = state;
     this.level = level;
     this.answers = answers;
+    this.questions = questions;
   }
 
   drawBar() {
@@ -34,13 +36,29 @@ export default class GameSecondView extends AbstractView {
     </div>`;
   }
 
-  onFormChange() {
+  onAnswer() {
   }
 
   bind() {
-    this.element.querySelector(`.game__content`).onchange = (evt) => {
-      evt.preventDefault();
-      this.onFormChange(evt);
+    const gameForm = this.element.querySelector(`game__content`);
+    gameForm.addEventListener = (evt) => {
+      // Setting variables
+      const levelAnswers = this.questions[this.state.level][`answers`];
+      let mistake;
+
+      // If a user chose input
+      if (!evt.target.tagName === `INPUT`) {
+        return;
+      }
+
+      // We check the input value to equal the value in answers
+      if ((evt.target.value !== levelAnswers[0][`type`])) {
+        mistake = true;
+      } else {
+        mistake = false;
+      }
+
+      this.onAnswer(mistake);
     };
   }
 }

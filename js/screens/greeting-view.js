@@ -1,4 +1,5 @@
 import AbstractView from "../abstract-view";
+import Application from "../application";
 
 export default class GreetingView extends AbstractView {
   constructor() {
@@ -21,13 +22,10 @@ export default class GreetingView extends AbstractView {
       </div>`;
   }
 
-  onButtonClick() {
-  }
-
   bind() {
     this.element.querySelector(`.greeting__continue`).onclick = (evt) => {
       evt.preventDefault();
-      this.onButtonClick();
+      Application.showRules();
     };
   }
 }

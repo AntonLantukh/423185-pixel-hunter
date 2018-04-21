@@ -1,10 +1,12 @@
 import AbstractView from "../abstract-view";
 
 export default class GameOneView extends AbstractView {
-  constructor(level, answers) {
+  constructor(state, level, answers, questions) {
     super();
+    this.state = state;
     this.level = level;
     this.answers = answers;
+    this.questions = questions;
   }
 
   drawBar() {
@@ -15,7 +17,7 @@ export default class GameOneView extends AbstractView {
       <p class="game__task">${this.level[`question`]}</p>
       <form class="game__content">
         <div class="game__option">
-          <img src="${this.level.answers[0].image.url}" alt="Option 1" width="${this.level.answers[0].image.width}" height="${this.level.answers[0].image.height}">
+          <img src="${this.level.questions[0].image.url}" alt="Option 1" width="${this.level.questions[0].image.width}" height="${this.level.questions[0].image.height}">
           <label class="game__answer game__answer--photo">
             <input name="question1" type="radio" value="photo">
             <span>Фото</span>
@@ -26,7 +28,7 @@ export default class GameOneView extends AbstractView {
           </label>
         </div>
         <div class="game__option">
-          <img src="${this.level.answers[1].image.url}" alt="Option 2" width="${this.level.answers[1].image.width}" height="${this.level.answers[1].image.height}">
+          <img src="${this.level.questions[1].image.url}" alt="Option 2" width="${this.level.questions[1].image.width}" height="${this.level.questions[1].image.height}">
           <label class="game__answer  game__answer--photo">
             <input name="question2" type="radio" value="photo">
             <span>Фото</span>
@@ -45,13 +47,41 @@ export default class GameOneView extends AbstractView {
     </div>`;
   }
 
-  onFormChange() {
+  onAnswer() {
   }
 
   bind() {
-    this.element.querySelector(`.game__content`).onchange = (evt) => {
-      evt.preventDefault();
-      this.onFormChange(evt);
+    const gameForm = this.element.querySelector(`.game__content`);
+    gameForm.addEventListener = (evt) => {
+      // Setting variables
+      const inputsNumber = 2;
+      const levelAnswers = this.questions[this.state][`answers`];
+      let checkedInputs;
+      let mistake;
+
+      // Finding all inputs on the scrren and returning checked ones
+      if (evt.target.tagName === `INPUT`) {
+        checkedInputs = Array.from(evt.currentTarget).filter((element) => element.checked);
+      }
+
+      // If checked inputs equal to the number of inputs on the page
+      if (checkedInputs.length !== inputsNumber) {
+        return;
+      }
+
+      // Check correctness of the user's answer
+      if (!checkAnswer(checkedInputs, levelAnswers)) {
+        mistake = true;
+      } else {
+        mistake = false;
+      }
+
+      this.onAnswer(mistake);
+    };
+
+    // Function to check whether the answer is correct
+    const checkAnswer = (checkedItem, answersItem) => {
+      return (checkedItem[0].value === answersItem[0][`type`]) && (checkedItem[1].value === answersItem[1][`type`]);
     };
   }
 }

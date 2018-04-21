@@ -1,4 +1,5 @@
 import AbstractView from "../abstract-view";
+import Application from "../application";
 
 export default class IntroView extends AbstractView {
   constructor() {
@@ -14,13 +15,10 @@ export default class IntroView extends AbstractView {
     </div>`;
   }
 
-  onButtonClick() {
-  }
-
   bind() {
     this.element.querySelector(`.intro__asterisk`).onclick = (evt) => {
       evt.preventDefault();
-      this.onButtonClick();
+      Application.showGreeting();
     };
   }
 }
