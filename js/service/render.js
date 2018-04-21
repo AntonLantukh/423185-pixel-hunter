@@ -1,7 +1,8 @@
-import footer from './footer.js';
-import greeting from './greeting.js';
+import FooterView from '../screens/footer-view';
+import greeting from "../screens/greeting-screen";
 
-// Searching for central div element
+// const greeting = new GreetingView().element;
+const footer = new FooterView().element;
 const centralElement = document.querySelector(`.central`);
 
 // Function to render the node on the page
@@ -10,18 +11,13 @@ const changeScreens = (template, ...spread) => {
   centralElement.appendChild(template);
   const headerElement = spread[0];
 
-  // If a header was handed => check if it is not or html template
+  // If a header was handled => check if it is not or html template
   if (headerElement) {
-    if (typeof headerElement === `string`) {
-      centralElement.insertAdjacentHTML(`afterBegin`, headerElement);
-    } else if (typeof headerElement === `object`) {
-      centralElement.insertAdjacentElement(`afterBegin`, headerElement);
-    }
-
+    centralElement.insertAdjacentElement(`afterBegin`, headerElement);
     // Adding a listener to the header return buttton
     const backButton = centralElement.querySelector(`.back`);
     backButton.addEventListener(`click`, () => {
-      changeScreens(greeting);
+      changeScreens(greeting());
     });
   }
   // Finally adding a footer
