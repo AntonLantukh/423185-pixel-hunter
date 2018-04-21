@@ -28,6 +28,7 @@ export default class RulesView extends AbstractView {
   bind() {
     const rulesInput = this.element.querySelector(`.rules__input`);
     const rulesSubmit = this.element.querySelector(`.rules__button`);
+
     rulesInput.oninput = (evt) => {
       evt.preventDefault();
       if (!rulesInput.value) {

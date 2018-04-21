@@ -1,7 +1,7 @@
 import IntroView from './screens/intro-view';
 import GreetingView from './screens/greeting-view';
 import RulesView from './screens/rules-view';
-import HeaderView from './screens/footer-view';
+import HeaderView from './screens/header-view';
 import FooterView from './screens/footer-view';
 import GameScreen from './game-screen';
 import QuestModel from './data/game-model';
@@ -9,12 +9,12 @@ import StatsView from './screens/stats-view';
 
 const footer = new FooterView().element;
 const header = new HeaderView().element;
-
 const main = document.querySelector(`.central`);
 
 // Function to change screens
 const changeView = (element) => {
   main.innerHTML = ``;
+  main.nextSibling.remove();
   main.appendChild(element);
   main.insertAdjacentElement(`afterEnd`, footer);
 };
@@ -28,21 +28,17 @@ export default class Application {
   }
 
   static showGreeting() {
+    const gameScreen = new GameScreen(new QuestModel());
     const greeting = new GreetingView();
     changeView(greeting.element);
+    gameScreen.stopGame();
+    gameScreen.restart();
   }
 
   static showRules() {
-    const rules = new RulesView();
-    changeView(rules.element);
-
-   // rules.insertAdjacentElement(`beforeBegin`, header);
-   // rules.querySelector(`.back`).addEventListener(`click`, () => {
-      // Start from the very beginning
-   //   const gameScreen = new GameScreen(new QuestModel());
-    //  gameScreen.restart();
-    //  Application.showGreeting();
-  //  });
+    const rules = new RulesView().element;
+    changeView(rules);
+    main.insertAdjacentElement(`afterBegin`, header);
   }
 
   static showGame(playerName) {
@@ -53,7 +49,7 @@ export default class Application {
 
   static showStats(model) {
     const statistics = new StatsView(model).element;
-    statistics.insertAdjacentElement(`beforeBegin`, header);
     changeView(statistics.element);
+    statistics.insertAdjacentElement(`afterBegin`, header);
   }
 }

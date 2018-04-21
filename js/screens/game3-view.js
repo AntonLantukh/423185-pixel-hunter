@@ -1,7 +1,7 @@
 import AbstractView from "../abstract-view";
 
 export default class GameThirdView extends AbstractView {
-  constructor(state, level, answers, questions) {
+  constructor(state, level, questions, answers) {
     super();
     this.state = state;
     this.level = level;
@@ -28,7 +28,7 @@ export default class GameThirdView extends AbstractView {
       </form>
       <div class="stats">
         <ul class="stats">
-          ${this.drawBar(this.answers)}
+          ${this.answers}
         </ul>
       </div>
     </div>`;
@@ -38,8 +38,8 @@ export default class GameThirdView extends AbstractView {
   }
 
   bind() {
-    const gameForm = this.element.querySelector(`game__content`);
-    gameForm.addEventListener = (evt) => {
+    const gameForm = this.element.querySelector(`.game__content`);
+    gameForm.addEventListener(`click`, (evt) => {
       // Setting variables
       const levelAnswers = this.questions[this.state.level][`answers`];
       const levelImages = evt.target.children;
@@ -61,6 +61,6 @@ export default class GameThirdView extends AbstractView {
       }
 
       this.onAnswer(mistake);
-    };
+    });
   }
 }

@@ -9,12 +9,9 @@ export default class GameScreen {
     this.model = model;
     this.header = new HeaderView(this.model.state);
     this.content = this.defineScreenContent();
-
     this.root = document.createElement(`div`);
     this.root.appendChild(this.header.element);
-    debugger;
     this.root.appendChild(this.content.element);
-
     this._interval = null;
   }
 
@@ -31,6 +28,7 @@ export default class GameScreen {
   // Start the game
   startGame() {
     this.changeLevel();
+    this.model.initTimer();
     this._interval = setInterval(() => {
       this.model.tick();
       this.updateHeader();
@@ -43,12 +41,12 @@ export default class GameScreen {
     this.updateLives(answer);
     // Checking mistake status and pushing an answer to answers array
     this.model.saveAnswer(this.model.state, this.model.answers);
-
     let currentQuestionSet = this.model.questions[this.model.state.level];
+
     // Upading current level to the next one, updating the type for presenter
-    if (this.model.hasNextLevel()) {
+    if (this.model.hasNextLevel) {
       this.model.updateLevel(currentQuestionSet[`next-level`]);
-      this.model.updateType(this.model.questions[this.model.state][`type`]);
+      this.model.updateType(this.model.questions[this.model.state.level][`type`]);
     } else {
       Application.showStats();
     }
@@ -70,18 +68,16 @@ export default class GameScreen {
     if (this.model.isDead()) {
       this.exit();
     } else {
-      this.changeLevel();
+      this.startGame();
     }
   }
 
-  restart(continueGame) {
-    if (!continueGame) {
-      this.model.restart();
-    }
-    this.startGame();
+  restart() {
+    this.model.restart();
   }
 
   exit() {
+    this.model.addLoose();
     Application.showStats(this.model);
   }
 
@@ -93,18 +89,18 @@ export default class GameScreen {
 
   defineScreenContent() {
     let levelType;
-    switch (this.model.getType) {
+    switch (this.model.type) {
       case `two-of-two`:
-        levelType = new GameFirstView(this.model.state, this.model.questions[this.model.state.level], this.model.drawProgress());
+        levelType = new GameFirstView(this.model.state, this.model.questions[this.model.state.level], this.model.questions, this.model.drawProgress());
         break;
       case `tinder-like`:
-        levelType = new GameSecondView(this.model.state, this.model.level, this.model.answers, this.model.questions, this.model.drawProgress());
+        levelType = new GameSecondView(this.model.state, this.model.questions[this.model.state.level], this.model.questions, this.model.drawProgress());
         break;
       case `one-of-three`:
-        levelType = new GameThirdView(this.model.state, this.model.level, this.model.answers, this.model.questions, this.model.drawProgress());
+        levelType = new GameThirdView(this.model.state, this.model.questions[this.model.state.level], this.model.questions, this.model.drawProgress());
         break;
       default:
-        throw new Error(`Unknown type: ${this.model.getType}`);
+        throw new Error(`Unknown type: ${this.model.type}`);
     }
     return levelType;
   }

@@ -1,7 +1,5 @@
-import {INITIAL_STATE, TYPE_CORRESPONDER, questions, answers} from './data';
+import {INITIAL_STATE, questions, answers} from './data';
 import {drawProgressbar, Timer, countPoints, collectAnswers} from './game-logic';
-
-const timer = new Timer(30);
 
 export default class QuestModel {
   constructor(playerName) {
@@ -33,7 +31,7 @@ export default class QuestModel {
   }
 
   // Get current level from questions
-  get getType() {
+  get type() {
     return this._state.type;
   }
 
@@ -59,14 +57,15 @@ export default class QuestModel {
   }
 
   // Update current level
-  set updateType(type) {
+  updateType(type) {
     this._state.type = type;
-    return this._state.type;
   }
 
   // Whether there is another level in questions
   get hasNextLevel() {
-    return (questions[`level_${this._state.level}`] + 1);
+    const level = this._state.level;
+    const levelNumber = parseInt(level.substr(6, 1), 10) + 1;
+    return (this._questions[`level_${levelNumber}`]);
   }
 
   // Push answer to an array
@@ -94,14 +93,23 @@ export default class QuestModel {
     return this._state.lives < 0;
   }
 
+  addLoose() {
+    this._state.fail = true;
+  }
+
   // Reduce live
   reduceLives() {
     this._state.lives--;
   }
 
+  initTimer() {
+    this.timer = new Timer(30);
+    return this.timer;
+  }
+
   // Update current time
   tick() {
-    this._state.time = timer.tick;
+    this._state.time = this.timer.tick();
   }
 
   // Reset current game set to initial

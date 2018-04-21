@@ -1,6 +1,4 @@
 const drawProgressbar = (answers) => {
-  debugger;
-
   // Setting variables
   const resultsArray = [];
   const timeFastBorder = 20;
