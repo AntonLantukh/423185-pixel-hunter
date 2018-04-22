@@ -8,12 +8,6 @@ const INITIAL_STATE = Object.freeze({
   'fail': false // Indicator to show a complete stats screen (no shortened)
 });
 
-const TYPE_CORRESPONDER = {
-  'two-of-two': `firstScreen`,
-  'tinder-like': `secondScreen`,
-  'one-of-three': `thirdScreen`
-};
-
 // Questions array
 const questions = {
   'level_0': {
@@ -250,4 +244,4 @@ const questions = {
 // Answers array, dynamic filling
 const answers = [];
 
-export {INITIAL_STATE, TYPE_CORRESPONDER, questions, answers};
+export {INITIAL_STATE, questions, answers};

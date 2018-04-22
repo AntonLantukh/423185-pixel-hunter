@@ -30,9 +30,9 @@ export default class GameScreen {
     this.changeLevel();
     this.model.initTimer();
     this._interval = setInterval(() => {
-      this.checkTimer();
       this.model.tick();
       this.updateHeader();
+      this.checkTimer();
     }, 1000);
   }
 
@@ -42,7 +42,7 @@ export default class GameScreen {
     this.updateLives(answer);
     // Checking mistake status and pushing an answer to answers array
     this.collectAnswer();
-    this.updateLevel();
+    this.updateGameStatus();
     this.checkResult();
   }
 
@@ -60,13 +60,13 @@ export default class GameScreen {
   }
 
   // Define next step
-  updateLevel() {
+  updateGameStatus() {
     // Upading current level to the next one, updating the type for presenter
     if (this.model.hasNextLevel) {
       this.model.updateLevel(this.model.questions[this.model.state.level][`next-level`]);
       this.model.updateType(this.model.questions[this.model.state.level][`type`]);
     } else {
-      Application.showStats();
+      this.renderStats();
     }
     this.model.undoMistake();
   }
@@ -80,8 +80,11 @@ export default class GameScreen {
 
   // Checking if there is less than 0 lives
   checkResult() {
+    const maxAnswersLength = 10;
     if (this.model.isDead()) {
-      this.exit();
+      this.loose();
+    } else if (this.model.defineAnswersLength() === maxAnswersLength) {
+      this.win();
     } else {
       this.startGame();
     }
@@ -91,9 +94,19 @@ export default class GameScreen {
     this.model.restart();
   }
 
-  exit() {
+  win() {
+    this.renderStats();
+  }
+
+  loose() {
     this.model.addLoose();
-    Application.showStats(this.model);
+    this.renderStats();
+  }
+
+  renderStats() {
+    const bar = this.model.drawProgress(this.model.answers);
+    const score = this.model.countPoints(this.model.answers, this.model.state.lives);
+    Application.showStats(this.model.state, bar, score);
   }
 
   updateHeader() {

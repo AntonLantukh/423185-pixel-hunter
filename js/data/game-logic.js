@@ -9,13 +9,13 @@ const drawProgressbar = (answers) => {
 
   // Passing through answers list
   answers.forEach(({time, answer}) => {
-    if (time > timeSlowBorder && answer) {
+    if (time > timeFastBorder && answer) {
       resultsArray.push(`<li class="stats__result stats__result--fast"></li>`);
-    } else if (time < timeFastBorder && answer) {
+    } else if (time < timeSlowBorder && answer) {
       resultsArray.push(`<li class="stats__result stats__result--slow"></li>`);
-    } else if (answer === true && (time >= timeFastBorder && time <= timeSlowBorder)) {
+    } else if (answer && (time <= timeFastBorder && time >= timeSlowBorder)) {
       resultsArray.push(`<li class="stats__result stats__result--correct"></li>`);
-    } else if (answer === false) {
+    } else if (!answer) {
       resultsArray.push(`<li class="stats__result stats__result--wrong"></li>`);
     }
   });
@@ -48,8 +48,8 @@ function Timer(time) {
 // Function to count the number of points
 const countPoints = (results, attempts) => {
   // If a user answered less than 10 question => return -1
-  if (attempts < 1 && attempts >= 0) {
-    return -1;
+  if (results.length < 10) {
+    return 0;
   } else if (attempts > 3) {
     throw new Error(`There should be no more than 3 lives`);
   } else if (attempts < 0) {

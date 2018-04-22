@@ -40,6 +40,11 @@ export default class QuestModel {
     return this._answers;
   }
 
+  // Get answers maxAnswersLength
+  defineAnswersLength() {
+    return this._answers.length;
+  }
+
   // Get current answers list
   drawProgress() {
     return drawProgressbar(this._answers);
@@ -85,12 +90,12 @@ export default class QuestModel {
 
   // Count points
   countPoints() {
-    countPoints(this.answers, this._state.lives);
+    return countPoints(this.answers, this._state.lives);
   }
 
   // Check dead status
   isDead() {
-    return this._state.lives < 0;
+    return this._state.lives === 0;
   }
 
   addLoose() {
@@ -103,7 +108,7 @@ export default class QuestModel {
   }
 
   initTimer() {
-    this.timer = new Timer(10);
+    this.timer = new Timer(30);
     return this.timer;
   }
 
