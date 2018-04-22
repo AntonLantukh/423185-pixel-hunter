@@ -1,4 +1,4 @@
-import getElementFromTemplate from './service/util';
+import getElementFromTemplate from './service/template-get';
 
 export default class AbstractView {
   constructor() {
@@ -25,6 +25,5 @@ export default class AbstractView {
   }
 
   bind() {
-    // listeners should be here
   }
 }

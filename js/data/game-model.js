@@ -1,5 +1,8 @@
 import {INITIAL_STATE, questions, answers} from './data';
-import {drawProgressbar, Timer, expireTimer, countPoints, collectAnswers} from './game-logic';
+import drawProgressbar from '../service/progress-draw';
+import {Timer, expireTimer} from '../service/timer';
+import countPoints from '../service/points-count';
+import collectAnswers from '../service/answers-collect';
 
 export default class QuestModel {
   constructor(playerName) {
@@ -27,7 +30,7 @@ export default class QuestModel {
 
   // Get current level from questions
   get level() {
-    return this._questions[`level_${this._state.level}`];
+    return this._questions[this._state.level];
   }
 
   // Get current level from questions
@@ -73,6 +76,11 @@ export default class QuestModel {
     return (this._questions[`level_${levelNumber}`]);
   }
 
+  // Count points
+  countPoints() {
+    return countPoints(this.answers, this._state.lives);
+  }
+
   // Push answer to an array
   saveAnswer() {
     collectAnswers(this._state, this._answers);
@@ -88,9 +96,9 @@ export default class QuestModel {
     this._state.mistake = false;
   }
 
-  // Count points
-  countPoints() {
-    return countPoints(this.answers, this._state.lives);
+  // Reduce live
+  reduceLives() {
+    this._state.lives--;
   }
 
   // Check dead status
@@ -98,15 +106,12 @@ export default class QuestModel {
     return this._state.lives === 0;
   }
 
+  // Add status for game fail
   addLoose() {
     this._state.fail = true;
   }
 
-  // Reduce live
-  reduceLives() {
-    this._state.lives--;
-  }
-
+  // Set new timer
   initTimer() {
     this.timer = new Timer(30);
     return this.timer;

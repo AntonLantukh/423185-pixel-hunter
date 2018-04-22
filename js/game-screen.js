@@ -4,7 +4,7 @@ import GameSecondView from "./screens/game2-view";
 import GameThirdView from "./screens/game3-view";
 import Application from './application';
 
-export default class GameScreen {
+export default class GamePresenter {
   constructor(model) {
     this.model = model;
     this.header = new HeaderView(this.model.state);
@@ -20,11 +20,6 @@ export default class GameScreen {
     return this.root;
   }
 
-  // Stop the game and stop the timer
-  stopGame() {
-    clearInterval(this._interval);
-  }
-
   // Start the game
   startGame() {
     this.changeLevel();
@@ -36,6 +31,11 @@ export default class GameScreen {
     }, 1000);
   }
 
+  // Stop the game and stop the timer
+  stopGame() {
+    clearInterval(this._interval);
+  }
+
   // Actions at the user's answer
   answer(answer) {
     this.stopGame();
@@ -44,6 +44,14 @@ export default class GameScreen {
     this.collectAnswer();
     this.updateGameStatus();
     this.checkResult();
+  }
+
+  // Actions to change the level
+  changeLevel() {
+    this.updateHeader();
+    let level = this.defineScreenContent();
+    level.onAnswer = this.answer.bind(this);
+    this.changeContentView(level);
   }
 
   // Updating state's mistake and lives status
@@ -63,8 +71,8 @@ export default class GameScreen {
   updateGameStatus() {
     // Upading current level to the next one, updating the type for presenter
     if (this.model.hasNextLevel) {
-      this.model.updateLevel(this.model.questions[this.model.state.level][`next-level`]);
-      this.model.updateType(this.model.questions[this.model.state.level][`type`]);
+      this.model.updateLevel(this.model.level[`next-level`]);
+      this.model.updateType(this.model.level[`type`]);
     } else {
       this.renderStats();
     }
@@ -90,25 +98,30 @@ export default class GameScreen {
     }
   }
 
+  // Restarting the game to initial state
   restart() {
     this.model.restart();
   }
 
+  // Actions when win
   win() {
     this.renderStats();
   }
 
+  // Actions when loose
   loose() {
     this.model.addLoose();
     this.renderStats();
   }
 
+  // Rendering stats
   renderStats() {
     const bar = this.model.drawProgress(this.model.answers);
     const score = this.model.countPoints(this.model.answers, this.model.state.lives);
     Application.showStats(this.model.state, bar, score);
   }
 
+  // Updating the header for timer andnext level
   updateHeader() {
     const header = new HeaderView(this.model.state);
     this.root.replaceChild(header.element, this.header.element);
@@ -117,31 +130,27 @@ export default class GameScreen {
     this.header.updateTimer(header.element);
   }
 
+  // Defining right screen for right question
   defineScreenContent() {
     let levelType;
     switch (this.model.type) {
       case `two-of-two`:
-        levelType = new GameFirstView(this.model.state, this.model.questions[this.model.state.level], this.model.questions, this.model.drawProgress());
+        levelType = new GameFirstView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
         break;
       case `tinder-like`:
-        levelType = new GameSecondView(this.model.state, this.model.questions[this.model.state.level], this.model.questions, this.model.drawProgress());
+        levelType = new GameSecondView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
         break;
       case `one-of-three`:
-        levelType = new GameThirdView(this.model.state, this.model.questions[this.model.state.level], this.model.questions, this.model.drawProgress());
+        levelType = new GameThirdView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
         break;
       default:
         throw new Error(`Unknown type: ${this.model.type}`);
     }
+
     return levelType;
   }
 
-  changeLevel() {
-    this.updateHeader();
-    let level = this.defineScreenContent();
-    level.onAnswer = this.answer.bind(this);
-    this.changeContentView(level);
-  }
-
+  // Updating the content
   changeContentView(view) {
     this.root.replaceChild(view.element, this.content.element);
     this.content = view;

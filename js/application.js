@@ -3,7 +3,7 @@ import GreetingView from './screens/greeting-view';
 import RulesView from './screens/rules-view';
 import HeaderView from './screens/header-view';
 import FooterView from './screens/footer-view';
-import GameScreen from './game-screen';
+import GamePresenter from './game-screen';
 import QuestModel from './data/game-model';
 import StatsView from './screens/stats-view';
 
@@ -21,14 +21,13 @@ const changeView = (element) => {
 
 // Application class
 export default class Application {
-
   static showWelcome() {
     const intro = new IntroView();
     changeView(intro.element);
   }
 
   static showGreeting() {
-    const gameScreen = new GameScreen(new QuestModel());
+    const gameScreen = new GamePresenter(new QuestModel());
     const greeting = new GreetingView();
     changeView(greeting.element);
     gameScreen.stopGame();
@@ -42,7 +41,7 @@ export default class Application {
   }
 
   static showGame(playerName) {
-    const gameScreen = new GameScreen(new QuestModel(playerName));
+    const gameScreen = new GamePresenter(new QuestModel(playerName));
     changeView(gameScreen.element);
     gameScreen.startGame();
   }
