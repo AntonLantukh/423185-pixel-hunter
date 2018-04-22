@@ -39,11 +39,13 @@ const countPoints = (results, attempts) => {
     }
   });
 
-  const pointsForLives = leftAttemptValue * attempts;
+  let pointsForLives = leftAttemptValue * attempts;
+
   const pointsTotal = pointsForLives + pointsForTime + pointsForAnswer;
   // Setting an object to return from the function
   const pointsObject = {
-    lives: pointsForLives,
+    lives: attempts,
+    livesPoints: pointsForLives,
     answers: pointsForAnswer,
     timeSlow: pointsSlowAnswer,
     timeSlowCount: pointsSlowAnswer / slowTimeValue,

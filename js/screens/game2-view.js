@@ -14,7 +14,7 @@ export default class GameSecondView extends AbstractView {
 
   get template() {
     return `<div class="game">
-      <p class="game__task">${this.level[`question`]}</p>
+      <p class="game__task">${this.level.question}</p>
       <form class="game__content  game__content--wide">
         <div class="game__option">
           <img src="${this.level.answers[0].image.url}" alt="Option 1" width="${this.level.answers[0].image.width}" height="${this.level.answers[0].image.height}">
@@ -43,7 +43,7 @@ export default class GameSecondView extends AbstractView {
     const gameForm = this.element.querySelector(`.game__content`);
     gameForm.addEventListener(`change`, (evt) => {
       // Setting variables
-      const levelAnswers = this.questions[this.state.level][`answers`];
+      const levelAnswers = this.questions[this.state.level].answers;
       let mistake;
 
       // If a user chose input
@@ -52,7 +52,7 @@ export default class GameSecondView extends AbstractView {
       }
 
       // We check the input value to equal the value in answers
-      if ((evt.target.value !== levelAnswers[0][`type`])) {
+      if ((evt.target.value !== levelAnswers[0].type)) {
         mistake = true;
       } else {
         mistake = false;

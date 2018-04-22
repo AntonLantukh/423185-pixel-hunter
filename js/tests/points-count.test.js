@@ -13,18 +13,22 @@ answersSetAllMedium.fill({answer: true, time: 15});
 const answersSetAllSlow = new Array(10);
 answersSetAllSlow.fill({answer: true, time: 8});
 
+// Array of right 8 answers
+const answersSetNotFull = new Array(8);
+answersSetAllSlow.fill({answer: true, time: 8});
+
 let expectedValue;
 let attemptsNumber;
 
 describe(`Function to count results at the end of the game`, () => {
 
-  it(`should return -1 when when the player answered less than 10 answers`, () => {
-    expectedValue = -1;
+  it(`should return 0 when when the player answered less than 10 answers`, () => {
+    expectedValue = 0;
     attemptsNumber = 0;
-    assert.equal(expectedValue, countPoints(answersSetAllFast, attemptsNumber));
+    assert.equal(expectedValue, countPoints(answersSetNotFull, attemptsNumber));
   });
 
-  it(`should should not allow to set the number of lives less than 0 and more than 3`, () => {
+  it(`should not allow to set the number of lives less than 0 and more than 3`, () => {
     attemptsNumber = -1;
     assert.throws(() => countPoints(answersSetAllFast, attemptsNumber));
 

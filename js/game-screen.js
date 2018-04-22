@@ -20,6 +20,10 @@ export default class GamePresenter {
     return this.root;
   }
 
+  init() {
+    this.startGame();
+  }
+
   // Start the game
   startGame() {
     this.changeLevel();

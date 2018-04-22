@@ -103,7 +103,7 @@ export default class QuestModel {
 
   // Check dead status
   isDead() {
-    return this._state.lives === 0;
+    return this._state.lives < 0;
   }
 
   // Add status for game fail

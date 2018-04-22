@@ -14,7 +14,7 @@ export default class GameOneView extends AbstractView {
 
   get template() {
     return `<div class="game">
-      <p class="game__task">${this.level[`question`]}</p>
+      <p class="game__task">${this.level.question}</p>
       <form class="game__content">
         <div class="game__option">
           <img src="${this.level.answers[0].image.url}" alt="Option 1" width="${this.level.answers[0].image.width}" height="${this.level.answers[0].image.height}">
@@ -55,7 +55,7 @@ export default class GameOneView extends AbstractView {
     gameForm.addEventListener(`change`, (evt) => {
       // Setting variables
       const inputsNumber = 2;
-      const levelAnswers = this.questions[this.state.level][`answers`];
+      const levelAnswers = this.questions[this.state.level].answers;
       let checkedInputs;
       let mistake;
 
@@ -81,7 +81,7 @@ export default class GameOneView extends AbstractView {
 
     // Function to check whether the answer is correct
     const checkAnswer = (checkedItem, answersItem) => {
-      return (checkedItem[0].value === answersItem[0][`type`]) && (checkedItem[1].value === answersItem[1][`type`]);
+      return (checkedItem[0].value === answersItem[0].type) && (checkedItem[1].value === answersItem[1].type);
     };
   }
 }

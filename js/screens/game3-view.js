@@ -41,7 +41,7 @@ export default class GameThirdView extends AbstractView {
     const gameForm = this.element.querySelector(`.game__content`);
     gameForm.addEventListener(`click`, (evt) => {
       // Setting variables
-      const levelAnswers = this.questions[this.state.level][`answers`];
+      const levelAnswers = this.questions[this.state.level].answers;
       const levelImages = evt.target.children;
       let mistake;
 

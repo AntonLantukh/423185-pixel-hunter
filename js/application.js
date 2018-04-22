@@ -43,7 +43,7 @@ export default class Application {
   static showGame(playerName) {
     const gameScreen = new GamePresenter(new QuestModel(playerName));
     changeView(gameScreen.element);
-    gameScreen.startGame();
+    gameScreen.init();
   }
 
   static showStats(state, bar, score) {

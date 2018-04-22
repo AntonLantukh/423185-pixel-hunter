@@ -31,13 +31,13 @@ export default class StatsView extends AbstractView {
           <td class="result__points">×&nbsp;50</td>
           <td class="result__total">${this.score.timeFast}</td>
         </tr>`}
-    ${!this.state.lives ? `` :
+    ${this.state.fail ? `` :
     `<tr>
           <td></td>
           <td class="result__extra">Бонус за жизни:</td>
-          <td class="result__extra">${this.state.lives}&nbsp;<span class="stats__result stats__result--alive"></span></td>
+          <td class="result__extra">${this.score.lives}&nbsp;<span class="stats__result stats__result--alive"></span></td>
           <td class="result__points">×&nbsp;50</td>
-          <td class="result__total">${this.score.lives}</td>
+          <td class="result__total">${this.score.livesPoints}</td>
         </tr>`}
      ${!this.score ? `` :
     `<tr>
