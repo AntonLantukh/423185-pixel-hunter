@@ -30,6 +30,7 @@ export default class GameScreen {
     this.changeLevel();
     this.model.initTimer();
     this._interval = setInterval(() => {
+      this.checkTimer();
       this.model.tick();
       this.updateHeader();
     }, 1000);
@@ -40,26 +41,40 @@ export default class GameScreen {
     this.stopGame();
     this.updateLives(answer);
     // Checking mistake status and pushing an answer to answers array
-    this.model.saveAnswer(this.model.state, this.model.answers);
-    let currentQuestionSet = this.model.questions[this.model.state.level];
-
-    // Upading current level to the next one, updating the type for presenter
-    if (this.model.hasNextLevel) {
-      this.model.updateLevel(currentQuestionSet[`next-level`]);
-      this.model.updateType(this.model.questions[this.model.state.level][`type`]);
-    } else {
-      Application.showStats();
-    }
-
-    this.model.undoMistake();
+    this.collectAnswer();
+    this.updateLevel();
     this.checkResult();
   }
 
   // Updating state's mistake and lives status
-  updateLives(answer) {
+  updateLives(answer = true) {
     if (answer) {
       this.model.reduceLives();
       this.model.setMistake();
+    }
+  }
+
+  // Saving answers
+  collectAnswer() {
+    this.model.saveAnswer(this.model.state, this.model.answers);
+  }
+
+  // Define next step
+  updateLevel() {
+    // Upading current level to the next one, updating the type for presenter
+    if (this.model.hasNextLevel) {
+      this.model.updateLevel(this.model.questions[this.model.state.level][`next-level`]);
+      this.model.updateType(this.model.questions[this.model.state.level][`type`]);
+    } else {
+      Application.showStats();
+    }
+    this.model.undoMistake();
+  }
+
+  // Initialize the timer
+  checkTimer() {
+    if (this.model.state.time === 0) {
+      this.answer();
     }
   }
 
@@ -85,6 +100,8 @@ export default class GameScreen {
     const header = new HeaderView(this.model.state);
     this.root.replaceChild(header.element, this.header.element);
     this.header = header;
+    this.header.updateTimer = this.model.modifyTimer;
+    this.header.updateTimer(header.element);
   }
 
   defineScreenContent() {

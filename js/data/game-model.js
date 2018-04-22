@@ -1,5 +1,5 @@
 import {INITIAL_STATE, questions, answers} from './data';
-import {drawProgressbar, Timer, countPoints, collectAnswers} from './game-logic';
+import {drawProgressbar, Timer, expireTimer, countPoints, collectAnswers} from './game-logic';
 
 export default class QuestModel {
   constructor(playerName) {
@@ -103,13 +103,18 @@ export default class QuestModel {
   }
 
   initTimer() {
-    this.timer = new Timer(30);
+    this.timer = new Timer(10);
     return this.timer;
   }
 
   // Update current time
   tick() {
     this._state.time = this.timer.tick();
+  }
+
+  // Add color when timer expires
+  modifyTimer(value) {
+    expireTimer(value);
   }
 
   // Reset current game set to initial

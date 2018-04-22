@@ -48,7 +48,7 @@ export default class Application {
   }
 
   static showStats(model) {
-    const statistics = new StatsView(model).element;
+    const statistics = new StatsView().element;
     changeView(statistics.element);
     statistics.insertAdjacentElement(`afterBegin`, header);
   }

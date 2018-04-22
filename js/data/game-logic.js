@@ -114,4 +114,12 @@ const collectAnswers = (state, answersArray) => {
   }
 };
 
-export {drawProgressbar, Timer, countPoints, collectAnswers};
+const expireTimer = (element) => {
+  const timer = element.querySelector(`.game__timer`);
+  const value = parseInt(timer.textContent, 10);
+  if (value <= 5) {
+    timer.classList.add(`blink-timer`);
+  }
+};
+
+export {drawProgressbar, Timer, expireTimer, countPoints, collectAnswers};
