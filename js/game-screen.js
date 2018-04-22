@@ -41,9 +41,9 @@ export default class GamePresenter {
   }
 
   // Actions at the user's answer
-  answer(answer) {
+  answer(mistake) {
     this.stopGame();
-    this.updateLives(answer);
+    this.updateLives(mistake);
     // Checking mistake status and pushing an answer to answers array
     this.collectAnswer();
     this.updateGameStatus();
@@ -59,8 +59,8 @@ export default class GamePresenter {
   }
 
   // Updating state's mistake and lives status
-  updateLives(answer = true) {
-    if (answer) {
+  updateLives(mistake = true) {
+    if (mistake) {
       this.model.reduceLives();
       this.model.setMistake();
     }
