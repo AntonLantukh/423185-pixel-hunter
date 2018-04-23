@@ -8,6 +8,7 @@ const resizeImages = (blockSize, imageSize) => {
 
 // Function to find elements to resize in template
 const optimizeImages = (element, width, height) => {
+  debugger;
   const blockWidth = width;
   const blockHeight = height;
   const blockData = {width: blockWidth, height: blockHeight};

@@ -55,9 +55,15 @@ export default class GamePresenter {
     this.updateHeader();
     let level = this.defineScreenContent();
     level.onAnswer = this.answer.bind(this);
-    level.renderImages = this.model.renderImages;
-    level.renderImages(level.element, this.model.level.answers[0].image.width, this.model.level.answers[0].image.height);
     this.changeContentView(level);
+  }
+
+  // Updating the content
+  changeContentView(view) {
+    this.root.replaceChild(view.element, this.content.element);
+    this.content = view;
+    view.renderImages = this.model.renderImages;
+    view.renderImages(view.element, this.model.level.answers[0].image.width, this.model.level.answers[0].image.height);
   }
 
   // Updating state's mistake and lives status
@@ -154,11 +160,5 @@ export default class GamePresenter {
     }
 
     return levelType;
-  }
-
-  // Updating the content
-  changeContentView(view) {
-    this.root.replaceChild(view.element, this.content.element);
-    this.content = view;
   }
 }

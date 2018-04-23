@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import resize from '../service/resize';
+import {resizeImages} from '../service/resize';
 
 // В этом тесте подразумевается, что модуль называется `resize`
 // и экспортирует метод `resize`. Если вы назовёте метод иначе, учтите
@@ -7,7 +7,7 @@ import resize from '../service/resize';
 
 const createTestForFrame = (frame) => {
   const assertRatio = (given, expected) => {
-    const actual = resize(frame, given);
+    const actual = resizeImages(frame, given);
     assert.deepEqual(actual, expected);
   };
 
