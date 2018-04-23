@@ -3,6 +3,8 @@ import drawProgressbar from '../service/progress-draw';
 import {Timer, expireTimer} from '../service/timer';
 import countPoints from '../service/points-count';
 import collectAnswers from '../service/answers-collect';
+import {optimizeImages} from '../service/resize';
+
 
 export default class QuestModel {
   constructor(playerName) {
@@ -51,6 +53,11 @@ export default class QuestModel {
   // Get current answers list
   drawProgress() {
     return drawProgressbar(this._answers);
+  }
+
+  // Setting img size to correct value
+  renderImages(node, width, height) {
+    optimizeImages(node, width, height);
   }
 
   // Get current level from State

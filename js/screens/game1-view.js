@@ -9,15 +9,12 @@ export default class GameOneView extends AbstractView {
     this.questions = questions;
   }
 
-  drawBar() {
-  }
-
   get template() {
     return `<div class="game">
       <p class="game__task">${this.level.question}</p>
       <form class="game__content">
         <div class="game__option">
-          <img src="${this.level.answers[0].image.url}" alt="Option 1" width="${this.level.answers[0].image.width}" height="${this.level.answers[0].image.height}">
+          <img src="${this.level.answers[0].image.url}" alt="Option 1" width="468" height="458">
           <label class="game__answer game__answer--photo">
             <input name="question1" type="radio" value="photo">
             <span>Фото</span>
@@ -28,7 +25,7 @@ export default class GameOneView extends AbstractView {
           </label>
         </div>
         <div class="game__option">
-          <img src="${this.level.answers[1].image.url}" alt="Option 2" width="${this.level.answers[1].image.width}" height="${this.level.answers[1].image.height}">
+          <img src="${this.level.answers[1].image.url}" alt="Option 2" width="468" height="458">
           <label class="game__answer  game__answer--photo">
             <input name="question2" type="radio" value="photo">
             <span>Фото</span>
@@ -45,6 +42,9 @@ export default class GameOneView extends AbstractView {
         </ul>
       </div>
     </div>`;
+  }
+
+  renderImages() {
   }
 
   onAnswer() {

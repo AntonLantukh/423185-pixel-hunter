@@ -55,6 +55,8 @@ export default class GamePresenter {
     this.updateHeader();
     let level = this.defineScreenContent();
     level.onAnswer = this.answer.bind(this);
+    level.renderImages = this.model.renderImages;
+    level.renderImages(level.element, this.model.level.answers[0].image.width, this.model.level.answers[0].image.height);
     this.changeContentView(level);
   }
 
