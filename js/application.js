@@ -3,6 +3,7 @@ import GreetingView from './screens/greeting-view';
 import RulesView from './screens/rules-view';
 import HeaderView from './screens/header-view';
 import FooterView from './screens/footer-view';
+import ModalView from "./screens/modal-view";
 import GamePresenter from './game-screen';
 import QuestModel from './data/game-model';
 import StatsView from './screens/stats-view';
@@ -38,6 +39,15 @@ export default class Application {
     const rules = new RulesView().element;
     changeView(rules);
     main.insertAdjacentElement(`afterBegin`, header);
+  }
+
+  static showModal() {
+    const modal = new ModalView().element;
+    const modalWindow = modal.querySelector(`.modal-window`);
+    const modalWindowOver = modal.querySelector(`.modal-window__overlay`);
+    modalWindow.classList.remove(`visually-hidden`);
+    modalWindowOver.classList.remove(`visually-hidden`);
+    main.appendChild(modal);
   }
 
   static showGame(playerName) {

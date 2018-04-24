@@ -3,7 +3,7 @@ import drawProgressbar from '../service/progress-draw';
 import {Timer, expireTimer} from '../service/timer';
 import countPoints from '../service/points-count';
 import collectAnswers from '../service/answers-collect';
-import {optimizeImages} from '../service/resize';
+import {renderImages, resize} from '../service/image-handler';
 
 
 export default class QuestModel {
@@ -45,6 +45,11 @@ export default class QuestModel {
     return this._answers;
   }
 
+  // Download imgs
+  prepareImgs() {
+    return renderImages(this.level.answers, this.level.answers[0].image.width, this.level.answers[0].image.height, resize);
+  }
+
   // Get answers maxAnswersLength
   defineAnswersLength() {
     return this._answers.length;
@@ -53,11 +58,6 @@ export default class QuestModel {
   // Get current answers list
   drawProgress() {
     return drawProgressbar(this._answers);
-  }
-
-  // Setting img size to correct value
-  renderImages(node, width, height) {
-    optimizeImages(node, width, height);
   }
 
   // Get current level from State

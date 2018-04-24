@@ -1,12 +1,13 @@
 import AbstractView from "../abstract-view";
 
 export default class GameThirdView extends AbstractView {
-  constructor(state, level, questions, answers) {
+  constructor(state, level, questions, imgs, answers) {
     super();
     this.state = state;
     this.level = level;
     this.answers = answers;
     this.questions = questions;
+    this.imgs = imgs;
   }
 
   get template() {
@@ -14,13 +15,13 @@ export default class GameThirdView extends AbstractView {
       <p class="game__task">${this.level.question}</p>
       <form class="game__content  game__content--triple">
         <div class="game__option">
-          <img src="${this.level.answers[0].image.url}" alt="Option 1" width="304" height="455">
+          <img src="${this.imgs[0].src}" alt="Option 1" width="${this.imgs[0].width}" height="${this.imgs[0].height}">
         </div>
         <div class="game__option  game__option--selected">
-          <img src="${this.level.answers[1].image.url}" alt="Option 1" width="304" height="455">
+          <img src="${this.imgs[1].src}" alt="Option 1" width="${this.imgs[1].width}" height="${this.imgs[1].height}">
         </div>
         <div class="game__option">
-          <img src="${this.level.answers[2].image.url}" alt="Option 1" width="304" height="455">
+          <img src="${this.imgs[2].src}" alt="Option 1" width="${this.imgs[2].width}" height="${this.imgs[2].height}">
         </div>
       </form>
       <div class="stats">
