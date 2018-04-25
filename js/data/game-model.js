@@ -45,11 +45,6 @@ export default class QuestModel {
     return this._answers;
   }
 
-  // Download imgs
-  prepareImgs() {
-    return renderImages(this.level.answers, this.level.answers[0].image.width, this.level.answers[0].image.height, resize);
-  }
-
   // Get answers maxAnswersLength
   defineAnswersLength() {
     return this._answers.length;

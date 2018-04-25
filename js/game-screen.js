@@ -7,9 +7,8 @@ import Application from './application';
 export default class GamePresenter {
   constructor(model) {
     this.model = model;
-    let imgs = this.renderImages();
     this.header = new HeaderView(this.model.state);
-    this.content = this.defineScreenContent(imgs);
+    this.content = this.defineScreenContent();
     this.root = document.createElement(`div`);
     this.root.appendChild(this.header.element);
     this.root.appendChild(this.content.element);
@@ -54,8 +53,7 @@ export default class GamePresenter {
   // Actions to change the level
   changeLevel() {
     this.updateHeader();
-    let imgs = this.renderImages();
-    let level = this.defineScreenContent(imgs);
+    let level = this.defineScreenContent();
     level.onAnswer = this.answer.bind(this);
     this.changeContentView(level);
   }
@@ -126,11 +124,6 @@ export default class GamePresenter {
     this.renderStats();
   }
 
-  // Render imgs
-  renderImages() {
-    return this.model.prepareImgs();
-  }
-
   // Rendering stats
   renderStats() {
     const bar = this.model.drawProgress(this.model.answers);
@@ -148,17 +141,17 @@ export default class GamePresenter {
   }
 
   // Defining right screen for right question
-  defineScreenContent(imgs) {
+  defineScreenContent() {
     let levelType;
     switch (this.model.type) {
       case `two-of-two`:
-        levelType = new GameFirstView(this.model.state, this.model.level, this.model.questions, imgs, this.model.drawProgress());
+        levelType = new GameFirstView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
         break;
       case `tinder-like`:
-        levelType = new GameSecondView(this.model.state, this.model.level, this.model.questions, imgs, this.model.drawProgress());
+        levelType = new GameSecondView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
         break;
       case `one-of-three`:
-        levelType = new GameThirdView(this.model.state, this.model.level, this.model.questions, imgs, this.model.drawProgress());
+        levelType = new GameThirdView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
         break;
       default:
         throw new Error(`Unknown type: ${this.model.type}`);

@@ -1,13 +1,13 @@
 import AbstractView from "../abstract-view";
+import {resizeImages} from '../service/image-handler';
 
 export default class GameOneView extends AbstractView {
-  constructor(state, level, questions, imgs, answers) {
+  constructor(state, level, questions, answers) {
     super();
     this.state = state;
     this.level = level;
     this.answers = answers;
     this.questions = questions;
-    this.imgs = imgs;
   }
 
   get template() {
@@ -15,7 +15,7 @@ export default class GameOneView extends AbstractView {
       <p class="game__task">${this.level.question}</p>
       <form class="game__content">
         <div class="game__option">
-          <img src="${this.imgs[0].src}" alt="Option 1" width="${this.imgs[0].width}" height="${this.imgs[0].height}">
+          <img src="${this.level.answers[0].image.url}" alt="Option 1" width="${this.level.answers[0].image.width}" height="${this.level.answers[0].image.height}">
           <label class="game__answer game__answer--photo">
             <input name="question1" type="radio" value="photo">
             <span>Фото</span>
@@ -26,7 +26,7 @@ export default class GameOneView extends AbstractView {
           </label>
         </div>
         <div class="game__option">
-          <img src="${this.imgs[1].src}" alt="Option 2" width="${this.imgs[1].width}" height="${this.imgs[1].height}">
+          <img src="${this.level.answers[1].image.url}" alt="Option 2" width="${this.level.answers[1].image.width}" height="${this.level.answers[0].image.height}">
           <label class="game__answer  game__answer--photo">
             <input name="question2" type="radio" value="photo">
             <span>Фото</span>
@@ -45,13 +45,25 @@ export default class GameOneView extends AbstractView {
     </div>`;
   }
 
-  renderImages() {
+  resizeImages() {
   }
 
   onAnswer() {
   }
 
   bind() {
+    const imgs = this.element.querySelectorAll(`img`);
+    imgs.forEach((item) => item.addEventListener(`load`, () => {
+      const blockWidth = this.level.answers[0].image.width;
+      const blockHeight = this.level.answers[0].image.height;
+      const blockData = {width: blockWidth, height: blockHeight};
+
+      const imgSizes = {width: item.naturalWidth, height: item.naturalHeight};
+      let data = this.resizeImages(blockData, imgSizes);
+      item.setAttribute(`height`, data.height);
+      item.setAttribute(`width`, data.width);
+    }));
+
     const gameForm = this.element.querySelector(`.game__content`);
     gameForm.addEventListener(`change`, (evt) => {
       // Setting variables

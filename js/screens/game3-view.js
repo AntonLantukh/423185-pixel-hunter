@@ -1,4 +1,5 @@
 import AbstractView from "../abstract-view";
+import {resizeImages} from '../service/image-handler';
 
 export default class GameThirdView extends AbstractView {
   constructor(state, level, questions, imgs, answers) {
@@ -15,13 +16,13 @@ export default class GameThirdView extends AbstractView {
       <p class="game__task">${this.level.question}</p>
       <form class="game__content  game__content--triple">
         <div class="game__option">
-          <img src="${this.imgs[0].src}" alt="Option 1" width="${this.imgs[0].width}" height="${this.imgs[0].height}">
+          <img src="${this.level.answers[0].image.url}" alt="Option 1" width="${this.level.answers[0].image.width}" height="${this.level.answers[0].image.height}">
         </div>
         <div class="game__option  game__option--selected">
-          <img src="${this.imgs[1].src}" alt="Option 1" width="${this.imgs[1].width}" height="${this.imgs[1].height}">
+          <img src="${this.level.answers[1].image.url}" alt="Option 1" width="${this.level.answers[1].image.width}" height="${this.level.answers[1].image.height}">
         </div>
         <div class="game__option">
-          <img src="${this.imgs[2].src}" alt="Option 1" width="${this.imgs[2].width}" height="${this.imgs[2].height}">
+          <img src="${this.level.answers[2].image.url}" alt="Option 1" width="${this.level.answers[2].image.width}" height="${this.level.answers[2].image.height}">
         </div>
       </form>
       <div class="stats">
@@ -32,13 +33,25 @@ export default class GameThirdView extends AbstractView {
     </div>`;
   }
 
-  renderImages() {
+  resizeImages() {
   }
 
   onAnswer() {
   }
 
   bind() {
+    const imgs = this.element.querySelectorAll(`img`);
+    imgs.forEach((item) => item.addEventListener(`load`, () => {
+      const blockWidth = this.level.answers[0].image.width;
+      const blockHeight = this.level.answers[0].image.height;
+      const blockData = {width: blockWidth, height: blockHeight};
+
+      const imgSizes = {width: item.naturalWidth, height: item.naturalHeight};
+      let data = this.resizeImages(blockData, imgSizes);
+      item.setAttribute(`height`, data.height);
+      item.setAttribute(`width`, data.width);
+    }));
+
     const gameForm = this.element.querySelector(`.game__content`);
     gameForm.addEventListener(`click`, (evt) => {
       // Setting variables
