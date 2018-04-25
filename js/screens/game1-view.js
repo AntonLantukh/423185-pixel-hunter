@@ -1,5 +1,4 @@
 import AbstractView from "../abstract-view";
-import {resizeImages} from '../service/image-handler';
 
 export default class GameOneView extends AbstractView {
   constructor(state, level, questions, answers) {
@@ -52,43 +51,22 @@ export default class GameOneView extends AbstractView {
   }
 
   bind() {
-    const imgs = this.element.querySelectorAll(`img`);
-    imgs.forEach((item) => item.addEventListener(`load`, () => {
-      const blockWidth = this.level.answers[0].image.width;
-      const blockHeight = this.level.answers[0].image.height;
-      const blockData = {width: blockWidth, height: blockHeight};
-
-      const imgSizes = {width: item.naturalWidth, height: item.naturalHeight};
-      let data = this.resizeImages(blockData, imgSizes);
-      item.setAttribute(`height`, data.height);
-      item.setAttribute(`width`, data.width);
-    }));
-
     const gameForm = this.element.querySelector(`.game__content`);
     gameForm.addEventListener(`change`, (evt) => {
       // Setting variables
       const inputsNumber = 2;
       const levelAnswers = this.questions[this.state.level].answers;
       let checkedInputs;
-      let mistake;
-
       // Finding all inputs on the scrren and returning checked ones
       if (evt.target.tagName === `INPUT`) {
         checkedInputs = Array.from(evt.currentTarget).filter((element) => element.checked);
       }
-
       // If checked inputs equal to the number of inputs on the page
       if (checkedInputs.length !== inputsNumber) {
         return;
       }
-
       // Check correctness of the user's answer
-      if (!checkAnswer(checkedInputs, levelAnswers)) {
-        mistake = true;
-      } else {
-        mistake = false;
-      }
-
+      const mistake = !checkAnswer(checkedInputs, levelAnswers);
       this.onAnswer(mistake);
     });
 

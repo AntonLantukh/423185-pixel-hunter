@@ -3,7 +3,7 @@ import drawProgressbar from '../service/progress-draw';
 import {Timer, expireTimer} from '../service/timer';
 import countPoints from '../service/points-count';
 import collectAnswers from '../service/answers-collect';
-import {renderImages, resize} from '../service/image-handler';
+import resize from '../service/resize';
 
 
 export default class QuestModel {
@@ -48,6 +48,21 @@ export default class QuestModel {
   // Get answers maxAnswersLength
   defineAnswersLength() {
     return this._answers.length;
+  }
+
+  // Resize images
+  optimizeImgSize() {
+    const imgs = this.element.querySelectorAll(`img`);
+    imgs.forEach((item) => item.addEventListener(`load`, () => {
+      const blockWidth = this.level.answers[0].image.width;
+      const blockHeight = this.level.answers[0].image.height;
+      const blockData = {width: blockWidth, height: blockHeight};
+
+      const imgSizes = {width: item.naturalWidth, height: item.naturalHeight};
+      let data = resize(blockData, imgSizes);
+      item.setAttribute(`height`, data.height);
+      item.setAttribute(`width`, data.width);
+    }));
   }
 
   // Get current answers list

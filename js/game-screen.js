@@ -26,13 +26,14 @@ export default class GamePresenter {
 
   // Start the game
   startGame() {
+    const timeUpdate = 1000;
     this.changeLevel();
     this.model.initTimer();
     this._interval = setInterval(() => {
       this.model.tick();
       this.updateHeader();
       this.checkTimer();
-    }, 1000);
+    }, timeUpdate);
   }
 
   // Stop the game and stop the timer
@@ -55,6 +56,8 @@ export default class GamePresenter {
     this.updateHeader();
     let level = this.defineScreenContent();
     level.onAnswer = this.answer.bind(this);
+    level.resizeImages = this.model.optimizeImgSize;
+    level.resizeImages();
     this.changeContentView(level);
   }
 

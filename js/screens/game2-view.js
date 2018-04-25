@@ -1,14 +1,12 @@
 import AbstractView from "../abstract-view";
-import {resizeImages} from '../service/image-handler';
 
 export default class GameSecondView extends AbstractView {
-  constructor(state, level, questions, imgs, answers) {
+  constructor(state, level, questions, answers) {
     super();
     this.state = state;
     this.level = level;
     this.answers = answers;
     this.questions = questions;
-    this.imgs = imgs;
   }
 
   get template() {
@@ -42,36 +40,16 @@ export default class GameSecondView extends AbstractView {
   }
 
   bind() {
-    const imgs = this.element.querySelectorAll(`img`);
-    imgs.forEach((item) => item.addEventListener(`load`, () => {
-      const blockWidth = this.level.answers[0].image.width;
-      const blockHeight = this.level.answers[0].image.height;
-      const blockData = {width: blockWidth, height: blockHeight};
-
-      const imgSizes = {width: item.naturalWidth, height: item.naturalHeight};
-      let data = this.resizeImages(blockData, imgSizes);
-      item.setAttribute(`height`, data.height);
-      item.setAttribute(`width`, data.width);
-    }));
-
     const gameForm = this.element.querySelector(`.game__content`);
     gameForm.addEventListener(`change`, (evt) => {
       // Setting variables
       const levelAnswers = this.questions[this.state.level].answers;
-      let mistake;
-
       // If a user chose input
       if (!evt.target.tagName === `INPUT`) {
         return;
       }
-
       // We check the input value to equal the value in answers
-      if ((evt.target.value !== levelAnswers[0].type)) {
-        mistake = true;
-      } else {
-        mistake = false;
-      }
-
+      const mistake = evt.target.value !== levelAnswers[0].type;
       this.onAnswer(mistake);
     });
   }
