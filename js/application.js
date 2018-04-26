@@ -1,3 +1,4 @@
+import Loader from "./loader";
 import IntroView from './screens/intro-view';
 import GreetingView from './screens/greeting-view';
 import RulesView from './screens/rules-view';
@@ -20,15 +21,23 @@ const changeView = (element) => {
   main.insertAdjacentElement(`afterEnd`, footer);
 };
 
+let questData;
 // Application class
 export default class Application {
-  static showWelcome() {
+  static start() {
+    Loader.loadData().
+        then(Application.showIntro).
+        catch(Application.showError);
+  }
+
+  static showIntro(data) {
+    questData = data;
     const intro = new IntroView();
     changeView(intro.element);
   }
 
   static showGreeting() {
-    const gameScreen = new GamePresenter(new QuestModel());
+    const gameScreen = new GamePresenter(new QuestModel(questData, `playername`));
     const greeting = new GreetingView();
     changeView(greeting.element);
     gameScreen.stopGame();
@@ -51,7 +60,7 @@ export default class Application {
   }
 
   static showGame(playerName) {
-    const gameScreen = new GamePresenter(new QuestModel(playerName));
+    const gameScreen = new GamePresenter(new QuestModel(questData, playerName));
     changeView(gameScreen.element);
     gameScreen.init();
   }

@@ -1,4 +1,4 @@
-import {INITIAL_STATE, questions, answers} from './data';
+import {INITIAL_STATE, answers} from './data';
 import drawProgressbar from '../service/progress-draw';
 import {Timer, expireTimer} from '../service/timer';
 import countPoints from '../service/points-count';
@@ -7,12 +7,12 @@ import resize from '../service/resize';
 
 
 export default class QuestModel {
-  constructor(playerName) {
+  constructor(data, playerName) {
     this.playerName = playerName;
     this.restart();
     this._state = Object.assign({}, INITIAL_STATE);
     this._answers = answers.slice(0);
-    this._questions = Object.assign({}, questions);
+    this._questions = Object.assign({}, data);
   }
 
   // Get current game state
