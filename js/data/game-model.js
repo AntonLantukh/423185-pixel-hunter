@@ -6,10 +6,9 @@ import collectAnswers from '../service/answers-collect';
 import resize from '../service/resize';
 
 
-export default class QuestModel {
+export default class GameModel {
   constructor(data, playerName) {
     this.playerName = playerName;
-    this.restart();
     this._state = Object.assign({}, INITIAL_STATE);
     this._answers = answers.slice(0);
     this._questions = Object.assign({}, data);
@@ -145,7 +144,7 @@ export default class QuestModel {
   }
 
   // Reset current game set to initial
-  restart() {
+  reset() {
     this._state = INITIAL_STATE;
   }
 }

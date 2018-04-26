@@ -1,6 +1,6 @@
 import {adaptServerData} from './data/data-adapter';
 
-const SERVER_URL = `https://es.dump.academy/pixel-hunter/qustions`;
+const SERVER_URL = `https://es.dump.academy/pixel-hunter/questions`;
 
 const checkStatus = (response) => {
   if (response.ok) {

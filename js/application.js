@@ -6,7 +6,7 @@ import HeaderView from './screens/header-view';
 import FooterView from './screens/footer-view';
 import ModalView from "./screens/modal-view";
 import GamePresenter from './game-screen';
-import QuestModel from './data/game-model';
+import GameModel from './data/game-model';
 import StatsView from './screens/stats-view';
 import ErrorView from './screens/error-view';
 
@@ -23,27 +23,32 @@ const changeView = (element) => {
   main.insertAdjacentElement(`afterEnd`, footer);
 };
 
-let questData;
+let gameData;
+let gameScreen;
 // Application class
 export default class Application {
   static start() {
+    Application.showIntro();
     Loader.loadData().
-        then(Application.showIntro).
+        then(Application.showGreeting).
         catch(Application.showError);
   }
 
-  static showIntro(data) {
-    questData = data;
+  static showIntro() {
     const intro = new IntroView();
     changeView(intro.element);
   }
 
-  static showGreeting() {
-    const gameScreen = new GamePresenter(new QuestModel(questData, `playername`));
+  static showGreeting(data) {
+    if (!gameData) {
+      gameData = JSON.parse(JSON.stringify(data));
+    }
     const greeting = new GreetingView();
     changeView(greeting.element);
-    gameScreen.stopGame();
-    gameScreen.restart();
+    if (gameScreen) {
+      gameScreen.stopGame();
+      gameScreen.restart();
+    }
   }
 
   static showRules() {
@@ -62,7 +67,7 @@ export default class Application {
   }
 
   static showGame(playerName) {
-    const gameScreen = new GamePresenter(new QuestModel(questData, playerName));
+    gameScreen = new GamePresenter(new GameModel(gameData, playerName));
     changeView(gameScreen.element);
     gameScreen.init();
   }
