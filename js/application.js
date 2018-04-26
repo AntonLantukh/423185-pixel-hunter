@@ -8,6 +8,8 @@ import ModalView from "./screens/modal-view";
 import GamePresenter from './game-screen';
 import QuestModel from './data/game-model';
 import StatsView from './screens/stats-view';
+import ErrorView from './screens/error-view';
+
 
 const footer = new FooterView().element;
 const header = new HeaderView().element;
@@ -69,5 +71,10 @@ export default class Application {
     const statistics = new StatsView(state, bar, score).element;
     changeView(statistics);
     statistics.insertAdjacentElement(`afterBegin`, header);
+  }
+
+  static showError(error) {
+    const errorView = new ErrorView(error);
+    changeView(errorView.element);
   }
 }

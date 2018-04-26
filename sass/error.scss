@@ -1,0 +1,5 @@
+.error__message {
+  display: block;
+  @include bold-text;
+  text-align: center;
+}
