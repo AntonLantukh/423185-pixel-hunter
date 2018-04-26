@@ -1,8 +1,8 @@
 // Function to count the number of points
 const countPoints = (results, attempts) => {
   // If a user answered less than 10 question => return -1
-  if (attempts < 1 && attempts >= 0) {
-    return -1;
+  if (results.length < 10) {
+    return 0;
   } else if (attempts > 3) {
     throw new Error(`There should be no more than 3 lives`);
   } else if (attempts < 0) {
@@ -29,7 +29,6 @@ const countPoints = (results, attempts) => {
     if (time > timeFastBorder & answer) {
       pointsForTime += fastTimeValue;
       pointsFastAnswer += fastTimeValue;
-
     } else if (time < timeSlowBorder & answer) {
       pointsForTime += slowTimeValue;
       pointsSlowAnswer += slowTimeValue;
@@ -40,12 +39,13 @@ const countPoints = (results, attempts) => {
     }
   });
 
-  const pointsForLives = leftAttemptValue * attempts;
-  const pointsTotal = pointsForLives + pointsForTime + pointsForAnswer;
+  let pointsForLives = leftAttemptValue * attempts;
 
+  const pointsTotal = pointsForLives + pointsForTime + pointsForAnswer;
   // Setting an object to return from the function
   const pointsObject = {
-    lives: pointsForLives,
+    lives: attempts,
+    livesPoints: pointsForLives,
     answers: pointsForAnswer,
     timeSlow: pointsSlowAnswer,
     timeSlowCount: pointsSlowAnswer / slowTimeValue,

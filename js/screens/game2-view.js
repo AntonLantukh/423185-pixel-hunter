@@ -1,18 +1,17 @@
 import AbstractView from "../abstract-view";
 
 export default class GameSecondView extends AbstractView {
-  constructor(level, answers) {
+  constructor(state, level, questions, answers) {
     super();
+    this.state = state;
     this.level = level;
     this.answers = answers;
-  }
-
-  drawBar() {
+    this.questions = questions;
   }
 
   get template() {
     return `<div class="game">
-      <p class="game__task">${this.level[`question`]}</p>
+      <p class="game__task">${this.level.question}</p>
       <form class="game__content  game__content--wide">
         <div class="game__option">
           <img src="${this.level.answers[0].image.url}" alt="Option 1" width="${this.level.answers[0].image.width}" height="${this.level.answers[0].image.height}">
@@ -28,19 +27,30 @@ export default class GameSecondView extends AbstractView {
       </form>
       <div class="stats">
         <ul class="stats">
-          ${this.drawBar(this.answers)}
+          ${this.answers}
         </ul>
       </div>
     </div>`;
   }
 
-  onFormChange() {
+  resizeImages() {
+  }
+
+  onAnswer() {
   }
 
   bind() {
-    this.element.querySelector(`.game__content`).onchange = (evt) => {
-      evt.preventDefault();
-      this.onFormChange(evt);
-    };
+    const gameForm = this.element.querySelector(`.game__content`);
+    gameForm.addEventListener(`change`, (evt) => {
+      // Setting variables
+      const levelAnswers = this.questions[this.state.level].answers;
+      // If a user chose input
+      if (!evt.target.tagName === `INPUT`) {
+        return;
+      }
+      // We check the input value to equal the value in answers
+      const mistake = evt.target.value !== levelAnswers[0].type;
+      this.onAnswer(mistake);
+    });
   }
 }

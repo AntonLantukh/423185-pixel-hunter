@@ -1,4 +1,5 @@
 import AbstractView from "../abstract-view";
+import Application from "../application";
 
 export default class HeaderView extends AbstractView {
   constructor(state) {
@@ -26,5 +27,17 @@ export default class HeaderView extends AbstractView {
       .join(``)}
       </div>` : ``}
     </header>`;
+  }
+
+  updateTimer() {
+  }
+
+  bind() {
+    const back = this.element.querySelector(`.back`);
+
+    back.addEventListener(`click`, function () {
+      event.preventDefault();
+      Application.showModal();
+    });
   }
 }

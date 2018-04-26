@@ -14,11 +14,9 @@ const refreshLevel = (state, questions, answers) => {
     state.type = questions[state.level][`type`];
     // Checking mistake status and pushing an answer to answers array
     collectAnswers(state, answers);
-
     if (state.mistake) {
       state.lives--;
     }
-
   } else {
     // if this one is kast level => tell to the controller
     state.level = gameMaxLevel;

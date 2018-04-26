@@ -1,0 +1,45 @@
+.modal-window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 752px;
+  height: 250px;
+  margin-top: -125px;
+  margin-left: -376px;
+  padding: 46px 90px;
+  background: #a8c8c4 linear-gradient(to bottom left, #ccdeeb, #84b39e) no-repeat;
+  box-sizing: border-box;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  z-index: 20;
+}
+
+.modal-window__header {
+  margin: 0 auto 60px auto;
+  text-align: center;
+  @include bold-text;
+}
+
+.modal-window__wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.modal-window__button {
+  width: 120px;
+  padding: 12px 20px;
+  cursor: pointer;
+  text-align: center;
+  background-color: white;
+  border-radius: 5px;
+  @include regular-text;
+}
+
+.modal-window__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
