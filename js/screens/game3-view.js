@@ -43,14 +43,24 @@ export default class GameThirdView extends AbstractView {
       // Setting variables
       const levelAnswers = this.questions[this.state.level].answers;
       const levelImages = evt.target.children;
+      let paintCount = 0;
+      let answer;
       // Checking if a user ckicked correct div item
       if (evt.target.tagName !== `DIV` && !evt.target.classList.contains(`game__option`)) {
         return;
       }
       // Looping through answers set to check which src equals to the chosen src
       const chosenElement = levelAnswers.filter((item) => levelImages[0].src === item.image.url);
+      // Counting false answers
+      levelAnswers.map((item) => {
+        if (item.type === `paint`) {
+          paintCount++;
+        }
+      });
+      // Setting right answer
+      answer = (paintCount === 2) ? answer = `photo` : answer = `paint`;
       // If chosen element equals to the right answer
-      const mistake = chosenElement[0].type !== `paint`;
+      const mistake = chosenElement[0].type !== answer;
       this.onAnswer(mistake);
     });
   }

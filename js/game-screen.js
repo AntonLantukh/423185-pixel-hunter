@@ -123,6 +123,7 @@ export default class GamePresenter {
 
   // Actions when loose
   loose() {
+    this.model.state.lives++;
     this.model.addLoose();
     this.renderStats();
   }
