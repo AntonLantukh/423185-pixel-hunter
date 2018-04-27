@@ -1,10 +1,11 @@
-export const adaptServerData = (dataArray) => {
+const adaptServerData = (dataArray) => {
   let count = 0;
   let dataObject = {};
+  const preLastLevel = 9;
 
   dataArray.forEach((item) => {
     dataObject[`level_${count}`] = item;
-    if (count !== 9) {
+    if (count !== preLastLevel) {
       dataObject[`level_${count}`][`next-level`] = `level_${++count}`;
     }
     item.answers.forEach((element) => {
@@ -16,3 +17,5 @@ export const adaptServerData = (dataArray) => {
 
   return dataObject;
 };
+
+export default adaptServerData;

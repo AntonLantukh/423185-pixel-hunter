@@ -10,7 +10,6 @@ import GameModel from './data/game-model';
 import StatsView from './screens/stats-view';
 import ErrorView from './screens/error-view';
 
-
 const footer = new FooterView().element;
 const header = new HeaderView().element;
 const main = document.querySelector(`.central`);
@@ -25,13 +24,15 @@ const changeView = (element) => {
 
 let gameData;
 let gameScreen;
+let historyData;
+
 // Application class
 export default class Application {
   static start() {
     Application.showIntro();
-    Loader.loadData().
-        then(Application.showGreeting).
-        catch(Application.showError);
+    Loader.loadData()
+        .then(Application.showGreeting)
+        .catch(Application.showError);
   }
 
   static showIntro() {
@@ -72,10 +73,17 @@ export default class Application {
     gameScreen.init();
   }
 
-  static showStats(state, bar, score) {
-    const statistics = new StatsView(state, bar, score).element;
-    changeView(statistics);
-    statistics.insertAdjacentElement(`afterBegin`, header);
+  static showStats(state, bar, score, answers, playerName) {
+    const statistics = new StatsView(state, bar, score);
+    changeView(statistics.element);
+    statistics.element.insertAdjacentElement(`afterBegin`, header);
+    Loader.uploadData(answers, playerName)
+        .then(() => Loader.loadResults(playerName))
+        .then((scores) => {
+          historyData = scores.reverse().slice(0);
+        })
+        .then(() => statistics.showScores(historyData))
+        .catch(Application.showError);
   }
 
   static showError(error) {

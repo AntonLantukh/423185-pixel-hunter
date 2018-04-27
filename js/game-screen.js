@@ -87,10 +87,8 @@ export default class GamePresenter {
     if (this.model.hasNextLevel) {
       this.model.updateLevel(this.model.level[`next-level`]);
       this.model.updateType(this.model.level[`type`]);
-    } else {
-      this.renderStats();
+      this.model.undoMistake();
     }
-    this.model.undoMistake();
   }
 
   // Initialize the timer
@@ -131,9 +129,14 @@ export default class GamePresenter {
 
   // Rendering stats
   renderStats() {
+    const resultsObject = {
+      stats: this.model.countPoints(this.model.answers, this.model.state.lives),
+      fail: this.model.state.fail,
+      bar: this.model.drawProgress()
+    };
     const bar = this.model.drawProgress(this.model.answers);
     const score = this.model.countPoints(this.model.answers, this.model.state.lives);
-    Application.showStats(this.model.state, bar, score);
+    Application.showStats(this.model.state, bar, score, resultsObject, this.model.playerName);
   }
 
   // Updating the header for timer andnext level

@@ -8,7 +8,7 @@ import resize from '../service/resize';
 
 export default class GameModel {
   constructor(data, playerName) {
-    this.playerName = playerName;
+    this._playerName = playerName;
     this._state = Object.assign({}, INITIAL_STATE);
     this._answers = answers.slice(0);
     this._questions = Object.assign({}, data);
@@ -43,6 +43,12 @@ export default class GameModel {
   get answers() {
     return this._answers;
   }
+
+  // Get current answers list
+  get playerName() {
+    return this._playerName;
+  }
+
 
   // Get answers maxAnswersLength
   defineAnswersLength() {

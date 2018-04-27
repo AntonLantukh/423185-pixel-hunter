@@ -53,6 +53,7 @@ export default class GameOneView extends AbstractView {
   bind() {
     const gameForm = this.element.querySelector(`.game__content`);
     gameForm.addEventListener(`change`, (evt) => {
+      evt.preventDefault();
       // Setting variables
       const inputsNumber = 2;
       const levelAnswers = this.questions[this.state.level].answers;
