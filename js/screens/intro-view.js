@@ -13,4 +13,8 @@ export default class IntroView extends AbstractView {
       </div>
     </div>`;
   }
+
+  animation() {
+    this.element.querySelector(`.intro`).classList.add(`intro__animation`);
+  }
 }

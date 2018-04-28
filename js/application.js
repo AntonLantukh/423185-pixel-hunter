@@ -25,19 +25,26 @@ const changeView = (element) => {
 let gameData;
 let gameScreen;
 let historyData;
+let introNode;
 
 // Application class
 export default class Application {
   static start() {
     Application.showIntro();
     Loader.loadData()
-        .then(Application.showGreeting)
+        .then((data) => {
+          introNode.animation();
+          setTimeout(() => {
+            Application.showGreeting(data);
+          }, 300);
+        })
         .catch(Application.showError);
   }
 
   static showIntro() {
     const intro = new IntroView();
     changeView(intro.element);
+    introNode = intro;
   }
 
   static showGreeting(data) {
@@ -46,6 +53,9 @@ export default class Application {
     }
     const greeting = new GreetingView();
     changeView(greeting.element);
+    setTimeout(() => {
+      greeting.animation();
+    }, 50);
     if (gameScreen) {
       gameScreen.stopGame();
       gameScreen.restart();

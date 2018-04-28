@@ -5,6 +5,7 @@
   position: relative;
   width: 780px;
   height: 740px;
+  opacity: 0;
 
   transition: background-image 1s ease-in-out;
   background: url("../img/egg_distort.png") no-repeat center;
@@ -43,4 +44,9 @@
   top: 300px;
 
   cursor: pointer;
+}
+
+.greeting__animation {
+  opacity: 1;
+  transition: all 500ms ease-in-out;
 }
