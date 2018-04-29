@@ -51,6 +51,45 @@ export default class StatsView extends AbstractView {
           <td colspan="5" class="result__total  result__total--final">${this.state.fail ? `Fail` : this.score.total}</td>
         </tr>
       </table>
+      <div class="result result__history">Загружаю историю...</div>
     </div>`;
+  }
+
+  showScores(scores) {
+    this.container.innerHTML =
+    `<div class="result">
+      <h2>Моя статистика</h2>
+      ${scores.map((it, i) =>
+    `<span>${new Date(it.date).toLocaleString(`ru`)}</span>
+     <h3>${it.fail ? `Fail</h2>` : `Победа!</h3>`}
+     <table class="result__table">
+     <tr>
+      <td class="result__number">${i + 1}.</td>
+      <td colspan="2">
+       <ul class="stats">
+        ${it.bar}
+        </ul>
+      </td>
+     ${it.fail ? `` :
+    `<td class="result__points">×&nbsp;100</td>
+     <td class="result__total">${it.stats.answers}</td>`}
+    </tr>
+    ${it.fail ? `` :
+    `<tr>
+       <td></td>
+       <td class="result__extra">Бонус за жизни:</td>
+       <td class="result__extra">${it.stats.lives}&nbsp;<span class="stats__result stats__result--alive"></span></td>
+       <td class="result__points">×&nbsp;50</td>
+       <td class="result__total">${it.stats.livesPoints}</td>
+     </tr>`}
+      <tr>
+        <td colspan="5" class="result__total  result__total--final">${it.fail ? `Fail` : it.stats.total}</td>
+      </tr>
+     </table>`).join(``)}
+    </div>`;
+  }
+
+  bind() {
+    this.container = this.element.querySelector(`.result__history`);
   }
 }

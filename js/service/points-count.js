@@ -20,21 +20,18 @@ const countPoints = (results, attempts) => {
   const leftAttemptValue = 50;
   const rightAnswerValue = 100;
 
-  // Time borders
-  const timeFastBorder = 20;
-  const timeSlowBorder = 10;
 
   // Looping through results array we got in arguments and counting points
-  results.forEach(({time, answer}) => {
-    if (time > timeFastBorder & answer) {
+  results.forEach((item) => {
+    if (item === `fast`) {
       pointsForTime += fastTimeValue;
       pointsFastAnswer += fastTimeValue;
-    } else if (time < timeSlowBorder & answer) {
+      pointsForAnswer += rightAnswerValue;
+    } else if (item === `slow`) {
       pointsForTime += slowTimeValue;
       pointsSlowAnswer += slowTimeValue;
-    }
-
-    if (answer) {
+      pointsForAnswer += rightAnswerValue;
+    } else if (item === `correct`) {
       pointsForAnswer += rightAnswerValue;
     }
   });

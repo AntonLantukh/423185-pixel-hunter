@@ -7,6 +7,7 @@ import Application from './application';
 export default class GamePresenter {
   constructor(model) {
     this.model = model;
+    this.model.updateType(this.model.level[`type`]);
     this.header = new HeaderView(this.model.state);
     this.content = this.defineScreenContent();
     this.root = document.createElement(`div`);
@@ -86,10 +87,8 @@ export default class GamePresenter {
     if (this.model.hasNextLevel) {
       this.model.updateLevel(this.model.level[`next-level`]);
       this.model.updateType(this.model.level[`type`]);
-    } else {
-      this.renderStats();
+      this.model.undoMistake();
     }
-    this.model.undoMistake();
   }
 
   // Initialize the timer
@@ -111,11 +110,6 @@ export default class GamePresenter {
     }
   }
 
-  // Restarting the game to initial state
-  restart() {
-    this.model.restart();
-  }
-
   // Actions when win
   win() {
     this.renderStats();
@@ -123,15 +117,26 @@ export default class GamePresenter {
 
   // Actions when loose
   loose() {
+    this.model.state.lives++;
     this.model.addLoose();
     this.renderStats();
   }
 
+  // Restart the game
+  restart() {
+    this.model.reset();
+  }
+
   // Rendering stats
   renderStats() {
+    const resultsObject = {
+      stats: this.model.countPoints(this.model.answers, this.model.state.lives),
+      fail: this.model.state.fail,
+      bar: this.model.drawProgress()
+    };
     const bar = this.model.drawProgress(this.model.answers);
     const score = this.model.countPoints(this.model.answers, this.model.state.lives);
-    Application.showStats(this.model.state, bar, score);
+    Application.showStats(this.model.state, bar, score, resultsObject, this.model.playerName);
   }
 
   // Updating the header for timer andnext level

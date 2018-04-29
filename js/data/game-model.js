@@ -1,4 +1,4 @@
-import {INITIAL_STATE, questions, answers} from './data';
+import {INITIAL_STATE, answers} from './data';
 import drawProgressbar from '../service/progress-draw';
 import {Timer, expireTimer} from '../service/timer';
 import countPoints from '../service/points-count';
@@ -6,13 +6,12 @@ import collectAnswers from '../service/answers-collect';
 import resize from '../service/resize';
 
 
-export default class QuestModel {
-  constructor(playerName) {
-    this.playerName = playerName;
-    this.restart();
+export default class GameModel {
+  constructor(data, playerName) {
+    this._playerName = playerName;
     this._state = Object.assign({}, INITIAL_STATE);
     this._answers = answers.slice(0);
-    this._questions = Object.assign({}, questions);
+    this._questions = Object.assign({}, data);
   }
 
   // Get current game state
@@ -44,6 +43,12 @@ export default class QuestModel {
   get answers() {
     return this._answers;
   }
+
+  // Get current answers list
+  get playerName() {
+    return this._playerName;
+  }
+
 
   // Get answers maxAnswersLength
   defineAnswersLength() {
@@ -145,7 +150,7 @@ export default class QuestModel {
   }
 
   // Reset current game set to initial
-  restart() {
+  reset() {
     this._state = INITIAL_STATE;
   }
 }

@@ -4,6 +4,7 @@
   width: 800px;
   height: 740px;
   background: url("../img/egg_big.png") no-repeat center;
+  opacity: 1;
   background-size: contain;
 
   position: relative;
@@ -34,4 +35,9 @@
 
   position: absolute;
   bottom: 0;
+}
+
+.intro__animation {
+  opacity: 0;
+  transition: all 500ms ease-in-out;
 }

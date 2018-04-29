@@ -1,3 +1,4 @@
+import Loader from "./loader";
 import IntroView from './screens/intro-view';
 import GreetingView from './screens/greeting-view';
 import RulesView from './screens/rules-view';
@@ -5,8 +6,9 @@ import HeaderView from './screens/header-view';
 import FooterView from './screens/footer-view';
 import ModalView from "./screens/modal-view";
 import GamePresenter from './game-screen';
-import QuestModel from './data/game-model';
+import GameModel from './data/game-model';
 import StatsView from './screens/stats-view';
+import ErrorView from './screens/error-view';
 
 const footer = new FooterView().element;
 const header = new HeaderView().element;
@@ -20,19 +22,44 @@ const changeView = (element) => {
   main.insertAdjacentElement(`afterEnd`, footer);
 };
 
+let gameData;
+let gameScreen;
+let historyData;
+let introNode;
+
 // Application class
 export default class Application {
-  static showWelcome() {
-    const intro = new IntroView();
-    changeView(intro.element);
+  static start() {
+    Application.showIntro();
+    Loader.loadData()
+        .then((data) => {
+          introNode.animation();
+          setTimeout(() => {
+            Application.showGreeting(data);
+          }, 300);
+        })
+        .catch(Application.showError);
   }
 
-  static showGreeting() {
-    const gameScreen = new GamePresenter(new QuestModel());
+  static showIntro() {
+    const intro = new IntroView();
+    changeView(intro.element);
+    introNode = intro;
+  }
+
+  static showGreeting(data) {
+    if (!gameData) {
+      gameData = JSON.parse(JSON.stringify(data));
+    }
     const greeting = new GreetingView();
     changeView(greeting.element);
-    gameScreen.stopGame();
-    gameScreen.restart();
+    setTimeout(() => {
+      greeting.animation();
+    }, 50);
+    if (gameScreen) {
+      gameScreen.stopGame();
+      gameScreen.restart();
+    }
   }
 
   static showRules() {
@@ -51,14 +78,26 @@ export default class Application {
   }
 
   static showGame(playerName) {
-    const gameScreen = new GamePresenter(new QuestModel(playerName));
+    gameScreen = new GamePresenter(new GameModel(gameData, playerName));
     changeView(gameScreen.element);
     gameScreen.init();
   }
 
-  static showStats(state, bar, score) {
-    const statistics = new StatsView(state, bar, score).element;
-    changeView(statistics);
-    statistics.insertAdjacentElement(`afterBegin`, header);
+  static showStats(state, bar, score, answers, playerName) {
+    const statistics = new StatsView(state, bar, score);
+    changeView(statistics.element);
+    statistics.element.insertAdjacentElement(`afterBegin`, header);
+    Loader.uploadData(answers, playerName)
+        .then(() => Loader.loadResults(playerName))
+        .then((scores) => {
+          historyData = scores.reverse().slice(0);
+        })
+        .then(() => statistics.showScores(historyData))
+        .catch(Application.showError);
+  }
+
+  static showError(error) {
+    const errorView = new ErrorView(error);
+    changeView(errorView.element);
   }
 }
