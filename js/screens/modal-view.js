@@ -10,7 +10,7 @@ export default class ModalView extends AbstractView {
     return `<div>
     <div class="modal-window visually-hidden">
       <div class="modal-window__container">
-        <h2 class="modal-window__header">Вы уверены, что хотите покинуть игру? Весь процес будет потерян!</h3>
+        <h2 class="modal-window__header">Вы уверены, что хотите покинуть игру? Весь процесс будет потерян!</h2>
         <div class="modal-window__wrapper">
           <a class="modal-window__button modal-window__button-back">Уйти</a>
           <a class="modal-window__button modal-window__button-stay">Остаться</a>

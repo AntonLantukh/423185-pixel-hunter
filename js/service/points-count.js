@@ -1,3 +1,14 @@
+// Setting variables for points counting
+let pointsForTime = 0;
+let pointsForAnswer = 0;
+let pointsSlowAnswer = 0;
+let pointsFastAnswer = 0;
+
+const fastTimeValue = 50;
+const slowTimeValue = -50;
+const leftAttemptValue = 50;
+const rightAnswerValue = 100;
+
 // Function to count the number of points
 const countPoints = (results, attempts) => {
   // If a user answered less than 10 question => return -1
@@ -8,18 +19,6 @@ const countPoints = (results, attempts) => {
   } else if (attempts < 0) {
     throw new Error(`There can be less than 0 lives`);
   }
-
-  // Setting variables for points counting
-  let pointsForTime = 0;
-  let pointsForAnswer = 0;
-  let pointsSlowAnswer = 0;
-  let pointsFastAnswer = 0;
-
-  const fastTimeValue = 50;
-  const slowTimeValue = -50;
-  const leftAttemptValue = 50;
-  const rightAnswerValue = 100;
-
 
   // Looping through results array we got in arguments and counting points
   results.forEach((item) => {

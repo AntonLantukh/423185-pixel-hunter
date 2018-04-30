@@ -1,6 +1,6 @@
 const drawProgressbar = (answers) => {
   // Setting variables
-  const resultsArray = [];
+  const results = [];
   const maxAnswersLength = 10;
 
   let resultsString;
@@ -8,22 +8,22 @@ const drawProgressbar = (answers) => {
   // Passing through answers list
   answers.forEach((item) => {
     if (item === `fast`) {
-      resultsArray.push(`<li class="stats__result stats__result--fast"></li>`);
+      results.push(`<li class="stats__result stats__result--fast"></li>`);
     } else if (item === `slow`) {
-      resultsArray.push(`<li class="stats__result stats__result--slow"></li>`);
+      results.push(`<li class="stats__result stats__result--slow"></li>`);
     } else if (item === `correct`) {
-      resultsArray.push(`<li class="stats__result stats__result--correct"></li>`);
+      results.push(`<li class="stats__result stats__result--correct"></li>`);
     } else if (item === `wrong`) {
-      resultsArray.push(`<li class="stats__result stats__result--wrong"></li>`);
+      results.push(`<li class="stats__result stats__result--wrong"></li>`);
     }
   });
 
-  while (resultsArray.length < maxAnswersLength) {
-    resultsArray.push(`<li class="stats__result stats__result--unknown"></li>`);
+  while (results.length < maxAnswersLength) {
+    results.push(`<li class="stats__result stats__result--unknown"></li>`);
   }
 
   // Transforming array to string to push into markup
-  resultsString = resultsArray.join(` `);
+  resultsString = results.join(` `);
   return resultsString;
 };
 

@@ -51,8 +51,9 @@ export default class GameOneView extends AbstractView {
   }
 
   bind() {
-    const gameForm = this.element.querySelector(`.game__content`);
-    gameForm.addEventListener(`change`, (evt) => {
+    this.gameForm = this.element.querySelector(`.game__content`);
+
+    this.onImgClick = (evt) => {
       evt.preventDefault();
       // Setting variables
       const inputsNumber = 2;
@@ -69,11 +70,17 @@ export default class GameOneView extends AbstractView {
       // Check correctness of the user's answer
       const mistake = !checkAnswer(checkedInputs, levelAnswers);
       this.onAnswer(mistake);
-    });
+    };
 
     // Function to check whether the answer is correct
     const checkAnswer = (checkedItem, answersItem) => {
       return (checkedItem[0].value === answersItem[0].type) && (checkedItem[1].value === answersItem[1].type);
     };
+
+    this.gameForm.addEventListener(`change`, this.onImgClick);
+  }
+
+  unbind() {
+    this.gameForm.removeEventListener(`change`, this.onImgClick);
   }
 }

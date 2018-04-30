@@ -49,6 +49,12 @@ export default class GameModel {
     return this._playerName;
   }
 
+  // Whether there is another level in questions
+  get hasNextLevel() {
+    const level = this._state.level;
+    const levelNumber = parseInt(level.substr(6, 1), 10) + 1;
+    return (this._questions[`level_${levelNumber}`]);
+  }
 
   // Get answers maxAnswersLength
   defineAnswersLength() {
@@ -75,11 +81,6 @@ export default class GameModel {
     return drawProgressbar(this._answers);
   }
 
-  // Get current level from State
-  getCurrentLevel() {
-    return this._state.level;
-  }
-
   // Update current level
   updateLevel(value) {
     this._state.level = value;
@@ -89,13 +90,6 @@ export default class GameModel {
   // Update current level
   updateType(type) {
     this._state.type = type;
-  }
-
-  // Whether there is another level in questions
-  get hasNextLevel() {
-    const level = this._state.level;
-    const levelNumber = parseInt(level.substr(6, 1), 10) + 1;
-    return (this._questions[`level_${levelNumber}`]);
   }
 
   // Count points
