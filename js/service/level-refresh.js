@@ -1,11 +1,12 @@
 import collectAnswers from './answers-collect';
 import gameRender from '../gameScreen';
 
+// Setting variables
+const gameMaxLevel = `level_10`;
+const gameLastLevel = `level_9`;
+
 // Refreshing the base of actual level
 const refreshLevel = (state, questions, answers) => {
-  // Setting variables
-  const gameMaxLevel = `level_10`;
-  const gameLastLevel = `level_9`;
   let currentQuestionSet = questions[state.level];
 
   // Upading current level to the next one, updating the type for controller

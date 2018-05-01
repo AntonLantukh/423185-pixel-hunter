@@ -52,6 +52,35 @@ export default class GamePresenter {
     this.checkResult();
   }
 
+  // Defining right screen for right question
+  defineScreenContent() {
+    let levelType;
+    switch (this.model.type) {
+      case `two-of-two`:
+        levelType = new GameFirstView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
+        break;
+      case `tinder-like`:
+        levelType = new GameSecondView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
+        break;
+      case `one-of-three`:
+        levelType = new GameThirdView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
+        break;
+      default:
+        throw new Error(`Unknown type: ${this.model.type}`);
+    }
+
+    return levelType;
+  }
+
+  // Updating the header for timer andnext level
+  updateHeader() {
+    const header = new HeaderView(this.model.state);
+    this.root.replaceChild(header.element, this.header.element);
+    this.header = header;
+    this.header.updateTimer = this.model.modifyTimer;
+    this.header.updateTimer(header.element);
+  }
+
   // Actions to change the level
   changeLevel() {
     this.updateHeader();
@@ -64,6 +93,7 @@ export default class GamePresenter {
 
   // Updating the content
   changeContentView(view) {
+    this.content.unbind();
     this.root.replaceChild(view.element, this.content.element);
     this.content = view;
   }
@@ -137,34 +167,5 @@ export default class GamePresenter {
     const bar = this.model.drawProgress(this.model.answers);
     const score = this.model.countPoints(this.model.answers, this.model.state.lives);
     Application.showStats(this.model.state, bar, score, resultsObject, this.model.playerName);
-  }
-
-  // Updating the header for timer andnext level
-  updateHeader() {
-    const header = new HeaderView(this.model.state);
-    this.root.replaceChild(header.element, this.header.element);
-    this.header = header;
-    this.header.updateTimer = this.model.modifyTimer;
-    this.header.updateTimer(header.element);
-  }
-
-  // Defining right screen for right question
-  defineScreenContent() {
-    let levelType;
-    switch (this.model.type) {
-      case `two-of-two`:
-        levelType = new GameFirstView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
-        break;
-      case `tinder-like`:
-        levelType = new GameSecondView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
-        break;
-      case `one-of-three`:
-        levelType = new GameThirdView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
-        break;
-      default:
-        throw new Error(`Unknown type: ${this.model.type}`);
-    }
-
-    return levelType;
   }
 }

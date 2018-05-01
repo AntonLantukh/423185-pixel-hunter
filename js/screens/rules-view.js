@@ -20,28 +20,37 @@ export default class RulesView extends AbstractView {
         </p>
         <form class="rules__form">
           <input class="rules__input" type="text" placeholder="Ваше Имя">
-          <button class="rules__button  continue" type="submit" disabled>Go!</button>
+          <button class="rules__button  continue" type="submit" disabled >Go!</button>
         </form>
       </div>`;
   }
 
   bind() {
-    const rulesInput = this.element.querySelector(`.rules__input`);
-    const rulesSubmit = this.element.querySelector(`.rules__button`);
+    this.rulesInput = this.element.querySelector(`.rules__input`);
+    this.rulesSubmit = this.element.querySelector(`.rules__button`);
 
-    rulesInput.oninput = (evt) => {
+    this.onInputClick = (evt) => {
       evt.preventDefault();
-      if (!rulesInput.value) {
+      if (!this.rulesInput.value) {
         // Or add disabled status
-        rulesSubmit.setAttribute(`disabled`, true);
+        this.rulesSubmit.setAttribute(`disabled`, true);
       } else {
-        rulesSubmit.removeAttribute(`disabled`);
+        this.rulesSubmit.removeAttribute(`disabled`);
       }
     };
 
-    rulesSubmit.onclick = (evt) => {
+    this.onSubmitClick = (evt) => {
       evt.preventDefault();
-      Application.showGame(rulesInput.value);
+      Application.showGame(this.rulesInput.value);
+      this.unbind();
     };
+
+    this.rulesInput.addEventListener(`input`, this.onInputClick);
+    this.rulesSubmit.addEventListener(`click`, this.onSubmitClick);
+  }
+
+  unbind() {
+    this.rulesInput.removeEventListener(`input`, this.onInputClick);
+    this.rulesSubmit.removeEventListener(`click`, this.onSubmitClick);
   }
 }

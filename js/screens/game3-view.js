@@ -38,8 +38,9 @@ export default class GameThirdView extends AbstractView {
   }
 
   bind() {
-    const gameForm = this.element.querySelector(`.game__content`);
-    gameForm.addEventListener(`click`, (evt) => {
+    this.gameForm = this.element.querySelector(`.game__content`);
+
+    this.onImgClick = (evt) => {
       evt.preventDefault();
       // Setting variables
       const levelAnswers = this.questions[this.state.level].answers;
@@ -63,6 +64,12 @@ export default class GameThirdView extends AbstractView {
       // If chosen element equals to the right answer
       const mistake = chosenElement[0].type !== answer;
       this.onAnswer(mistake);
-    });
+    };
+
+    this.gameForm.addEventListener(`click`, this.onImgClick);
+  }
+
+  unbind() {
+    this.gameForm.removeEventListener(`click`, this.onImgClick);
   }
 }

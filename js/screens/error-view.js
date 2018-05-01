@@ -7,11 +7,10 @@ export default class ModalView extends AbstractView {
   }
 
   get template() {
-    return `<div class="error" class="central__content">
+    return `<div class="error">
         <p class="error__message">Произошла ошибка ${this.error} =(</p>
         <p class="error__message">Пожалуйста, попробуйте перезагрузить страницу.</p>
-      </div>
-    </div>`;
+      </div>`;
   }
 
   bind() {
