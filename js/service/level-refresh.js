@@ -2,15 +2,14 @@ import collectAnswers from './answers-collect';
 import gameRender from '../gameScreen';
 
 // Setting variables
-const gameMaxLevel = `level_10`;
-const gameLastLevel = `level_9`;
+const GAME_LAST_LEVEL = `level_9`;
 
 // Refreshing the base of actual level
 const refreshLevel = (state, questions, answers) => {
   let currentQuestionSet = questions[state.level];
 
   // Upading current level to the next one, updating the type for controller
-  if (state.level !== gameLastLevel) {
+  if (state.level !== GAME_LAST_LEVEL) {
     state.level = currentQuestionSet[`next-level`];
     state.type = questions[state.level][`type`];
     // Checking mistake status and pushing an answer to answers array
@@ -19,8 +18,7 @@ const refreshLevel = (state, questions, answers) => {
       state.lives--;
     }
   } else {
-    // if this one is kast level => tell to the controller
-    state.level = gameMaxLevel;
+    // if this one is last level => tell to the controller
     collectAnswers(state, answers);
   }
   state.mistake = false;

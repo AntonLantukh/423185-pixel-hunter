@@ -24,7 +24,7 @@ export default class GreetingView extends AbstractView {
     </div>`;
   }
 
-  animation() {
+  animate() {
     this.element.querySelector(`.greeting`).classList.add(`greeting__animation`);
   }
 

@@ -9,6 +9,7 @@ import GamePresenter from './game-screen';
 import GameModel from './data/game-model';
 import StatsView from './screens/stats-view';
 import ErrorView from './screens/error-view';
+import preload from './service/preload';
 
 const footer = new FooterView().element;
 const header = new HeaderView().element;
@@ -33,7 +34,7 @@ export default class Application {
     Application.showIntro();
     Loader.loadData()
         .then((data) => {
-          introNode.animation();
+          introNode.animate();
           setTimeout(() => {
             Application.showGreeting(data);
           }, 300);
@@ -54,7 +55,7 @@ export default class Application {
     const greeting = new GreetingView();
     changeView(greeting.element);
     setTimeout(() => {
-      greeting.animation();
+      greeting.animate();
     }, 50);
     if (gameScreen) {
       gameScreen.stopGame();

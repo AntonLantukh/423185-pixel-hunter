@@ -1,8 +1,10 @@
 // Setting variables for points counting
-const fastTimeValue = 50;
-const slowTimeValue = -50;
-const leftAttemptValue = 50;
-const rightAnswerValue = 100;
+const VALUE = {
+  FAST_TIME: 50,
+  SLOW_TIME: -50,
+  LEFT_ATTEMPT: 50,
+  RIGHT_ANSWER: 100
+};
 
 // Function to count the number of points
 const countPoints = (results, attempts) => {
@@ -24,19 +26,19 @@ const countPoints = (results, attempts) => {
   // Looping through results array we got in arguments and counting points
   results.forEach((item) => {
     if (item === `fast`) {
-      pointsForTime += fastTimeValue;
-      pointsFastAnswer += fastTimeValue;
-      pointsForAnswer += rightAnswerValue;
+      pointsForTime += VALUE.FAST_TIME;
+      pointsFastAnswer += VALUE.FAST_TIME;
+      pointsForAnswer += VALUE.RIGHT_ANSWER;
     } else if (item === `slow`) {
-      pointsForTime += slowTimeValue;
-      pointsSlowAnswer += slowTimeValue;
-      pointsForAnswer += rightAnswerValue;
+      pointsForTime += VALUE.SLOW_TIME;
+      pointsSlowAnswer += VALUE.SLOW_TIME;
+      pointsForAnswer += VALUE.RIGHT_ANSWER;
     } else if (item === `correct`) {
-      pointsForAnswer += rightAnswerValue;
+      pointsForAnswer += VALUE.RIGHT_ANSWER;
     }
   });
 
-  let pointsForLives = leftAttemptValue * attempts;
+  let pointsForLives = VALUE.LEFT_ATTEMPT * attempts;
 
   const pointsTotal = pointsForLives + pointsForTime + pointsForAnswer;
   // Setting an object to return from the function
@@ -45,9 +47,9 @@ const countPoints = (results, attempts) => {
     livesPoints: pointsForLives,
     answers: pointsForAnswer,
     timeSlow: pointsSlowAnswer,
-    timeSlowCount: pointsSlowAnswer / slowTimeValue,
+    timeSlowCount: pointsSlowAnswer / VALUE.SLOW_TIME,
     timeFast: pointsFastAnswer,
-    timeFastCount: pointsFastAnswer / fastTimeValue,
+    timeFastCount: pointsFastAnswer / VALUE.FAST_TIME,
     total: pointsTotal
   };
 

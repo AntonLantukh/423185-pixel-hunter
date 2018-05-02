@@ -1,15 +1,17 @@
 // Time borders
-const timeFastBorder = 20;
-const timeSlowBorder = 10;
+const TIME_BORDER = {
+  FAST: 20,
+  SLOW: 10
+};
 
 // Collecting answers to array
 const collectAnswers = (state, answers) => {
   // Checkin whetehe a user made a mistake and push an answer to answers array
   if (state.mistake) {
     answers.push(`wrong`);
-  } else if (state.time < timeSlowBorder) {
+  } else if (state.time < TIME_BORDER.SLOW) {
     answers.push(`slow`);
-  } else if (state.time > timeFastBorder) {
+  } else if (state.time > TIME_BORDER.FAST) {
     answers.push(`fast`);
   } else {
     answers.push(`correct`);

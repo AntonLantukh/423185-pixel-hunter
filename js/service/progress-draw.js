@@ -1,7 +1,7 @@
 const drawProgressbar = (answers) => {
   // Setting variables
   const results = [];
-  const maxAnswersLength = 10;
+  const MAX_ANSWERS_LENGTH = 10;
 
   let resultsString;
 
@@ -18,7 +18,7 @@ const drawProgressbar = (answers) => {
     }
   });
 
-  while (results.length < maxAnswersLength) {
+  while (results.length < MAX_ANSWERS_LENGTH) {
     results.push(`<li class="stats__result stats__result--unknown"></li>`);
   }
 

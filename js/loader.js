@@ -6,8 +6,6 @@ const APP_ID = 892759203424;
 const checkStatus = (response) => {
   if (response.ok) {
     return response;
-  } else {
-    throw new Error(`${response.status}: ${response.statusText}`);
   }
 };
 
