@@ -27,14 +27,14 @@ export default class GamePresenter {
 
   // Start the game
   startGame() {
-    const timeUpdate = 1000;
+    const TIME_UPDATE = 1000;
     this.changeLevel();
     this.model.initTimer();
     this._interval = setInterval(() => {
       this.model.tick();
       this.updateHeader();
       this.checkTimer();
-    }, timeUpdate);
+    }, TIME_UPDATE);
   }
 
   // Stop the game and stop the timer
@@ -55,14 +55,21 @@ export default class GamePresenter {
   // Defining right screen for right question
   defineScreenContent() {
     let levelType;
+
+    const screenType = {
+      TWO_PICTURES: `two-of-two`,
+      ONE_PICTURE: `tinder-like`,
+      THREE_PICTURES: `one-of-three`
+    };
+
     switch (this.model.type) {
-      case `two-of-two`:
+      case screenType.TWO_PICTURES:
         levelType = new GameFirstView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
         break;
-      case `tinder-like`:
+      case screenType.ONE_PICTURE:
         levelType = new GameSecondView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
         break;
-      case `one-of-three`:
+      case screenType.THREE_PICTURES:
         levelType = new GameThirdView(this.model.state, this.model.level, this.model.questions, this.model.drawProgress());
         break;
       default:
@@ -123,17 +130,18 @@ export default class GamePresenter {
 
   // Initialize the timer
   checkTimer() {
-    if (this.model.state.time === 0) {
+    const TIME_EXPIRE = 0;
+    if (this.model.state.time === TIME_EXPIRE) {
       this.answer();
     }
   }
 
   // Checking if there is less than 0 lives
   checkResult() {
-    const maxAnswersLength = 10;
+    const MAX_ANSWERS_LENGTH = 10;
     if (this.model.isDead()) {
       this.loose();
-    } else if (this.model.defineAnswersLength() === maxAnswersLength) {
+    } else if (this.model.defineAnswersLength() === MAX_ANSWERS_LENGTH) {
       this.win();
     } else {
       this.startGame();

@@ -31,14 +31,15 @@ export default class GameThirdView extends AbstractView {
     </div>`;
   }
 
-  resizeImages() {
-  }
-
-  onAnswer() {
-  }
-
   bind() {
     this.gameForm = this.element.querySelector(`.game__content`);
+    const pictureType = {
+      PAINT: `paint`,
+      PHOTO: `photo`
+    };
+
+    const TAG_DIV = `DIV`;
+    const PAINT_NUMBER = 2;
 
     this.onImgClick = (evt) => {
       evt.preventDefault();
@@ -48,19 +49,19 @@ export default class GameThirdView extends AbstractView {
       let paintCount = 0;
       let answer;
       // Checking if a user ckicked correct div item
-      if (evt.target.tagName !== `DIV` && !evt.target.classList.contains(`game__option`)) {
+      if (evt.target.tagName !== TAG_DIV && !evt.target.classList.contains(`game__option`)) {
         return;
       }
       // Looping through answers set to check which src equals to the chosen src
       const chosenElement = levelAnswers.filter((item) => levelImages[0].src === item.image.url);
       // Counting false answers
       levelAnswers.map((item) => {
-        if (item.type === `paint`) {
+        if (item.type === pictureType.PAINT) {
           paintCount++;
         }
       });
       // Setting right answer
-      answer = (paintCount === 2) ? answer = `photo` : answer = `paint`;
+      answer = (paintCount === PAINT_NUMBER) ? answer = pictureType.PHOTO : answer = pictureType.PAINT;
       // If chosen element equals to the right answer
       const mistake = chosenElement[0].type !== answer;
       this.onAnswer(mistake);
@@ -71,5 +72,11 @@ export default class GameThirdView extends AbstractView {
 
   unbind() {
     this.gameForm.removeEventListener(`click`, this.onImgClick);
+  }
+
+  resizeImages() {
+  }
+
+  onAnswer() {
   }
 }

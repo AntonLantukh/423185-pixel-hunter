@@ -33,21 +33,16 @@ export default class GameSecondView extends AbstractView {
     </div>`;
   }
 
-  resizeImages() {
-  }
-
-  onAnswer() {
-  }
-
   bind() {
     this.gameForm = this.element.querySelector(`.game__content`);
+    const TAG_INPUT = `INPUT`;
 
     this.onImgClick = (evt) => {
       evt.preventDefault();
       // Setting variables
       const levelAnswers = this.questions[this.state.level].answers;
       // If a user chose input
-      if (!evt.target.tagName === `INPUT`) {
+      if (!evt.target.tagName === TAG_INPUT) {
         return;
       }
       // We check the input value to equal the value in answers
@@ -60,5 +55,11 @@ export default class GameSecondView extends AbstractView {
 
   unbind() {
     this.gameForm.removeEventListener(`change`, this.onImgClick);
+  }
+
+  resizeImages() {
+  }
+
+  onAnswer() {
   }
 }

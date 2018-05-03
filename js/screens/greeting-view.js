@@ -24,10 +24,6 @@ export default class GreetingView extends AbstractView {
     </div>`;
   }
 
-  animate() {
-    this.element.querySelector(`.greeting`).classList.add(`greeting__animation`);
-  }
-
   bind() {
     this.continue = this.element.querySelector(`.greeting__continue`);
 
@@ -42,5 +38,9 @@ export default class GreetingView extends AbstractView {
 
   unbind() {
     this.continue.removeEventListener(`click`, this.onButtonClick);
+  }
+
+  animate() {
+    this.element.querySelector(`.greeting`).classList.add(`greeting__animation`);
   }
 }

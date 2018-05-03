@@ -55,6 +55,10 @@ export default class StatsView extends AbstractView {
     </div>`;
   }
 
+  bind() {
+    this.container = this.element.querySelector(`.result__history`);
+  }
+
   showScores(scores) {
     this.container.innerHTML =
     `<div class="result">
@@ -87,9 +91,5 @@ export default class StatsView extends AbstractView {
       </tr>
      </table>`).join(``)}
     </div>`;
-  }
-
-  bind() {
-    this.container = this.element.querySelector(`.result__history`);
   }
 }

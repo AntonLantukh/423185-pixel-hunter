@@ -12,7 +12,4 @@ export default class ModalView extends AbstractView {
         <p class="error__message">Пожалуйста, попробуйте перезагрузить страницу.</p>
       </div>`;
   }
-
-  bind() {
-  }
 }

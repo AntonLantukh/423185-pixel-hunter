@@ -29,9 +29,6 @@ export default class HeaderView extends AbstractView {
     </header>`;
   }
 
-  updateTimer() {
-  }
-
   bind() {
     this.back = this.element.querySelector(`.back`);
     this.onButtonClick = (evt) => {
@@ -45,5 +42,8 @@ export default class HeaderView extends AbstractView {
 
   unbind() {
     this.back.removeEventListener(`click`, this.onButtonClick);
+  }
+
+  updateTimer() {
   }
 }

@@ -1,22 +1,26 @@
 // Function-constructor to generate timer
-function Timer(time) {
-  let count = time;
+export default class Timer {
+  constructor(time) {
+    this.count = time;
+  }
 
-  this.tick = function () {
-    const value = count - 1;
-    if (count <= 0) {
+  tick() {
+    const value = this.count - 1;
+    if (this.count <= 0) {
       throw new Error(`The timer expired`);
     } else {
-      count -= 1;
+      this.count -= 1;
     }
     return value;
-  };
+  }
 }
+
+const TIME_ALERT = 5;
 
 const expireTimer = (element) => {
   const timer = element.querySelector(`.game__timer`);
   const value = parseInt(timer.textContent, 10);
-  if (value <= 5) {
+  if (value <= TIME_ALERT) {
     timer.classList.add(`blink-timer`);
   }
 };

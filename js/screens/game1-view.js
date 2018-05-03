@@ -44,27 +44,23 @@ export default class GameOneView extends AbstractView {
     </div>`;
   }
 
-  resizeImages() {
-  }
-
-  onAnswer() {
-  }
-
   bind() {
     this.gameForm = this.element.querySelector(`.game__content`);
+
+    const INPUTS_NUMBER = 2;
+    const TAG_INPUT = `INPUT`;
 
     this.onImgClick = (evt) => {
       evt.preventDefault();
       // Setting variables
-      const inputsNumber = 2;
       const levelAnswers = this.questions[this.state.level].answers;
       let checkedInputs;
       // Finding all inputs on the scrren and returning checked ones
-      if (evt.target.tagName === `INPUT`) {
+      if (evt.target.tagName === TAG_INPUT) {
         checkedInputs = Array.from(evt.currentTarget).filter((element) => element.checked);
       }
       // If checked inputs equal to the number of inputs on the page
-      if (checkedInputs.length !== inputsNumber) {
+      if (checkedInputs.length !== INPUTS_NUMBER) {
         return;
       }
       // Check correctness of the user's answer
@@ -82,5 +78,11 @@ export default class GameOneView extends AbstractView {
 
   unbind() {
     this.gameForm.removeEventListener(`change`, this.onImgClick);
+  }
+
+  resizeImages() {
+  }
+
+  onAnswer() {
   }
 }

@@ -129,7 +129,8 @@ export default class GameModel {
 
   // Set new timer
   initTimer() {
-    this.timer = new Timer(30);
+    const SECONDS = 30;
+    this.timer = new Timer(SECONDS);
     return this.timer;
   }
 

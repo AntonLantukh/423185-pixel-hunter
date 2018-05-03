@@ -2,18 +2,24 @@ const drawProgressbar = (answers) => {
   // Setting variables
   const results = [];
   const MAX_ANSWERS_LENGTH = 10;
+  const answerType = {
+    FAST: `fast`,
+    SLOW: `slow`,
+    CORRECT: `correct`,
+    WRONG: `wrong`
+  };
 
   let resultsString;
 
   // Passing through answers list
   answers.forEach((item) => {
-    if (item === `fast`) {
+    if (item === answerType.FAST) {
       results.push(`<li class="stats__result stats__result--fast"></li>`);
-    } else if (item === `slow`) {
+    } else if (item === answerType.SLOW) {
       results.push(`<li class="stats__result stats__result--slow"></li>`);
-    } else if (item === `correct`) {
+    } else if (item === answerType.CORRECT) {
       results.push(`<li class="stats__result stats__result--correct"></li>`);
-    } else if (item === `wrong`) {
+    } else if (item === answerType.WRONG) {
       results.push(`<li class="stats__result stats__result--wrong"></li>`);
     }
   });
